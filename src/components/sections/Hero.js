@@ -5,6 +5,8 @@ import ButtonGroup from '../elements/ButtonGroup';
 import Button from '../elements/Button';
 import Image from '../elements/Image';
 import Modal from '../elements/Modal';
+import { DEFAULT_NETWORK_ID } from '../../utils/Constants';
+import { connectKadena } from '../../utils/KadenaApi';
 
 const propTypes = {
   ...SectionProps.types
@@ -55,39 +57,6 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
     } else {
       //TODO: render error to install extension
     }
-  }
-
-  async function getSelectedAccount() {
-
-  }
-
-  async function connectKadena() {
-    //Initiate KDA connect
-    const response = await window.kadena.request({ method: 'kda_connect', networkId: 'mainnet01' })
-      .catch((e) => {
-        console.error(e.message)
-        return
-      });
-
-    response.status === 'success' ? setKadenaConnected(true) : setKadenaConnected(false);
-  }
-
-  async function disconnectKadena() {
-    const response = await window.kadena.request({ method: 'kda_disconnect', networkId: 'mainnet01' })
-    .catch((e) => {
-      console.error(e.message)
-        return
-    })
-
-
-  }
-
-  async function getNftIdForWallet(walletAddress) {
-
-  }
-
-  function getImageFromNftId(nftId) {
-
   }
 
   return (
