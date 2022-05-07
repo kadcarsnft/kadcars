@@ -6,7 +6,7 @@ import Button from '../elements/Button';
 import Image from '../elements/Image';
 import Modal from '../elements/Modal';
 import { DEFAULT_NETWORK_ID } from '../../utils/Constants';
-import { connectKadena } from '../../utils/KadenaApi';
+import { connectKadena, disconnectKadena, getKadenaConnectStatus } from '../../utils/KadenaApi';
 
 const propTypes = {
   ...SectionProps.types
@@ -20,6 +20,7 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
   const [kadenaConnected, setKadenaConnected] = useState(false);
   const [videoModalActive, setVideomodalactive] = useState(false);
   const [showWalletNameModal, setShowWalletModal] = useState(false);
+  const [extensionInstalled, setExtensionInstalled] = useState(false);
 
   const openModal = (e) => {
     e.preventDefault();
@@ -47,6 +48,15 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
   );
 
   useEffect(() => {
+    //Check if Kadena X-Wallet extension is installed in the browser
+    window.kadena !== undefined ? setExtensionInstalled(true) : setExtensionInstalled(false);
+    
+    //Check if the user has their Kadena account connected to the app
+    const kdaWalletConnected = getKadenaConnectStatus();
+    kdaWalletConnected === 'success' ? setKadenaConnected(true) : setKadenaConnected(false);
+  }, []);
+
+  useEffect(() => {
     console.log(kadenaConnected)
   }, [kadenaConnected])
 
@@ -54,6 +64,7 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
     //Check if user has x-wallet downloaded
     if (window.kadena) {
       connectKadena();
+      // getKadenaConnectStatus();
     } else {
       //TODO: render error to install extension
     }

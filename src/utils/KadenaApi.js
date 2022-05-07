@@ -1,47 +1,70 @@
+import React from "react";
+import { MAINNET_NETWORK_ID, KDA_CHECK_STATUS, KDA_CONNECT } from "./Constants";
+
+//Attempt to connect application to Kadena X-Wallet extension
+async function connectKadena() {
+    let apiCall = "";
+    
+    const connectResponse = await getKadenaConnectStatus();
+    
+    switch(connectResponse) {
+        case 'success':
+            break;
+            case 'fail':
+            apiCall = KDA_CONNECT;
+            break;
+        default:
+            break;
+    }
+
+    //Initiate KDA connect
+    const response = await window.kadena.request({
+        method: apiCall,
+        networkId: MAINNET_NETWORK_ID
+    })
+    .catch((e) => {
+        console.error(e.message)
+        return;
+    });
+
+    // response.status === 'success' ? setKadenaConnected(true) : setKadenaConnected(false);
+}
+
+//Check the user's Kadena extenstion connection status
+async function getKadenaConnectStatus() {
+    const response = await window.kadena.request({
+        method: KDA_CHECK_STATUS
+    })
+    .catch((e) => {
+        console.error(e.message);
+        return;
+    });
+
+    console.log(response)
+
+    return response.status;
+}
 
 async function getSelectedAccount() {
 
 }
 
-async function connectKadena() {
-  const connectResponse = await checkKadenaConnectStatus();
 
-  //Initiate KDA connect
-  const response = await window.kadena.request({ method: 'kda_connect', networkId: DEFAULT_NETWORK_ID })
-    .catch((e) => {
-      console.error(e.message)
-      return
-    });
-
-  response.status === 'success' ? setKadenaConnected(true) : setKadenaConnected(false);
-}
-
-async function checkKadenaConnectStatus() {
-  const status = await window.kadena
-}
-
+//Disconnect the user's X-Wallet account from this application
 async function disconnectKadena() {
-  const response = await window.kadena.request({ method: 'kda_disconnect', networkId: DEFAULT_NETWORK_ID })
-  .catch((e) => {
-    console.error(e.message)
-      return
-  })
-
-
-}
-
-async function getNftIdForWallet(walletAddress) {
-
-}
-
-function getImageFromNftId(nftId) {
-
+    const response = await window.kadena.request({ 
+        method: 'kda_disconnect',
+        networkId: MAINNET_NETWORK_ID
+    })
+    .catch((e) => {
+        console.error(e.message)
+        return;
+    });
 }
 
 export {
-    getImageFromNftId,
-    getNftIdForWallet,
-    getSelectedAccount,
+    connectKadena,
     disconnectKadena,
-    connectKadena
+    getSelectedAccount,
+    getKadenaConnectStatus,
 }
