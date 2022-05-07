@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { PactContext } from "./PactInteractions";
 
-function useGetMyKadcars() {
+function getMyKadcars() {
     const { account, readFromContract, defaultMeta } = useContext(PactContext);
 
   return async () => {
@@ -12,5 +12,5 @@ function useGetMyKadcars() {
 }
 
 export {
-    useGetMyKadcars
+    getMyKadcars
 }

@@ -80,7 +80,7 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
     const connectStatus = getKadenaConnectStatus();
 
     if (connectStatus) {
-      GetMyKadcars();
+      getMyKadcars();
     } else {
 
     }
