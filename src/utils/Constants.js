@@ -1,6 +1,13 @@
 //Network IDs
-const MAINNET_NETWORK_ID = "mainnet1";
-const TESTNET_NETWORK_ID = "testnet1";
+const MAINNET_NETWORK_ID = "mainnet01";
+const TESTNET_NETWORK_ID = "testnet04";
+
+//Gas price
+const DEFAULT_GAS_PRICE = 0.00000001;
+
+//Local account key
+const LOCAL_ACCOUNT_KEY = "LOCAL_ACCOUNT_KEY";
+const LOCAL_CHAIN_ID = "LOCAL_CHAIN_ID";
 
 //KDA API Calls
 const KDA_CONNECT = 'kda_connect';
@@ -15,6 +22,9 @@ export {
     KDA_DISCONNECT,
     KDA_REQUEST_SIGN,
     KDA_CHECK_STATUS,
+    DEFAULT_GAS_PRICE,
+    LOCAL_ACCOUNT_KEY,
+    LOCAL_CHAIN_ID,
     MAINNET_NETWORK_ID,
     TESTNET_NETWORK_ID,
     KDA_REQUEST_ACCOUNT,

@@ -6,7 +6,8 @@ import Button from '../elements/Button';
 import Image from '../elements/Image';
 import Modal from '../elements/Modal';
 import { DEFAULT_NETWORK_ID } from '../../utils/Constants';
-import { connectKadena, disconnectKadena, getKadenaConnectStatus } from '../../utils/KadenaApi';
+import { connectKadena, disconnectKadena, getAccountSelected, getKadenaConnectStatus, getSelectedAccount, getUserWallet } from '../../utils/KadenaApi';
+import { getMyKadcars } from '../../utils/KadcarExtractor';
 
 const propTypes = {
   ...SectionProps.types
@@ -17,10 +18,10 @@ const defaultProps = {
 }
 
 const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bottomDivider, hasBgColor, invertColor, ...props }) => {
-  const [kadenaConnected, setKadenaConnected] = useState(false);
+  const [kadenaConnected, setKadenaConnected] = useState(false); //TODO: MAKE THIS A CUSTOM HOOK
   const [videoModalActive, setVideomodalactive] = useState(false);
   const [showWalletNameModal, setShowWalletModal] = useState(false);
-  const [extensionInstalled, setExtensionInstalled] = useState(false);
+  const [extensionInstalled, setExtensionInstalled] = useState(true); //TODO: MAKE THIS A CUSTOM HOOK
 
   const openModal = (e) => {
     e.preventDefault();
@@ -47,26 +48,41 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
     bottomDivider && 'has-bottom-divider'
   );
 
+  //On page load, check if the user has the X-Wallet extension installed
   useEffect(() => {
     //Check if Kadena X-Wallet extension is installed in the browser
-    window.kadena !== undefined ? setExtensionInstalled(true) : setExtensionInstalled(false);
-    
-    //Check if the user has their Kadena account connected to the app
-    const kdaWalletConnected = getKadenaConnectStatus();
-    kdaWalletConnected === 'success' ? setKadenaConnected(true) : setKadenaConnected(false);
+    // window.kadena.isKadena ? setExtensionInstalled(true) : setExtensionInstalled(false);
+    setExtensionInstalled(window?.kadena?.isKadena === true);
   }, []);
 
+  //If the extension is installed, check if the user's account is connected to this app
   useEffect(() => {
-    console.log(kadenaConnected)
+    if (extensionInstalled) {
+      const kdaWalletConnected = getKadenaConnectStatus();
+      console.log(kdaWalletConnected)
+      kdaWalletConnected === 'success' ? setKadenaConnected(true) : setKadenaConnected(false);
+    }
+  }, [extensionInstalled]);
+
+  useEffect(() => {
   }, [kadenaConnected])
 
   function initiateKadenaConnection() {
     //Check if user has x-wallet downloaded
     if (window.kadena) {
       connectKadena();
-      // getKadenaConnectStatus();
     } else {
       //TODO: render error to install extension
+    }
+  }
+
+  function getKadcarsForWallet() {
+    const connectStatus = getKadenaConnectStatus();
+
+    if (connectStatus) {
+      GetMyKadcars();
+    } else {
+
     }
   }
 
@@ -87,13 +103,28 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
               </p>
               <div className="reveal-from-bottom" data-reveal-delay="600">
                 <ButtonGroup>
-                  <Button onClick={initiateKadenaConnection} tag="a" color="primary" wideMobile>
-                    Connect X-Wallet
-                  </Button>
+                  {
+                    !extensionInstalled && 
+                    <Button tag="a" color="primary" wideMobile href={"https://xwallet.kaddex.com/#ux"}>
+                      Install X-Wallet
+                    </Button>
+                  }
+                  {
+                    extensionInstalled && !kadenaConnected &&
+                    <Button onClick={initiateKadenaConnection} tag="a" color="primary" wideMobile>
+                      Connect X-Wallet
+                    </Button>
+                  }
+                  {
+                    extensionInstalled && kadenaConnected &&
+                    <Button onClick={disconnectKadena} tag="a" color="primary" wideMobile>
+                      Disconnect X-Wallet
+                    </Button>
+                  }
                   <Button tag="a" color="dark" wideMobile>
                     Mint Kadcar
                   </Button>
-                  <Button tag="a" color="dark" wideMobile>
+                  <Button onClick={getKadcarsForWallet} tag="a" color="dark" wideMobile>
                     My Cars
                   </Button>
                   <Button tag="a" color="dark" wideMobile>
