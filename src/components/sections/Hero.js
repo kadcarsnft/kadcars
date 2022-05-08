@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { SectionProps } from '../../utils/SectionProps';
 import ButtonGroup from '../elements/ButtonGroup';
@@ -7,7 +7,10 @@ import Image from '../elements/Image';
 import Modal from '../elements/Modal';
 import { DEFAULT_NETWORK_ID } from '../../utils/Constants';
 import { connectKadena, disconnectKadena, getAccountSelected, getKadenaConnectStatus, getSelectedAccount, getUserWallet } from '../../utils/KadenaApi';
-import { getMyKadcars } from '../../utils/KadcarExtractor';
+import { useGetMyKadcars } from '../../utils/KadcarExtractor';
+import { useCheckForXWalletExtension } from '../../hooks/BrowserExtensionHooks';
+import { useCheckKadenaAccountConnection } from '../../hooks/KadenaCustomHooks';
+import { PactContext } from '../../utils/PactContextProvider';
 
 const propTypes = {
   ...SectionProps.types
@@ -18,10 +21,15 @@ const defaultProps = {
 }
 
 const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bottomDivider, hasBgColor, invertColor, ...props }) => {
-  const [kadenaConnected, setKadenaConnected] = useState(false); //TODO: MAKE THIS A CUSTOM HOOK
+  //Establish connection requirements for session
+  const { setNetworkSettings } = useContext(PactContext);
+  const extensionInstalled = useCheckForXWalletExtension();
+  const kadenaConnected = useCheckKadenaAccountConnection(extensionInstalled);
+  const currentUserKadcarIds = useGetMyKadcars();
+
   const [videoModalActive, setVideomodalactive] = useState(false);
   const [showWalletNameModal, setShowWalletModal] = useState(false);
-  const [extensionInstalled, setExtensionInstalled] = useState(true); //TODO: MAKE THIS A CUSTOM HOOK
+
 
   const openModal = (e) => {
     e.preventDefault();
@@ -48,20 +56,8 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
     bottomDivider && 'has-bottom-divider'
   );
 
-  //On page load, check if the user has the X-Wallet extension installed
-  useEffect(() => {
-    //Check if Kadena X-Wallet extension is installed in the browser
-    // window.kadena.isKadena ? setExtensionInstalled(true) : setExtensionInstalled(false);
-    setExtensionInstalled(window?.kadena?.isKadena === true);
-  }, []);
-
   //If the extension is installed, check if the user's account is connected to this app
   useEffect(() => {
-    if (extensionInstalled) {
-      const kdaWalletConnected = getKadenaConnectStatus();
-      console.log(kdaWalletConnected)
-      kdaWalletConnected === 'success' ? setKadenaConnected(true) : setKadenaConnected(false);
-    }
   }, [extensionInstalled]);
 
   useEffect(() => {
@@ -70,20 +66,21 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
   function initiateKadenaConnection() {
     //Check if user has x-wallet downloaded
     if (window.kadena) {
-      connectKadena();
+      connectKadena(setNetworkSettings);
     } else {
       //TODO: render error to install extension
     }
   }
 
-  function getKadcarsForWallet() {
-    const connectStatus = getKadenaConnectStatus();
+  async function getKadcarsForWallet() {
+    const result = await currentUserKadcarIds();
+    // const connectStatus = getKadenaConnectStatus();
 
-    if (connectStatus) {
-      getMyKadcars();
-    } else {
+    // if (connectStatus) {
+    //   // getMyKadcars();
+    // } else {
 
-    }
+    // }
   }
 
   return (

@@ -1,16 +1,20 @@
 import React, { useContext } from "react";
-import { PactContext } from "./PactInteractions";
+import { LOCAL_ACCOUNT_KEY } from "./Constants";
+import { PactContext } from "./PactContextProvider";
 
-function getMyKadcars() {
+function useGetMyKadcars() {
     const { account, readFromContract, defaultMeta } = useContext(PactContext);
+    // console.log(account)
 
-  return async () => {
-    const pactCode = `(free.kakars-nft-collection.get-owner "7")`; //TODO: MAKE CONSTANTS
-    const meta = defaultMeta(1000000);
-    return await readFromContract({ pactCode, meta });
-  };
+    return async () => {
+        const pactCode = `(free.kakars-nft-collection.get-owner "7")`; //TODO: MAKE CONSTANTS
+        const meta = defaultMeta(1000000);
+        const contractOutput = await readFromContract({ pactCode, meta });
+        console.log(contractOutput);
+        return contractOutput;
+    };
 }
 
 export {
-    getMyKadcars
+    useGetMyKadcars
 }
