@@ -14,6 +14,11 @@ function useGetMyKadcars() {
     };
 }
 
+function useGetAllKadcars() {
+
+}
+
 export {
-    useGetMyKadcars
+    useGetMyKadcars,
+    useGetAllKadcars
 }
