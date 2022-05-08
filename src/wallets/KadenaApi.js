@@ -13,7 +13,7 @@ import {
 } from "../utils/Constants";
 
 //Attempt to connect application to Kadena X-Wallet extension
-async function connectKadena(setNetworkSettings) {
+async function connectKadena(pactContextObject) {
 
     //Initiate KDA connect
     const response = await window.kadena.request({
@@ -29,14 +29,17 @@ async function connectKadena(setNetworkSettings) {
     console.log(response)
     if (response.status === 'success') {
         let account = response.account.account;
-        let chain = response.account.chainId;
+        let chainId = response.account.chainId;
 
         localStorage.setItem(LOCAL_ACCOUNT_KEY, account);
-        localStorage.setItem(LOCAL_CHAIN_ID, chain);
+        localStorage.setItem(LOCAL_CHAIN_ID, chainId);
 
-        // setNetworkSettings(MAINNET_NETWORK_ID, chain, DEFAULT_GAS_PRICE);
-        setNetworkSettings(TESTNET_NETWORK_ID, chain, DEFAULT_GAS_PRICE); //TODO: MAKE GASPRICE AND NETID DYNAMIC BASED ON WALLET TYPE
-    }
+        if (pactContextObject) {
+            pactContextObject.setAccount(account);
+            // setNetworkSettings(MAINNET_NETWORK_ID, chain, DEFAULT_GAS_PRICE);
+            pactContextObject.setNetworkSettings(TESTNET_NETWORK_ID, chainId, DEFAULT_GAS_PRICE); //TODO: MAKE GASPRICE AND NETID DYNAMIC BASED ON WALLET TYPE
+        }
+    } 
 }
 
 //Check the user's Kadena extenstion connection status
@@ -64,7 +67,6 @@ async function requestAccount() {
         console.error(e.message)
         return;
     });
-    console.log(response)
 }
 
 async function getSelectedAccount() {
@@ -80,7 +82,7 @@ async function getSelectedAccount() {
 }
 
 //Disconnect the user's X-Wallet account from this application
-async function disconnectKadena() {
+async function disconnectKadena(pactContextObject) {
     const response = await window.kadena.request({ 
         method: KDA_DISCONNECT,
         // networkId: MAINNET_NETWORK_ID
@@ -90,6 +92,13 @@ async function disconnectKadena() {
         console.error(e.message)
         return;
     });
+
+    localStorage.setItem(LOCAL_ACCOUNT_KEY, null);
+    localStorage.setItem(LOCAL_CHAIN_ID, null);
+
+    pactContextObject.setAccount(null);
+    // pactContextObject.setNetworkSettings(MAINNET_NETWORK_ID, undefined, DEFAULT_GAS_PRICE);
+    pactContextObject.setNetworkSettings(TESTNET_NETWORK_ID, null, DEFAULT_GAS_PRICE);
 }
 
 

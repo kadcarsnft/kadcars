@@ -16,8 +16,8 @@ const PactContextProvider = ({ children }) => {
 
     useEffect(() => {
         setNetworkUrl(getNetworkUrl(netId, chainId));
-      }, [netId, chainId]);
-
+    }, [netId, chainId]);
+    
     const setNetworkSettings = (netId, chainId, gasPrice) => {
         setNetId(netId);
         setChainId(chainId);
@@ -57,9 +57,16 @@ const PactContextProvider = ({ children }) => {
     return (
         <PactContext.Provider
             value={{
+                chainId,
+                setChainId,
+                gasPrice,
+                setGasPrice,
+                netId,
+                setNetId,
                 account,
-                defaultMeta,
-                readFromContract,
+                setAccount,
+                networkUrl,
+                setNetworkUrl,
                 setNetworkSettings
             }}
         >

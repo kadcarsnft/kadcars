@@ -2,11 +2,17 @@ import React from "react";
 import { useGetMyKadcars } from "../../pact/KadcarExtractor";
 
 const MyKadcarGallery = () => {
-    const myKadcars = useGetMyKadcars();
+    return (
+        <>
+        </>
+    );
 }
 
-const AllKadcarGaller = () => {
-    
+const AllKadcarGallery = () => {
+    return (
+        <>
+        </>
+    );
 }
 
 const KadcarCard = ({ base64, extraStyle}) => {
@@ -18,5 +24,7 @@ const KadcarCard = ({ base64, extraStyle}) => {
 }
 
 export {
-    KadcarCard
+    KadcarCard,
+    MyKadcarGallery,
+    AllKadcarGallery
 }

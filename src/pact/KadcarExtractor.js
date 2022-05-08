@@ -18,6 +18,10 @@ function useGetAllKadcars() {
 
 }
 
+function useMintKadcarNft() {
+    
+}
+
 export {
     useGetMyKadcars,
     useGetAllKadcars

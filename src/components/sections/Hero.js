@@ -21,10 +21,9 @@ const defaultProps = {
 }
 
 const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bottomDivider, hasBgColor, invertColor, ...props }) => {
-  //Establish connection requirements for session
-  const { setNetworkSettings } = useContext(PactContext);
-  const extensionInstalled = useCheckForXWalletExtension();
-  const kadenaConnected = useCheckKadenaAccountConnection(extensionInstalled);
+  const { account, chainId, setAccount, setChainId, setNetworkSettings } = useContext(PactContext); //Get PactContext
+  const extensionInstalled = useCheckForXWalletExtension();//Check if the user has the X-Wallet extension installed
+  const kadenaConnected = useCheckKadenaAccountConnection(extensionInstalled); //Check if the user has their X-Wallet account connected to this app
   const currentUserKadcarIds = useGetMyKadcars();
 
   const [videoModalActive, setVideomodalactive] = useState(false);
@@ -57,19 +56,51 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
   );
 
   //If the extension is installed, check if the user's account is connected to this app
-  useEffect(() => {
-  }, [extensionInstalled]);
+    // useEffect(()=>{
+    //   console.log(account)
+    //   console.log(chainId)
+    // })
+  // useEffect(() => {
+  // }, [extensionInstalled]);
+
+  // useEffect(() => {
+  // }, [kadenaConnected]);
 
   useEffect(() => {
-  }, [kadenaConnected])
+    // console.log(account)
+  }, [account]);
 
   function initiateKadenaConnection() {
+    var pactContextObject = null; //Variable to hold required pact context parameters
+    
     //Check if user has x-wallet downloaded
     if (window.kadena) {
-      connectKadena(setNetworkSettings);
+      //Encapsulate all PactContext parameters to be modified by the API call as needed
+      pactContextObject = {
+        account: account,
+        chainId: chainId,
+        setAccount: setAccount,
+        setChainId: setChainId,
+        setNetworkSettings: setNetworkSettings
+      }
+
+      connectKadena(pactContextObject); //Connect this user's account to the app
     } else {
       //TODO: render error to install extension
     }
+  }
+
+  function disconnectKadenaAccount() {
+    //Encapsulate all PactContext parameters to be modified by the API call as needed
+    var pactContextObject = {
+      account: account,
+      chainId: chainId,
+      setAccount: setAccount,
+      setChainId: setChainId,
+      setNetworkSettings: setNetworkSettings
+    }
+
+    disconnectKadena(pactContextObject); 
   }
 
   async function getKadcarsForWallet() {
@@ -107,14 +138,14 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
                     </Button>
                   }
                   {
-                    extensionInstalled && !kadenaConnected &&
+                    extensionInstalled && account === null &&
                     <Button onClick={initiateKadenaConnection} tag="a" color="primary" wideMobile>
                       Connect X-Wallet
-                    </Button>
+                     </Button>
                   }
                   {
-                    extensionInstalled && kadenaConnected &&
-                    <Button onClick={disconnectKadena} tag="a" color="primary" wideMobile>
+                    extensionInstalled && account !== null &&
+                    <Button onClick={disconnectKadenaAccount} tag="a" color="primary" wideMobile>
                       Disconnect X-Wallet
                     </Button>
                   }
