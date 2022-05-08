@@ -6,11 +6,11 @@ import Button from '../elements/Button';
 import Image from '../elements/Image';
 import Modal from '../elements/Modal';
 import { DEFAULT_NETWORK_ID } from '../../utils/Constants';
-import { connectKadena, disconnectKadena, getAccountSelected, getKadenaConnectStatus, getSelectedAccount, getUserWallet } from '../../utils/KadenaApi';
-import { useGetMyKadcars } from '../../utils/KadcarExtractor';
+import { connectKadena, disconnectKadena, getAccountSelected, getKadenaConnectStatus, getSelectedAccount, getUserWallet } from '../../wallets/KadenaApi';
+import { useGetMyKadcars } from '../../pact/KadcarExtractor';
 import { useCheckForXWalletExtension } from '../../hooks/BrowserExtensionHooks';
 import { useCheckKadenaAccountConnection } from '../../hooks/KadenaCustomHooks';
-import { PactContext } from '../../utils/PactContextProvider';
+import { PactContext } from '../../pact/PactContextProvider';
 
 const propTypes = {
   ...SectionProps.types
@@ -135,6 +135,15 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
             </div>
           </div>
           <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="800">
+              <Image
+                className="has-shadow"
+                src={require('./../../assets/images/video-placeholder.jpg')}
+                alt="Hero"
+                width={896}
+                height={504}
+              />
+          </div>
+          {/* <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="800">
             <a
               data-video="https://player.vimeo.com/video/174002812"
               href="#0"
@@ -146,9 +155,10 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
                 src={require('./../../assets/images/video-placeholder.jpg')}
                 alt="Hero"
                 width={896}
-                height={504} />
+                height={504}
+              />
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

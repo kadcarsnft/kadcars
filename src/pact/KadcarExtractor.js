@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
-import { LOCAL_ACCOUNT_KEY } from "./Constants";
+import { LOCAL_ACCOUNT_KEY } from "../utils/Constants";
 import { PactContext } from "./PactContextProvider";
 
 function useGetMyKadcars() {
     const { account, readFromContract, defaultMeta } = useContext(PactContext);
-    // console.log(account)
 
     return async () => {
         const pactCode = `(free.kakars-nft-collection.get-owner "7")`; //TODO: MAKE CONSTANTS

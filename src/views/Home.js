@@ -5,19 +5,18 @@ import FeaturesTiles from '../components/sections/FeaturesTiles';
 import FeaturesSplit from '../components/sections/FeaturesSplit';
 import Testimonial from '../components/sections/Testimonial';
 import Cta from '../components/sections/Cta';
-import { PactContextProvider } from '../utils/PactContextProvider';
+import { PactContextProvider } from '../pact/PactContextProvider';
 
 const Home = () => {
 
   return (
-      <PactContextProvider>
-
-        <Hero className="illustration-section-01" />
-        {/* <FeaturesTiles />
-      <FeaturesSplit invertMobile topDivider imageFill className="illustration-section-02" />
-    <Testimonial topDivider /> */}
-        {/* <Cta split /> */}
-      </PactContextProvider>
+    <PactContextProvider>
+      <Hero className="illustration-section-01" />
+      {/* <FeaturesTiles /> */}
+      {/* <FeaturesSplit invertMobile topDivider imageFill className="illustration-section-02" /> */}
+      {/* <Testimonial topDivider /> */}
+      {/* <Cta split /> */}
+    </PactContextProvider>
   );
 }
 

@@ -3,7 +3,7 @@ import Pact from "pact-lang-api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { createContext } from "react/cjs/react.production.min";
-import { DEFAULT_GAS_PRICE, LOCAL_ACCOUNT_KEY, MAINNET_NETWORK_ID, TESTNET_NETWORK_ID } from "./Constants";
+import { DEFAULT_GAS_PRICE, LOCAL_ACCOUNT_KEY, MAINNET_NETWORK_ID, TESTNET_NETWORK_ID } from "../utils/Constants";
 
 export const PactContext = createContext(); //Define Pact Context
 

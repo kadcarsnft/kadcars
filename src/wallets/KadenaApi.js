@@ -10,7 +10,7 @@ import {
     KDA_GET_SELECTED_ACCOUNT,
     KDA_REQUEST_ACCOUNT,
     DEFAULT_GAS_PRICE
-} from "./Constants";
+} from "../utils/Constants";
 
 //Attempt to connect application to Kadena X-Wallet extension
 async function connectKadena(setNetworkSettings) {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getKadenaConnectStatus, getSelectedAccount, requestAccount } from "../utils/KadenaApi";
+import { getKadenaConnectStatus, getSelectedAccount, requestAccount } from "../wallets/KadenaApi";
 
 function useCheckKadenaAccountConnection(hasExtension) {
     const [isConnected, setIsConnected] = useState(null);
