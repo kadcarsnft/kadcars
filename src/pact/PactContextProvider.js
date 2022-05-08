@@ -24,6 +24,12 @@ const PactContextProvider = ({ children }) => {
         setGasPrice(gasPrice);
     };
 
+    const useSetNetworkSettings = (netId, chainId, gasPrice=DEFAULT_GAS_PRICE) => {
+        useEffect(() => {
+            setNetworkSettings(netId, chainId, gasPrice)
+        }, [netId, chainId, gasPrice]);
+    }
+
     const defaultMeta = (gasLimit) => {
         return Pact.lang.mkMeta(
             "",
@@ -67,7 +73,8 @@ const PactContextProvider = ({ children }) => {
                 setAccount,
                 networkUrl,
                 setNetworkUrl,
-                setNetworkSettings
+                setNetworkSettings,
+                useSetNetworkSettings
             }}
         >
             {children}

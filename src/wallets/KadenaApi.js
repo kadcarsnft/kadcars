@@ -83,7 +83,7 @@ async function getSelectedAccount() {
 
 //Disconnect the user's X-Wallet account from this application
 async function disconnectKadena(pactContextObject) {
-    const response = await window.kadena.request({ 
+    await window.kadena.request({ 
         method: KDA_DISCONNECT,
         // networkId: MAINNET_NETWORK_ID
         networkId: TESTNET_NETWORK_ID

@@ -11,6 +11,7 @@ import { useGetMyKadcars } from '../../pact/KadcarExtractor';
 import { useCheckForXWalletExtension } from '../../hooks/BrowserExtensionHooks';
 import { useCheckKadenaAccountConnection } from '../../hooks/KadenaCustomHooks';
 import { PactContext } from '../../pact/PactContextProvider';
+import { KadcarHub } from '../kadcarcomponents/KadcarHub';
 
 const propTypes = {
   ...SectionProps.types
@@ -56,10 +57,6 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
   );
 
   //If the extension is installed, check if the user's account is connected to this app
-    // useEffect(()=>{
-    //   console.log(account)
-    //   console.log(chainId)
-    // })
   // useEffect(() => {
   // }, [extensionInstalled]);
 
@@ -158,9 +155,6 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
                   <Button tag="a" color="dark" wideMobile>
                     All Kadcars
                   </Button>
-                  <Button onClick={disconnectKadena} tag="a" color="dark" wideMobile>
-                    Disconnect Wallet
-                  </Button>
                 </ButtonGroup>
               </div>
             </div>
@@ -174,6 +168,9 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
                 height={504}
               />
           </div>
+          {/* <div>
+            <KadcarHub/>
+          </div> */}
           {/* <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="800">
             <a
               data-video="https://player.vimeo.com/video/174002812"
