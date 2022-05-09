@@ -3,7 +3,6 @@ import { useGetMyKadcars } from "../../pact/KadcarExtractor";
 import { PactContext } from "../../pact/PactContextProvider";
 import { SCREEN_NAMES } from "../../utils/Constants";
 import { KadcarGameContext } from "./KadcarGameContext";
-import { UserCard } from "react-ui-cards";
 import unknown from "../../assets/images/unknown.png"
 
 //This renders the default screen to render in the screen container before any actions are taken by the user
@@ -75,6 +74,8 @@ const MintKadcarFlow = () => {
 
 const KadcarCard = ({ base64, extraStyle }) => {
     return (
+        <>
+        </>
     )
 }
 
