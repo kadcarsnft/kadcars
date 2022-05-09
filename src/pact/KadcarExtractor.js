@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useMemo } from "react";
 import { LOCAL_ACCOUNT_KEY } from "../utils/Constants";
 import { PactContext } from "./PactContextProvider";
-import { executePactContract, getPactCommandForNftByNftId, getPactCommandForNftIdsByOwner } from "./PactUtils";
+import { executePactContract, getPactCommandForNftByNftId, getPactCommandForNftsByOwner } from "./PactUtils";
 
 function useGetMyKadcarsFunction() {
     const { account, readFromContract, defaultMeta } = useContext(PactContext);
@@ -16,48 +16,31 @@ function useGetMyKadcarsFunction() {
 }
 
 function useGetMyKadcars() {
-    const { account, chainId, readFromContract, defaultMeta } = useContext(PactContext);
-    const [kadcarIds, setKadcarIds] = useState(null);
-    const [kadcarObjects, setKadcarObjects] = useState(null);
+    const { account, readFromContract, defaultMeta } = useContext(PactContext);
+    const [currentUserKadcarNfts, setCurrentUseKadcarNfts] = useState(null);
 
     //Establish the parameters needed for the pact command to get the kadcar ids
-    const pactUtilParamsForKadcarIds = useMemo(() => {
+    const paramsForNftPactContract = useMemo(() => {
         var parameters = {
             account: account,
-            chainId: chainId,
             metaData: defaultMeta,
-            readFromContract: readFromContract,
-            pactCmd: getPactCommandForNftIdsByOwner(account)
+            readFromContract: readFromContract
         }
         return parameters;
     }, [account, readFromContract, defaultMeta]);
-    
-    //Establish the parameters needed for the pact command to get the kadcar NFTs
-    const pactUtilParamsForNfts = useMemo(() => {
-        var parameters = {
-            account: account,
-            kadcarIds:kadcarIds,
-            metaData: defaultMeta,
-            readFromContract: readFromContract,
-            pactCmd: getPactCommandForNftByNftId(account)
-        }
-        return parameters;
-    }, [account, readFromContract, defaultMeta, kadcarIds]);
 
+    //Retrieves Kadcar NFTs associated with the current user
     useEffect(() => {
-        setKadcarIds(executePactContract(pactUtilParamsForKadcarIds));
-    }, [pactUtilParamsForKadcarIds]);
+        //Executes pact contract to retrieve this user's Kadcars
+        async function getKadcarNftsForGivenId() {
+            const nfts = await executePactContract(paramsForNftPactContract, getPactCommandForNftsByOwner(paramsForNftPactContract.account));
+            setCurrentUseKadcarNfts(nfts);
+            return nfts;
+        }
+        getKadcarNftsForGivenId();
+    }, [paramsForNftPactContract]);
 
-    //TODO SPLIT THIS
-    // useEffect(() => {
-    //     if (false) {
-    //         const kadcars = pactUtilParamsForNfts.kadcarIds.map((kadcarId) => {
-    //             executePactContract(pactUtilParamsForNfts);
-    //         });
-    //     }
-    // }, [pactUtilParamsForNfts]);
-
-    return ;
+    return currentUserKadcarNfts;
 }
 
 function useGetAllKadcars() {

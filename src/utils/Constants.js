@@ -5,11 +5,14 @@ const NETWORK_ID = TESTNET_NETWORK_ID;
 
 //Default values
 const DEFAULT_GAS_PRICE = 0.00000001;
-const DEFAULT_CHAIN_ID = "5";
+const DEFAULT_CHAIN_ID = "1";
 
 //Local account key
 const LOCAL_ACCOUNT_KEY = "LOCAL_ACCOUNT_KEY";
 const LOCAL_CHAIN_ID = "LOCAL_CHAIN_ID";
+
+//Domain
+
 
 //Screen names
 const SCREEN_NAMES = {

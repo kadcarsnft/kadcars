@@ -5,13 +5,14 @@ import ButtonGroup from '../elements/ButtonGroup';
 import Button from '../elements/Button';
 import Image from '../elements/Image';
 import Modal from '../elements/Modal';
-import { DEFAULT_GAS_PRICE, DEFAULT_NETWORK_ID, LOCAL_CHAIN_ID, NETWORK_ID } from '../../utils/Constants';
+import { DEFAULT_GAS_PRICE, DEFAULT_NETWORK_ID, LOCAL_CHAIN_ID, NETWORK_ID, SCREEN_NAMES } from '../../utils/Constants';
 import { connectKadena, disconnectKadena, getAccountSelected, getKadenaConnectStatus, getSelectedAccount, getUserWallet } from '../../wallets/KadenaApi';
 import { useGetMyKadcarsFunction, useGetAllKadcars, useGetMyKadcars } from '../../pact/KadcarExtractor';
 import { useCheckForXWalletExtension } from '../../hooks/BrowserExtensionHooks';
 import { useCheckKadenaAccountConnection } from '../../hooks/KadenaCustomHooks';
 import { PactContext } from '../../pact/PactContextProvider';
-import { KadcarHub } from '../kadcarcomponents/KadcarHub';
+import { MainHeaderScreenContainer } from '../kadcarcomponents/KadcarComponents';
+import { KadcarGameContext } from '../kadcarcomponents/KadcarGameContext';
 
 const propTypes = {
   ...SectionProps.types
@@ -21,9 +22,11 @@ const defaultProps = {
   ...SectionProps.defaults
 }
 
-const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bottomDivider, hasBgColor, invertColor, ...props }) => {
-  //Get PactContext
+const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bottomDivider, hasBgColor, invertColor, ...props }) => {
+  //Get PactContext and KadcarGameContext
   const { account, chainId, setAccount, setChainId, setNetworkSettings, useSetNetworkSettings } = useContext(PactContext); 
+  const { setCurrentScreen, setMyKadcars } = useContext(KadcarGameContext);
+
   //Check if the user has the X-Wallet extension installed
   const extensionInstalled = useCheckForXWalletExtension();
   //Check if the user has their X-Wallet account connected to this app
@@ -69,6 +72,10 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
   useEffect(() => {
     // console.log(account)
   }, [account]);
+ 
+  useEffect(() => {
+    console.log(currentUserKadcarNfts)
+  }, [currentUserKadcarNfts]);
 
   //Handle connecting user's X-Wallet
   function initiateKadenaConnection() {
@@ -109,8 +116,10 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
   }
 
   //Display all this user's kadcars
-  async function getKadcarsForWallet() {
-    const result = await currentUserKadcarFunction();
+  async function displayCurrentUserKadcars() {
+    setMyKadcars(currentUserKadcarNfts);
+    setCurrentScreen(SCREEN_NAMES.MY_KADCARS);
+
     // const connectStatus = getKadenaConnectStatus();
 
     // if (connectStatus) {
@@ -157,7 +166,7 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
                   <Button tag="a" color="dark" wideMobile>
                     Mint Kadcar
                   </Button>
-                  <Button onClick={getKadcarsForWallet} tag="a" color="dark" wideMobile>
+                  <Button onClick={displayCurrentUserKadcars} tag="a" color="dark" wideMobile>
                     My Cars
                   </Button>
                   <Button tag="a" color="dark" wideMobile>
@@ -176,9 +185,9 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
                 height={504}
               />
           </div>
-          {/* <div>
-            <KadcarHub/>
-          </div> */}
+          <div>
+            <MainHeaderScreenContainer/>
+          </div>
           {/* <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="800">
             <a
               data-video="https://player.vimeo.com/video/174002812"
@@ -201,7 +210,7 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
   );
 }
 
-Hero.propTypes = propTypes;
-Hero.defaultProps = defaultProps;
+KadcarHub.propTypes = propTypes;
+KadcarHub.defaultProps = defaultProps;
 
-export default Hero;
+export default KadcarHub;

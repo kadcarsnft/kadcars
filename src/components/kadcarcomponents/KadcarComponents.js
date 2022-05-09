@@ -1,10 +1,10 @@
-import React from "react";
-import { useContext, useEffect } from "react/cjs/react.production.min";
+import React, { useContext, useEffect }from "react";
 import { useGetMyKadcars } from "../../pact/KadcarExtractor";
 import { PactContext } from "../../pact/PactContextProvider";
 import { SCREEN_NAMES } from "../../utils/Constants";
 import { KadcarGameContext } from "./KadcarGameContext";
-
+import { UserCard } from "react-ui-cards";
+import unknown from "../../assets/images/unknown.png"
 
 //This renders the default screen to render in the screen container before any actions are taken by the user
 const DefaultScreen = () => {
@@ -17,19 +17,19 @@ const DefaultScreen = () => {
 //This renders a gallery displaying all Kadcars currently owned by the user
 const MyKadcarGallery = () => {
     const { account } = useContext(PactContext);
-    const { myKadcars, setMyKadcars } = useContext(KadcarGameContext);
-    const getMyKadcars = useGetMyKadcars();
+    const { myKadcars } = useContext(KadcarGameContext);
 
     useEffect(() => {
         if (account === null) {
+            console.log("LOL")
             return;
         } 
 
         //FETCH KADCARS HERE
-        const fetchKadcars = async () => {
+        // const fetchKadcars = async () => {
             
-        }
-        fetchKadcars();
+        // }
+        // fetchKadcars();
     }, [account]);
 
     return (
@@ -38,7 +38,19 @@ const MyKadcarGallery = () => {
             account === null ?
             <div>Please Connect Your Wallet</div> :
             <div>
-                
+                {
+                    myKadcars.map((kadcarNft, index) => {
+                        console.log(kadcarNft)
+                        return (
+                            <div key={index}>
+                                <img src={unknown}/>
+                                <div>
+                                    {kadcarNft.model}
+                                </div>
+                            </div>
+                        )
+                    })
+                }
             </div>
         }
         </>
@@ -61,23 +73,24 @@ const MintKadcarFlow = () => {
     )
 }
 
-const KadcarCard = ({ base64, extraStyle}) => {
+const KadcarCard = ({ base64, extraStyle }) => {
     return (
-        <img
-            src={`data:image/png;base64,${base64}`}
-        />
     )
 }
 
-const MainHeaderScreenContainer = () => {
-    const { currentScreen } = useContext(KadcarGameContext);
+const MainHeaderScreenContainer = ({  }) => {
+    const {currentScreen} = useContext(KadcarGameContext)
+
+    useEffect(()=>{
+        console.log(currentScreen)
+    }, [currentScreen])
 
     return (
         <div>
-            { currentScreen === null && DefaultScreen }
-            { currentScreen === SCREEN_NAMES.MY_KADCARS && MyKadcarGallery }
-            { currentScreen === SCREEN_NAMES.ALL_KADCARS && AllKadcarGallery }
-            { currentScreen === SCREEN_NAMES.MINT_KADCAR && MintKadcarFlow }
+            { currentScreen === null && <DefaultScreen/> }
+            { currentScreen === SCREEN_NAMES.MY_KADCARS && <MyKadcarGallery/> }
+            { currentScreen === SCREEN_NAMES.ALL_KADCARS && <AllKadcarGallery/> }
+            { currentScreen === SCREEN_NAMES.MINT_KADCAR && <MintKadcarFlow/> }
         </div>
     )
 }
