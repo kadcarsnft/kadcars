@@ -1,7 +1,6 @@
 import React from "react";
 import {
-    MAINNET_NETWORK_ID,
-    TESTNET_NETWORK_ID,
+    NETWORK_ID,
     KDA_CHECK_STATUS,
     KDA_CONNECT,
     LOCAL_ACCOUNT_KEY,
@@ -18,8 +17,7 @@ async function connectKadena(pactContextObject) {
     //Initiate KDA connect
     const response = await window.kadena.request({
         method: KDA_CONNECT,
-        // networkId: MAINNET_NETWORK_ID
-        networkId: TESTNET_NETWORK_ID
+        networkId: NETWORK_ID
     })
     .catch((e) => {
         console.error(e.message)
@@ -36,8 +34,7 @@ async function connectKadena(pactContextObject) {
 
         if (pactContextObject) {
             pactContextObject.setAccount(account);
-            // setNetworkSettings(MAINNET_NETWORK_ID, chain, DEFAULT_GAS_PRICE);
-            pactContextObject.setNetworkSettings(TESTNET_NETWORK_ID, chainId, DEFAULT_GAS_PRICE); //TODO: MAKE GASPRICE AND NETID DYNAMIC BASED ON WALLET TYPE
+            pactContextObject.setNetworkSettings(NETWORK_ID, chainId, DEFAULT_GAS_PRICE); //TODO: MAKE GASPRICE AND NETID DYNAMIC BASED ON WALLET TYPE
         }
     } 
 }
@@ -46,8 +43,7 @@ async function connectKadena(pactContextObject) {
 async function getKadenaConnectStatus() {
     const response = await window.kadena.request({
         method: KDA_CHECK_STATUS,
-        // networkId: MAINNET_NETWORK_ID
-        networkId: TESTNET_NETWORK_ID
+        networkId: NETWORK_ID
     })
     .catch((e) => {
         console.error(e.message);
@@ -60,8 +56,7 @@ async function getKadenaConnectStatus() {
 async function requestAccount() {
     const response = await window.kadena.request({ 
         method: KDA_REQUEST_ACCOUNT,
-        // networkId: MAINNET_NETWORK_ID
-        networkId: TESTNET_NETWORK_ID
+        networkId: NETWORK_ID
     })
     .catch((e) => {
         console.error(e.message)
@@ -72,8 +67,7 @@ async function requestAccount() {
 async function getSelectedAccount() {
     const response = await window.kadena.request({ 
         method: KDA_GET_SELECTED_ACCOUNT,
-        // networkId: MAINNET_NETWORK_ID
-        networkId: TESTNET_NETWORK_ID
+        networkId: NETWORK_ID
     })
     .catch((e) => {
         console.error(e.message)
@@ -85,8 +79,7 @@ async function getSelectedAccount() {
 async function disconnectKadena(pactContextObject) {
     await window.kadena.request({ 
         method: KDA_DISCONNECT,
-        // networkId: MAINNET_NETWORK_ID
-        networkId: TESTNET_NETWORK_ID
+        networkId: NETWORK_ID
     })
     .catch((e) => {
         console.error(e.message)
@@ -98,7 +91,7 @@ async function disconnectKadena(pactContextObject) {
 
     pactContextObject.setAccount(null);
     // pactContextObject.setNetworkSettings(MAINNET_NETWORK_ID, undefined, DEFAULT_GAS_PRICE);
-    pactContextObject.setNetworkSettings(TESTNET_NETWORK_ID, null, DEFAULT_GAS_PRICE);
+    pactContextObject.setNetworkSettings(NETWORK_ID, null, DEFAULT_GAS_PRICE);
 }
 
 

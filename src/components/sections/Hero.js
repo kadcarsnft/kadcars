@@ -5,9 +5,9 @@ import ButtonGroup from '../elements/ButtonGroup';
 import Button from '../elements/Button';
 import Image from '../elements/Image';
 import Modal from '../elements/Modal';
-import { DEFAULT_NETWORK_ID } from '../../utils/Constants';
+import { DEFAULT_GAS_PRICE, DEFAULT_NETWORK_ID, LOCAL_CHAIN_ID, NETWORK_ID } from '../../utils/Constants';
 import { connectKadena, disconnectKadena, getAccountSelected, getKadenaConnectStatus, getSelectedAccount, getUserWallet } from '../../wallets/KadenaApi';
-import { useGetMyKadcars } from '../../pact/KadcarExtractor';
+import { useGetMyKadcarsFunction, useGetAllKadcars, useGetMyKadcars } from '../../pact/KadcarExtractor';
 import { useCheckForXWalletExtension } from '../../hooks/BrowserExtensionHooks';
 import { useCheckKadenaAccountConnection } from '../../hooks/KadenaCustomHooks';
 import { PactContext } from '../../pact/PactContextProvider';
@@ -22,10 +22,20 @@ const defaultProps = {
 }
 
 const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bottomDivider, hasBgColor, invertColor, ...props }) => {
-  const { account, chainId, setAccount, setChainId, setNetworkSettings } = useContext(PactContext); //Get PactContext
-  const extensionInstalled = useCheckForXWalletExtension();//Check if the user has the X-Wallet extension installed
-  const kadenaConnected = useCheckKadenaAccountConnection(extensionInstalled); //Check if the user has their X-Wallet account connected to this app
-  const currentUserKadcarIds = useGetMyKadcars();
+  //Get PactContext
+  const { account, chainId, setAccount, setChainId, setNetworkSettings, useSetNetworkSettings } = useContext(PactContext); 
+  //Check if the user has the X-Wallet extension installed
+  const extensionInstalled = useCheckForXWalletExtension();
+  //Check if the user has their X-Wallet account connected to this app
+  // const kadenaConnected = useCheckKadenaAccountConnection(extensionInstalled); 
+  
+  //Set network settings
+  useSetNetworkSettings(NETWORK_ID, localStorage.getItem(LOCAL_CHAIN_ID));
+
+  //Kadcar hook calls
+  const currentUserKadcarFunction = useGetMyKadcarsFunction();
+  const currentUserKadcarNfts = useGetMyKadcars();
+  const allKadcarNfts = useGetAllKadcars();
 
   const [videoModalActive, setVideomodalactive] = useState(false);
   const [showWalletNameModal, setShowWalletModal] = useState(false);
@@ -56,19 +66,14 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
     bottomDivider && 'has-bottom-divider'
   );
 
-  //If the extension is installed, check if the user's account is connected to this app
-  // useEffect(() => {
-  // }, [extensionInstalled]);
-
-  // useEffect(() => {
-  // }, [kadenaConnected]);
-
   useEffect(() => {
     // console.log(account)
   }, [account]);
 
+  //Handle connecting user's X-Wallet
   function initiateKadenaConnection() {
-    var pactContextObject = null; //Variable to hold required pact context parameters
+    //Variable to hold required pact context parameters
+    var pactContextObject = null; 
     
     //Check if user has x-wallet downloaded
     if (window.kadena) {
@@ -80,13 +85,15 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
         setChainId: setChainId,
         setNetworkSettings: setNetworkSettings
       }
-
-      connectKadena(pactContextObject); //Connect this user's account to the app
+  
+      //Connect this user's account to the app
+      connectKadena(pactContextObject); 
     } else {
       //TODO: render error to install extension
     }
   }
 
+  //Disconnect the user's account from the app
   function disconnectKadenaAccount() {
     //Encapsulate all PactContext parameters to be modified by the API call as needed
     var pactContextObject = {
@@ -97,17 +104,18 @@ const Hero = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bott
       setNetworkSettings: setNetworkSettings
     }
 
+    //Call the API function to disconnect this user's wallet from the app
     disconnectKadena(pactContextObject); 
   }
 
+  //Display all this user's kadcars
   async function getKadcarsForWallet() {
-    const result = await currentUserKadcarIds();
+    const result = await currentUserKadcarFunction();
     // const connectStatus = getKadenaConnectStatus();
 
     // if (connectStatus) {
     //   // getMyKadcars();
     // } else {
-
     // }
   }
 

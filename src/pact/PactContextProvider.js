@@ -3,7 +3,7 @@ import Pact from "pact-lang-api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { createContext } from "react/cjs/react.production.min";
-import { DEFAULT_GAS_PRICE, LOCAL_ACCOUNT_KEY, MAINNET_NETWORK_ID, TESTNET_NETWORK_ID } from "../utils/Constants";
+import { DEFAULT_CHAIN_ID, DEFAULT_GAS_PRICE, LOCAL_ACCOUNT_KEY, MAINNET_NETWORK_ID, TESTNET_NETWORK_ID } from "../utils/Constants";
 
 export const PactContext = createContext(); //Define Pact Context
 
@@ -26,7 +26,13 @@ const PactContextProvider = ({ children }) => {
 
     const useSetNetworkSettings = (netId, chainId, gasPrice=DEFAULT_GAS_PRICE) => {
         useEffect(() => {
-            setNetworkSettings(netId, chainId, gasPrice)
+            var finalChainId = null;
+            if (chainId === null) {
+                finalChainId = DEFAULT_CHAIN_ID;
+            } else {
+                finalChainId = chainId;
+            }
+            setNetworkSettings(netId, finalChainId, gasPrice)
         }, [netId, chainId, gasPrice]);
     }
 
@@ -63,16 +69,18 @@ const PactContextProvider = ({ children }) => {
     return (
         <PactContext.Provider
             value={{
-                chainId,
-                setChainId,
-                gasPrice,
-                setGasPrice,
                 netId,
-                setNetId,
+                chainId,
                 account,
-                setAccount,
+                gasPrice,
                 networkUrl,
+                setNetId,
+                setChainId,
+                setAccount,
+                defaultMeta,
+                setGasPrice,
                 setNetworkUrl,
+                readFromContract,
                 setNetworkSettings,
                 useSetNetworkSettings
             }}
