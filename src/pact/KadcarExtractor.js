@@ -33,7 +33,7 @@ function useGetMyKadcars() {
     }, [account, readFromContract, defaultMeta]);
     
     //Establish the parameters needed for the pact command to get the kadcar NFTs
-    const pactUtilParamsForNfts = use  Memo(() => {
+    const pactUtilParamsForNfts = useMemo(() => {
         var parameters = {
             account: account,
             kadcarIds:kadcarIds,
