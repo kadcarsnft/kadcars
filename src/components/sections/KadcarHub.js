@@ -176,7 +176,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
               </div>
             </div>
           </div>
-          <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="800">
+          {/* <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="800">
               <Image
                 className="has-shadow"
                 src={require('./../../assets/images/video-placeholder.jpg')}
@@ -184,7 +184,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                 width={896}
                 height={504}
               />
-          </div>
+          </div> */}
           <div>
             <MainHeaderScreenContainer/>
           </div>
