@@ -47,7 +47,6 @@ const PactContextProvider = ({ children }) => {
             if (data?.result?.status === "success") {
                 return data.result.data;
             } else {
-                console.log(data);
                 if (returnError === true) {
                     return data?.result?.error?.message;
                 } else {

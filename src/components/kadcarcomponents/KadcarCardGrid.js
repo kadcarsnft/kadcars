@@ -7,14 +7,12 @@ import { CenterColumn, ListNav } from "../../utils/GalleryUtilities";
 
 const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
     const extraStyle = { overflowY: "scroll" };
-
-    
-const centerColumnStyle = {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-};
+    const centerColumnStyle = {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+    };
 
     function CustomMessage({ text }) {
         return <p style={{ textAlign: "center" }}>{text}</p>;
@@ -36,9 +34,13 @@ const centerColumnStyle = {
                 {kadcars?.length === 0 && <CustomMessage text="No kadcars exist yet!" />}
                 {kadcars != null && (
                     <>
-                        {kadcars.map((kadcar) => {
+                        {kadcars.map((kadcar, index) => {
+                            console.log(kadcar)
                             return (
-                                <KadcarCard kadcarNft={kadcar} />
+                                <div key={index}>
+
+                                    <KadcarCard kadcarNft={kadcar} />
+                                </div>
                             );
                         })}
                         <ListNav pages={pages} page={page} setPage={setPage} />

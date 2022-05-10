@@ -21,21 +21,21 @@ const KadcarCard = ({ kadcarNft }) => {
             <CardWrapper>
                 <CardImage image={unknown} />
                 <CardTextWrapper>
-                    <CardTextDate>days</CardTextDate>
-                    <CardTextTitle>Title</CardTextTitle>
+                    <CardTextDate>Model: K1</CardTextDate>
+                    <CardTextTitle>#{ kadcarNft['nft-id'] }</CardTextTitle>
                     <CardTextBody>
-                        bullshitshti
+                        Name
                     </CardTextBody>
                 </CardTextWrapper>
                 <CardStatWrapper>
                     <CardStats>
-                        Horse Power: { kadcarNft['nft-id'] }
+                        HP: 890
                     </CardStats>
                     <CardStats>
-                        Speed: { kadcarNft['speed'] } mph
+                        Speed: 100
                     </CardStats>
                     <CardStats>
-                        Speed: { kadcarNft['experience'] } 
+                        Acceleration: 80
                     </CardStats>
                 </CardStatWrapper>
             </CardWrapper>
