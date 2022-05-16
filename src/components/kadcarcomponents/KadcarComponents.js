@@ -2,7 +2,7 @@ import React, { useContext, useEffect }from "react";
 import { useGetMyKadcars } from "../../pact/KadcarExtractor";
 import { PactContext } from "../../pact/PactContextProvider";
 import { SCREEN_NAMES, USER_KADCAR_GALLERY_LABEL } from "../../utils/Constants";
-import { KadcarGameContext } from "./KadcarGameContext";
+import { KadcarGameContext } from "./KadcarGameContextProvider";
 import unknown from "../../assets/images/unknown.png"
 import { KadcarCard } from "./kadcarCard/KadcarCard";
 import { CardContainer, Separator } from "./kadcarCard/KadcarCardStyles";
@@ -23,7 +23,6 @@ const MyKadcarGallery = () => {
 
     useEffect(() => {
         if (account === null) {
-            console.log("LOL")
             return;
         } 
 
@@ -35,7 +34,7 @@ const MyKadcarGallery = () => {
     }, [account]);
 
     return (
-        <>
+        <div>
             {
                 account === null ?
                     <div>Please Connect Your Wallet</div> :
@@ -53,7 +52,7 @@ const MyKadcarGallery = () => {
                     //     }
                     // </CardContainer>
             }
-        </>
+        </div>
     );
 }
 
@@ -86,16 +85,15 @@ const MainHeaderScreenContainer = ({  }) => {
     const {currentScreen} = useContext(KadcarGameContext)
 
     useEffect(()=>{
-        console.log(currentScreen)
     }, [currentScreen])
 
     return (
-        <div>
+        <>
             { currentScreen === null && <DefaultScreen/> }
             { currentScreen === SCREEN_NAMES.MY_KADCARS && <MyKadcarGallery/> }
             { currentScreen === SCREEN_NAMES.ALL_KADCARS && <AllKadcarGallery/> }
             { currentScreen === SCREEN_NAMES.MINT_KADCAR && <MintKadcarFlow/> }
-        </div>
+        </>
     )
 }
 

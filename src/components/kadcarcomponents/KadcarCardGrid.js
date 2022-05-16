@@ -3,8 +3,6 @@ import { CardContainer } from "./kadcarCard/KadcarCardStyles";
 import { KadcarCard } from "./KadcarComponents";
 import { CenterColumn, ListNav } from "../../utils/GalleryUtilities";
 
-
-
 const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
     const extraStyle = { overflowY: "scroll" };
     const centerColumnStyle = {
@@ -19,14 +17,14 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
     }
 
     return (
-        <CenterColumn centerColumnStyle={centerColumnStyle} extraStyle={extraStyle}>
+        // <CenterColumn centerColumnStyle={centerColumnStyle} extraStyle={extraStyle}>
             <div
                 style={{
                     display: "flex",
-                    direction: "row",
+                    flexDirection: "row",
                     justifyContent: "center",
-                    alignItems: "center",
-                    width: "100%",
+                    width: "75vw",
+                    height:"100%",
                     flexWrap: "wrap",
                 }}
             >
@@ -35,10 +33,8 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
                 {kadcars != null && (
                     <>
                         {kadcars.map((kadcar, index) => {
-                            console.log(kadcar)
                             return (
                                 <div key={index}>
-
                                     <KadcarCard kadcarNft={kadcar} />
                                 </div>
                             );
@@ -47,7 +43,7 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
                     </>
                 )}
             </div>
-        </CenterColumn>
+        //</CenterColumn>
     )
 }
 

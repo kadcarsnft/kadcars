@@ -24,7 +24,6 @@ async function connectKadena(pactContextObject) {
         return;
     });
 
-    console.log(response)
     if (response.status === 'success') {
         let account = response.account.account;
         let chainId = response.account.chainId;
@@ -32,10 +31,10 @@ async function connectKadena(pactContextObject) {
         localStorage.setItem(LOCAL_ACCOUNT_KEY, account);
         localStorage.setItem(LOCAL_CHAIN_ID, chainId);
 
-        if (pactContextObject) {
-            pactContextObject.setAccount(account);
+        // if (pactContextObject) {
             pactContextObject.setNetworkSettings(NETWORK_ID, chainId, DEFAULT_GAS_PRICE); //TODO: MAKE GASPRICE AND NETID DYNAMIC BASED ON WALLET TYPE
-        }
+            pactContextObject.setAccount(account);
+        // }
     } 
 }
 
@@ -77,7 +76,7 @@ async function getSelectedAccount() {
 
 //Disconnect the user's X-Wallet account from this application
 async function disconnectKadena(pactContextObject) {
-    await window.kadena.request({ 
+    const response = await window.kadena.request({ 
         method: KDA_DISCONNECT,
         networkId: NETWORK_ID
     })
@@ -85,6 +84,8 @@ async function disconnectKadena(pactContextObject) {
         console.error(e.message)
         return;
     });
+
+    console.log(response)
 
     localStorage.setItem(LOCAL_ACCOUNT_KEY, null);
     localStorage.setItem(LOCAL_CHAIN_ID, null);

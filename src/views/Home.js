@@ -6,7 +6,7 @@ import FeaturesSplit from '../components/sections/FeaturesSplit';
 import Testimonial from '../components/sections/Testimonial';
 import Cta from '../components/sections/Cta';
 import { PactContextProvider } from '../pact/PactContextProvider';
-import { KadcarGameContextProvider } from '../components/kadcarcomponents/KadcarGameContext';
+import { KadcarGameContextProvider } from '../components/kadcarcomponents/KadcarGameContextProvider';
 
 const Home = () => {
 

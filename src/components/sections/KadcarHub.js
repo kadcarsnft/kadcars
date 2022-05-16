@@ -7,12 +7,13 @@ import Image from '../elements/Image';
 import Modal from '../elements/Modal';
 import { DEFAULT_GAS_PRICE, DEFAULT_NETWORK_ID, LOCAL_CHAIN_ID, NETWORK_ID, SCREEN_NAMES } from '../../utils/Constants';
 import { connectKadena, disconnectKadena, getAccountSelected, getKadenaConnectStatus, getSelectedAccount, getUserWallet } from '../../wallets/KadenaApi';
-import { useGetMyKadcarsFunction, useGetAllKadcars, useGetMyKadcars } from '../../pact/KadcarExtractor';
+import { useGetMyKadcarsFunction, useGetAllKadcars, useGetMyKadcars, useMintKadcar } from '../../pact/KadcarExtractor';
 import { useCheckForXWalletExtension } from '../../hooks/BrowserExtensionHooks';
 import { useCheckKadenaAccountConnection } from '../../hooks/KadenaCustomHooks';
 import { PactContext } from '../../pact/PactContextProvider';
 import { MainHeaderScreenContainer } from '../kadcarcomponents/KadcarComponents';
-import { KadcarGameContext } from '../kadcarcomponents/KadcarGameContext';
+import { KadcarGameContext } from '../kadcarcomponents/KadcarGameContextProvider';
+import { checkIfNullOrUndefined } from '../../utils/utils';
 
 const propTypes = {
   ...SectionProps.types
@@ -24,19 +25,30 @@ const defaultProps = {
 
 const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bottomDivider, hasBgColor, invertColor, ...props }) => {
   //Get PactContext and KadcarGameContext
-  const { account, chainId, setAccount, setChainId, setNetworkSettings, useSetNetworkSettings } = useContext(PactContext); 
+  const { 
+    account, 
+    chainId, 
+    setAccount, 
+    setChainId, 
+    defaultMeta,
+    readFromContract, 
+    setNetworkSettings, 
+    useSetNetworkSettings,
+    setCurrTransactionState
+  } = useContext(PactContext); 
+
   const { setCurrentScreen, setMyKadcars } = useContext(KadcarGameContext);
 
   //Check if the user has the X-Wallet extension installed
   const extensionInstalled = useCheckForXWalletExtension();
+
   //Check if the user has their X-Wallet account connected to this app
   // const kadenaConnected = useCheckKadenaAccountConnection(extensionInstalled); 
-  
-  //Set network settings
-  useSetNetworkSettings(NETWORK_ID, localStorage.getItem(LOCAL_CHAIN_ID));
 
   //Kadcar hook calls
   const currentUserKadcarFunction = useGetMyKadcarsFunction();
+  const mintKadcarFunction = useMintKadcar();
+
   const currentUserKadcarNfts = useGetMyKadcars();
   const allKadcarNfts = useGetAllKadcars();
 
@@ -90,7 +102,8 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
         chainId: chainId,
         setAccount: setAccount,
         setChainId: setChainId,
-        setNetworkSettings: setNetworkSettings
+        setNetworkSettings: setNetworkSettings,
+        setCurrTransactionState: setCurrTransactionState
       }
   
       //Connect this user's account to the app
@@ -128,14 +141,24 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
     // }
   }
 
+  function showDisconnect() {
+
+  }
+
+  function initiateMintKadcar() {
+    mintKadcarFunction(1, ()=>console.log("HAHA"));
+  }
+
   return (
     <section
       {...props}
       className={outerClasses}
     >
-      <div className="container-sm">
-        <div className={innerClasses}>
-          <div className="hero-content" style={{ marginBottom: '20px' }}>
+      {/* <div className="container-sm"> */}
+        {/* <div className={innerClasses}> */}
+        <div style={{flexDirection: 'column', justifyContent:'center', alignContent:'center', height:'100vh', display:'flex'}}>
+
+          <div className="hero-content" style={{ marginBottom: '20px'}}>
             <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
               Build the Ultimate <span className="text-color-primary">Kadcar</span>!
             </h1>
@@ -152,18 +175,18 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                     </Button>
                   }
                   {
-                    extensionInstalled && account === null &&
+                    extensionInstalled && (account === null || account === 'null') &&
                     <Button onClick={initiateKadenaConnection} tag="a" color="primary" wideMobile>
                       Connect X-Wallet
                      </Button>
                   }
                   {
-                    extensionInstalled && account !== null &&
+                    extensionInstalled  && account !== null && account !== 'null' &&
                     <Button onClick={disconnectKadenaAccount} tag="a" color="primary" wideMobile>
                       Disconnect X-Wallet
                     </Button>
                   }
-                  <Button tag="a" color="dark" wideMobile>
+                  <Button onClick={initiateMintKadcar} tag="a" color="dark" wideMobile>
                     Mint Kadcar
                   </Button>
                   <Button onClick={displayCurrentUserKadcars} tag="a" color="dark" wideMobile>
@@ -176,36 +199,11 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
               </div>
             </div>
           </div>
-          {/* <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="800">
-              <Image
-                className="has-shadow"
-                src={require('./../../assets/images/video-placeholder.jpg')}
-                alt="Hero"
-                width={896}
-                height={504}
-              />
-          </div> */}
-          <div>
+          <div style={{flexDirection:'row', display:'flex', justifyContent:'center', alignContent:'center', flexDirection:'row', width:'100%', height:'75%'}}>
             <MainHeaderScreenContainer/>
           </div>
-          {/* <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="800">
-            <a
-              data-video="https://player.vimeo.com/video/174002812"
-              href="#0"
-              aria-controls="video-modal"
-              onClick={openModal}
-            >
-              <Image
-                className="has-shadow"
-                src={require('./../../assets/images/video-placeholder.jpg')}
-                alt="Hero"
-                width={896}
-                height={504}
-              />
-            </a>
-          </div> */}
         </div>
-      </div>
+      {/* </div> */}
     </section>
   );
 }

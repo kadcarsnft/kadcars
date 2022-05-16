@@ -1,10 +1,11 @@
 import React from 'react';
 
-async function executePactContract(pactContextObject, pactCmd) {    
+async function executePactContract(pactContextObject, pactCmd) {
     const pactCode = pactCmd; 
     const meta = pactContextObject.metaData(1000000);
+    console.log(pactCode)
     const contractOutput = await pactContextObject.readFromContract({ pactCode, meta });
-    // console.log("input: " + `${pactCode}` + "output: " + `${contractOutput}` );
+    console.log(contractOutput);
     return contractOutput;
 }
 
@@ -18,13 +19,20 @@ function getPactCommandForNftByNftId(nftId) {
     return `(free.kadcars-nft-collection.get-kadcar-for-nft-id "${nftId}")`;
 }
 
+//Retrieve the Pact command to get all minted Kadcars
+function getPactCommandForAllNfts() {
+    return `(free.kadcars-nft-collection.get-kadcars)`;
+}
+
 //Retrieve the Pact command to Mint new NFT ID
-function getPactCommandForMintingNftId(account, amount, collection) {
-    return `(free.kadcars-nft-collection)`;
+function getPactCommandForMintingNft(account) {
+    return `(free.kadcars-nft-collection.manufacture-k1 "${account}" 1)`;
 }
 
 export {
     executePactContract,
+    getPactCommandForAllNfts,
     getPactCommandForNftByNftId,
     getPactCommandForNftsByOwner,
+    getPactCommandForMintingNft,
 }
