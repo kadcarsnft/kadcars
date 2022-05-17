@@ -24,7 +24,7 @@ export const CardWrapper = styled.div`
   background: #000;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9);
   text-align: center;
-  margin-top: 10px;
+  margin-top: 25px;
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 10px;
