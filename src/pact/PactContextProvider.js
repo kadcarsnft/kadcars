@@ -1,18 +1,22 @@
 import React, { useCallback, useState, useEffect } from "react";
 import Pact from "pact-lang-api";
-import { ToastContainer, toast } from "react-toastify";
+import { getNetworkUrl } from "./PactUtils";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import { createContext } from "react/cjs/react.production.min";
-import { 
-    DEFAULT_CHAIN_ID, 
-    DEFAULT_GAS_PRICE, 
-    IS_X_WALLET_KEY, 
-    LOCAL_ACCOUNT_KEY, 
-    LOCAL_CHAIN_ID, 
-    MAINNET_NETWORK_ID, 
-    NETWORK_ID, 
-    POLL_INTERVAL_S, 
-    TESTNET_NETWORK_ID 
+import { creationTime, makeRequest, tryLoadLocal, trySaveLocal, parse, parseRes, wait } from "../utils/utils";
+import {
+    DEFAULT_CHAIN_ID,
+    DEFAULT_GAS_PRICE,
+    DEFAULT_REQUEST_HEADERS,
+    IS_X_WALLET_KEY,
+    LOCAL_ACCOUNT_KEY,
+    LOCAL_CHAIN_ID,
+    MAINNET_NETWORK_ID,
+    NETWORK_ID,
+    POLL_INTERVAL_S,
+    POST_METHOD,
+    TESTNET_NETWORK_ID
 } from "../utils/Constants";
 
 export const PactContext = createContext(); //Define Pact Context
@@ -43,6 +47,37 @@ const PactContextProvider = ({ children }) => {
         }, [netId, chainId, gasPrice]);
     }
 
+    const clearTransaction = () => {
+        setCurrTransactionState({});
+    };
+
+    const fetchAccountDetails = async (accountName) => {
+        return await readFromContract({
+            pactCode: `(coin.details ${JSON.stringify(accountName)})`,
+            meta: defaultMeta(),
+        });
+    };
+
+    const defaultMeta = (gasLimit) => {
+        return Pact.lang.mkMeta(
+            "",
+            chainId,
+            gasPrice,
+            gasLimit ?? 150000,
+            creationTime(),
+            600
+        );
+    };
+
+    const updateTransactionState = (newParams) => {
+        const { transactionMessage, successCallback } = { currTransactionState };
+        setCurrTransactionState({
+            transactionMessage,
+            successCallback,
+            ...newParams,
+        });
+    };
+
     const sendTransaction = async (
         cmd,
         previewComponent = null,
@@ -57,93 +92,6 @@ const PactContextProvider = ({ children }) => {
         });
     };
 
-    const signTransaction = async (cmdToSign) => {
-        updateTransactionState({ signingCmd: cmdToSign });
-        let signedCmd = null;
-        let xwalletSignRes = null;
-        try {
-            const accountConnectedRes = await window.kadena.request({
-                method: "kda_requestAccount",
-                networkId: netId,
-                domain: window.location.hostname,
-            });
-            console.log(accountConnectedRes);
-            console.log(account)
-            if (accountConnectedRes?.status !== "success") {
-                toast.error("X Wallet connection was lost, please re-connect");
-                clearTransaction();
-                logoutAccount();
-                return;
-            } else if (accountConnectedRes?.wallet?.account !== account) {
-                toast.error(
-                    `Wrong X Wallet account selected in extension, please select ${account}`
-                );
-                return;
-            } else if (accountConnectedRes?.wallet?.chainId !== chainId) {
-                toast.error(
-                    `Wrong chain selected in X Wallet, please select ${chainId}`
-                );
-                return;
-            }
-            xwalletSignRes = await window.kadena.request({
-                method: "kda_requestSign",
-                networkId: netId,
-                data: { networkId: netId, signingCmd: cmdToSign },
-            });
-        } catch (e) {
-            console.log(e);
-        }
-        if (xwalletSignRes.status !== "success") {
-            toast.error("Failed to sign the command in X-Wallet");
-            clearTransaction();
-            return;
-        }
-        signedCmd = xwalletSignRes.signedCmd;
-
-        console.log(signedCmd);
-        updateTransactionState({ signedCmd });
-        let localRes = null;
-        try {
-            localRes = await fetch(`${networkUrl}/api/v1/local`, mkReq(signedCmd));
-        } catch (e) {
-            console.log(e);
-            toast.error("Failed to confirm transaction with the network");
-            clearTransaction();
-            return;
-        }
-        const parsedLocalRes = await parseRes(localRes);
-        console.log(parsedLocalRes);
-        if (parsedLocalRes?.result?.status === "success") {
-            let data = null;
-            try {
-                data = await Pact.wallet.sendSigned(signedCmd, networkUrl);
-            } catch (e) {
-                console.log(e);
-                toast.error("Had issues sending the transaction to the blockchain");
-                clearTransaction();
-                return;
-            }
-            console.log(data);
-            const requestKey = data.requestKeys[0];
-            updateTransactionState({
-                sentCmd: signedCmd,
-                requestKey,
-            });
-            await pollForTransaction(requestKey);
-        } else {
-            console.log(parsedLocalRes);
-            toast.error(`Couldn't sign the transaction`, {
-                hideProgressBar: true,
-            });
-            clearTransaction();
-            return;
-        }
-    };
-
-    const clearTransaction = () => {
-        setCurrTransactionState({});
-    };
-
     const logoutAccount = async () => {
         if (isXwallet) {
             await window.kadena.request({
@@ -156,17 +104,6 @@ const PactContextProvider = ({ children }) => {
         setAccount(null);
         setIsXwallet(false);
         setIsConnectWallet(false);
-    };
-
-    const defaultMeta = (gasLimit) => {
-        return Pact.lang.mkMeta(
-            "",
-            chainId,
-            gasPrice,
-            gasLimit ?? 150000,
-            creationTime(),
-            600
-        );
     };
 
     const readFromContract = async (cmd, returnError) => {
@@ -186,22 +123,6 @@ const PactContextProvider = ({ children }) => {
             console.log(e);
         }
         return null;
-    };
-
-    const fetchAccountDetails = async (accountName) => {
-        return await readFromContract({
-            pactCode: `(coin.details ${JSON.stringify(accountName)})`,
-            meta: defaultMeta(),
-        });
-    };
-
-    const updateTransactionState = (newParams) => {
-        const { transactionMessage, successCallback } = { currTransactionState };
-        setCurrTransactionState({
-            transactionMessage,
-            successCallback,
-            ...newParams,
-        });
     };
 
     const pollForTransaction = async (requestKey) => {
@@ -282,6 +203,98 @@ const PactContextProvider = ({ children }) => {
         clearTransaction();
     };
 
+    const signTransaction = async (cmdToSign) => {
+        updateTransactionState({ signingCmd: cmdToSign });
+        let signedCmd = null;
+        if (isXwallet) {
+            let xwalletSignRes = null;
+            try {
+                const accountConnectedRes = await window.kadena.request({
+                    method: "kda_requestAccount",
+                    networkId: netId,
+                    domain: window.location.hostname,
+                });
+                console.log(accountConnectedRes);
+                if (accountConnectedRes?.status !== "success") {
+                    toast.error("X Wallet connection was lost, please re-connect");
+                    clearTransaction();
+                    logoutAccount();
+                    return;
+                } else if (accountConnectedRes?.wallet?.account !== account.account) {
+                    toast.error(
+                        `Wrong X Wallet account selected in extension, please select ${account.account}`
+                    );
+                    return;
+                } else if (accountConnectedRes?.wallet?.chainId !== chainId) {
+                    toast.error(
+                        `Wrong chain selected in X Wallet, please select ${chainId}`
+                    );
+                    return;
+                }
+                xwalletSignRes = await window.kadena.request({
+                    method: "kda_requestSign",
+                    networkId: netId,
+                    data: { networkId: netId, signingCmd: cmdToSign },
+                });
+            } catch (e) {
+                console.log(e);
+            }
+            if (xwalletSignRes.status !== "success") {
+                toast.error("Failed to sign the command in X-Wallet");
+                clearTransaction();
+                return;
+            }
+            signedCmd = xwalletSignRes.signedCmd;
+        } else {
+            try {
+                signedCmd = await Pact.wallet.sign(cmdToSign);
+            } catch (e) {
+                console.log(e);
+                toast.error("Failed to sign the command in the wallet");
+                clearTransaction();
+                return;
+            }
+        }
+        console.log(signedCmd);
+        updateTransactionState({ signedCmd });
+        let localRes = null;
+        try {
+            localRes = await fetch(`${networkUrl}/api/v1/local`, makeRequest(POST_METHOD, DEFAULT_REQUEST_HEADERS, signedCmd));
+        } catch (e) {
+            console.log(e);
+            toast.error("Failed to confirm transaction with the network");
+            clearTransaction();
+            return;
+        }
+        const parsedLocalRes = await parseRes(localRes);
+        console.log(parsedLocalRes);
+        if (parsedLocalRes?.result?.status === "success") {
+            let data = null;
+            try {
+                data = await Pact.wallet.sendSigned(signedCmd, networkUrl);
+            } catch (e) {
+                console.log(e);
+                toast.error("Had issues sending the transaction to the blockchain");
+                clearTransaction();
+                return;
+            }
+            console.log(data);
+            const requestKey = data.requestKeys[0];
+            updateTransactionState({
+                sentCmd: signedCmd,
+                requestKey,
+            });
+            await pollForTransaction(requestKey);
+        } else {
+            console.log(parsedLocalRes);
+            toast.error(`Couldn't sign the transaction`, {
+                hideProgressBar: true,
+            });
+            clearTransaction();
+            return;
+        }
+    };
+
     return (
         <PactContext.Provider
             value={{
@@ -289,6 +302,7 @@ const PactContextProvider = ({ children }) => {
                 chainId,
                 account,
                 gasPrice,
+                isXwallet,
                 networkUrl,
                 currTransactionState,
                 setNetId,
@@ -296,6 +310,7 @@ const PactContextProvider = ({ children }) => {
                 setAccount,
                 defaultMeta,
                 setGasPrice,
+                setIsXwallet,
                 setNetworkUrl,
                 sendTransaction,
                 signTransaction,
@@ -319,73 +334,6 @@ const PactContextProvider = ({ children }) => {
             {children}
         </PactContext.Provider>
     )
-}
-
-function creationTime() {
-    return Math.round(new Date().getTime() / 1000) - 10;
-}
-
-const wait = async (timeout) => {
-    return new Promise((resolve) => {
-        setTimeout(resolve, timeout);
-    });
-};
-
-async function parseRes(raw) {
-    const rawRes = await raw;
-    const res = await rawRes;
-    if (res.ok) {
-        const resJSON = await rawRes.json();
-        return resJSON;
-    } else {
-        const resTEXT = await rawRes.text();
-        return resTEXT;
-    }
-}
-
-function mkReq(cmd) {
-    return {
-        headers: {
-            "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(cmd),
-    };
-}
-
-function getNetworkUrl(netId) {
-    if (netId == null) {
-        return;
-    }
-    if (netId === TESTNET_NETWORK_ID) {
-        return `https://api.testnet.chainweb.com/chainweb/0.0/${TESTNET_NETWORK_ID}/chain/${DEFAULT_CHAIN_ID}/pact`;
-    } else if (netId === MAINNET_NETWORK_ID) {
-        return `https://api.chainweb.com/chainweb/0.0/${MAINNET_NETWORK_ID}/chain/${DEFAULT_CHAIN_ID}/pact`;
-    }
-    throw new Error("networkId must be testnet or mainnet");
-}
-
-function tryLoadLocal(key) {
-    let val = localStorage.getItem(key);
-    if (val == null) {
-        return null;
-    }
-    try {
-        // return JSON.parse(val);
-        return val;
-    } catch (e) {
-        console.log(e);
-        return null;
-    }
-}
-
-function trySaveLocal(key, val) {
-    try {
-        localStorage.setItem(key, JSON.stringify(val));
-    } catch (e) {
-        console.log(e);
-        return;
-    }
 }
 
 export {

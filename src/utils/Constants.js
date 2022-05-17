@@ -22,6 +22,11 @@ const IS_X_WALLET_KEY = "IS_X_WALLET_KEY";
 //Domain
 
 
+//Request response constants
+const DEFAULT_REQUEST_HEADERS = { "Content-Type": "application/json" };
+const POST_METHOD = "POST";
+const GET_METHOD = "GET";
+
 //Guards
 const ACCOUNT_GUARD = "";
 
@@ -66,5 +71,8 @@ export {
     ALL_KADCAR_GALLERY_LABEL,
     KADCAR_NFT_COLLECTION,
     ADMIN_ADDRESS,
-    IS_X_WALLET_KEY
+    IS_X_WALLET_KEY,
+    DEFAULT_REQUEST_HEADERS,
+    POST_METHOD,
+    GET_METHOD
 }

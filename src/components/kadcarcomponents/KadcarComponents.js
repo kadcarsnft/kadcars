@@ -21,6 +21,7 @@ const MyKadcarGallery = () => {
     const { account } = useContext(PactContext);
     const { myKadcars } = useContext(KadcarGameContext);
 
+
     useEffect(() => {
         if (account === null) {
             return;
@@ -34,7 +35,7 @@ const MyKadcarGallery = () => {
     }, [account]);
 
     return (
-        <div>
+        <div style={{display:'flex', flexDirection:'row', width:'90%', justifyContent:'center'}}>
             {
                 account === null ?
                     <div>Please Connect Your Wallet</div> :
