@@ -220,9 +220,9 @@ const PactContextProvider = ({ children }) => {
                     clearTransaction();
                     logoutAccount();
                     return;
-                } else if (accountConnectedRes?.wallet?.account !== account.account) {
+                } else if (accountConnectedRes?.wallet?.account !== account) {
                     toast.error(
-                        `Wrong X Wallet account selected in extension, please select ${account.account}`
+                        `Wrong X Wallet account selected in extension, please select ${account}`
                     );
                     return;
                 } else if (accountConnectedRes?.wallet?.chainId !== chainId) {
@@ -240,6 +240,7 @@ const PactContextProvider = ({ children }) => {
                 console.log(e);
             }
             if (xwalletSignRes.status !== "success") {
+                console.log(xwalletSignRes)
                 toast.error("Failed to sign the command in X-Wallet");
                 clearTransaction();
                 return;

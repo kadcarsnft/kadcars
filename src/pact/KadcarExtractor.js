@@ -4,7 +4,7 @@ import { ADMIN_ADDRESS, KADCAR_NFT_COLLECTION, LOCAL_ACCOUNT_KEY } from "../util
 import { checkIfNullOrUndefined } from "../utils/utils";
 import { PactContext } from "./PactContextProvider";
 import Pact from "pact-lang-api";
-import { executePactContract, getPactCommandForAllNfts, getPactCommandForMintingNft, getPactCommandForNftByNftId, getPactCommandForNftsByOwner } from "./PactUtils";
+import { executePactContract, getPactCommandForAllNfts, getPactCommandForMintingNft, getPactCommandForNftByNftId, getPactCommandForNftsByOwner, getPactCommandForTransferNft } from "./PactUtils";
 import { split } from "lodash";
 
 async function executeContractForUser(parameters, getPactCommandFunction, invocableStateSetter=null) {
@@ -132,9 +132,60 @@ function useMintKadcar() {
     }
 }
 
+function useTransferKadcars() {
+    const { account, defaultMeta, networkUrl, readFromContract, chainId, netId, gasPrice, sendTransaction, signTransaction, currTransactionState } = useContext(PactContext);
+
+    return (nftId, sender, receiver, callback) => {
+        const priceToPay = 1;
+        const pactCode = getPactCommandForTransferNft(nftId, sender, receiver);
+        const cmd = {
+            pactCode,
+            caps: [
+                Pact.lang.mkCap(`Pay to manufacture`, "Pay to manufacture", `coin.TRANSFER`, [
+                    account,
+                    ADMIN_ADDRESS,
+                    priceToPay,
+                ]),
+                Pact.lang.mkCap(
+                    "Verify your account",
+                    "Verify your account",
+                    `free.${KADCAR_NFT_COLLECTION}.ACCOUNT_GUARD`,
+                    [account]
+                ),
+                Pact.lang.mkCap("Gas capability", "Pay gas", "coin.GAS", []),
+            ],
+            sender: account,
+            gasLimit: 3000 * 1,
+            gasPrice,
+            chainId,
+            ttl: 600,
+            envData: {
+                "user-ks": account.guard,
+                account: account,
+            },
+            signingPubKey: split(account, ":")[1],
+            networkId: netId,
+        };
+        const previewContent = (
+            <p>
+                You will manufacture 1 for {priceToPay} KDA
+            </p>
+        );
+        sendTransaction(
+            cmd,
+            previewContent,
+            `Manufacturing 1`,
+            callback ?? (() => alert("Manufactured!"))
+        );
+        // signTransaction(currTransactionState.cmdToConfirm);
+        signTransaction(cmd);
+    }
+}
+
 export {
+    useMintKadcar,
     useGetMyKadcars,
-    useGetMyKadcarsFunction,
     useGetAllKadcars,
-    useMintKadcar
+    useTransferKadcars,
+    useGetMyKadcarsFunction,
 }

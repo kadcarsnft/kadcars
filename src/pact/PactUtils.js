@@ -1,5 +1,5 @@
 import React from 'react';
-import { DEFAULT_CHAIN_ID, MAINNET_NETWORK_ID, TESTNET_NETWORK_ID } from '../utils/Constants';
+import { DEFAULT_CHAIN_ID, MAINNET_NETWORK_ID, TESTNET_NETWORK_ID, KADCAR_NFT_COLLECTION } from '../utils/Constants';
 
 //Execute a pact contract given the command to execute and pactcontext object
 async function executePactContract(pactContextObject, pactCmd) {
@@ -30,6 +30,12 @@ function getPactCommandForMintingNft(account) {
     return `(free.kadcars-nft-collection.manufacture-k1 "${account}" 1)`;
 }
 
+//Retrieve the Pact command to Mint new NFT ID
+function getPactCommandForTransferNft(nftId, sender, receiver) {
+    return `(free.${KADCAR_NFT_COLLECTION}.transfer "${nftId}" "${sender}" "${receiver}")`;
+}
+
+//Get the URL using the provided network ID
 function getNetworkUrl(netId) {
     if (netId == null) {
         return;
@@ -46,7 +52,8 @@ export {
     getNetworkUrl,
     executePactContract,
     getPactCommandForAllNfts,
+    getPactCommandForMintingNft,
     getPactCommandForNftByNftId,
     getPactCommandForNftsByOwner,
-    getPactCommandForMintingNft,
+    getPactCommandForTransferNft,
 }
