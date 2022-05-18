@@ -4,7 +4,7 @@ import { getNetworkUrl } from "./PactUtils";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { createContext } from "react/cjs/react.production.min";
-import { creationTime, makeRequest, tryLoadLocal, trySaveLocal, parse, parseRes, wait } from "../utils/utils";
+import { creationTime, makeRequest, tryLoadLocal, trySaveLocal, parse, wait, parseResponse, mkReq } from "../utils/utils";
 import {
     DEFAULT_CHAIN_ID,
     DEFAULT_GAS_PRICE,
@@ -26,6 +26,7 @@ const PactContextProvider = ({ children }) => {
     const [gasPrice, setGasPrice] = useState(DEFAULT_GAS_PRICE);
     const [netId, setNetId] = useState(NETWORK_ID);
     const [account, setAccount] = useState(() => tryLoadLocal(LOCAL_ACCOUNT_KEY));
+    const [accountDetails, setAccountDetails] = useState(() => tryLoadLocal(LOCAL_ACCOUNT_KEY));
     const [networkUrl, setNetworkUrl] = useState(null);
     const [currTransactionState, setCurrTransactionState] = useState({});
     const [isConnectWallet, setIsConnectWallet] = useState(false);
@@ -53,7 +54,7 @@ const PactContextProvider = ({ children }) => {
 
     const fetchAccountDetails = async (accountName) => {
         return await readFromContract({
-            pactCode: `(coin.details ${JSON.stringify(accountName)})`,
+            pactCode: `(coin.details ${accountName})`,
             meta: defaultMeta(),
         });
     };
@@ -61,7 +62,7 @@ const PactContextProvider = ({ children }) => {
     const defaultMeta = (gasLimit) => {
         return Pact.lang.mkMeta(
             "",
-            chainId,
+            DEFAULT_CHAIN_ID,
             gasPrice,
             gasLimit ?? 150000,
             creationTime(),
@@ -214,20 +215,19 @@ const PactContextProvider = ({ children }) => {
                     networkId: netId,
                     domain: window.location.hostname,
                 });
-                console.log(accountConnectedRes);
                 if (accountConnectedRes?.status !== "success") {
                     toast.error("X Wallet connection was lost, please re-connect");
                     clearTransaction();
                     logoutAccount();
                     return;
-                } else if (accountConnectedRes?.wallet?.account !== account) {
+                } else if (JSON.stringify(accountConnectedRes?.wallet?.account) !== account) {
                     toast.error(
                         `Wrong X Wallet account selected in extension, please select ${account}`
                     );
                     return;
-                } else if (accountConnectedRes?.wallet?.chainId !== chainId) {
+                } else if (accountConnectedRes?.wallet?.chainId !== DEFAULT_CHAIN_ID) {
                     toast.error(
-                        `Wrong chain selected in X Wallet, please select ${chainId}`
+                        `Wrong chain selected in X Wallet, please select ${DEFAULT_CHAIN_ID}`
                     );
                     return;
                 }
@@ -245,6 +245,7 @@ const PactContextProvider = ({ children }) => {
                 clearTransaction();
                 return;
             }
+            console.log(xwalletSignRes)
             signedCmd = xwalletSignRes.signedCmd;
         } else {
             try {
@@ -260,18 +261,20 @@ const PactContextProvider = ({ children }) => {
         updateTransactionState({ signedCmd });
         let localRes = null;
         try {
-            localRes = await fetch(`${networkUrl}/api/v1/local`, makeRequest(POST_METHOD, DEFAULT_REQUEST_HEADERS, signedCmd));
+            // localRes = await fetch(`${networkUrl}/api/v1/local`, makeRequest(POST_METHOD, DEFAULT_REQUEST_HEADERS, signedCmd));
+            localRes = await fetch(`${networkUrl}/api/v1/local`, mkReq(signedCmd));
         } catch (e) {
             console.log(e);
             toast.error("Failed to confirm transaction with the network");
             clearTransaction();
             return;
         }
-        const parsedLocalRes = await parseRes(localRes);
+        const parsedLocalRes = await parseResponse(localRes);
         console.log(parsedLocalRes);
         if (parsedLocalRes?.result?.status === "success") {
             let data = null;
             try {
+                console.log(networkUrl)
                 data = await Pact.wallet.sendSigned(signedCmd, networkUrl);
             } catch (e) {
                 console.log(e);
@@ -279,7 +282,6 @@ const PactContextProvider = ({ children }) => {
                 clearTransaction();
                 return;
             }
-            console.log(data);
             const requestKey = data.requestKeys[0];
             updateTransactionState({
                 sentCmd: signedCmd,
@@ -317,6 +319,7 @@ const PactContextProvider = ({ children }) => {
                 signTransaction,
                 readFromContract,
                 setNetworkSettings,
+                fetchAccountDetails,
                 useSetNetworkSettings,
             }}
         >

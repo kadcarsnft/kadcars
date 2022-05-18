@@ -5,7 +5,7 @@ import ButtonGroup from '../elements/ButtonGroup';
 import Button from '../elements/Button';
 import Image from '../elements/Image';
 import Modal from '../elements/Modal';
-import { DEFAULT_GAS_PRICE, DEFAULT_NETWORK_ID, LOCAL_CHAIN_ID, NETWORK_ID, SCREEN_NAMES } from '../../utils/Constants';
+import { DEFAULT_CHAIN_ID, DEFAULT_GAS_PRICE, DEFAULT_NETWORK_ID, LOCAL_CHAIN_ID, NETWORK_ID, SCREEN_NAMES } from '../../utils/Constants';
 import { connectKadena, disconnectKadena, getAccountSelected, getKadenaConnectStatus, getSelectedAccount, getUserWallet } from '../../wallets/KadenaApi';
 import { useGetMyKadcarsFunction, useGetAllKadcars, useGetMyKadcars, useMintKadcar, useTradeKadcars, useTransferKadcars } from '../../pact/KadcarExtractor';
 import { useCheckForXWalletExtension } from '../../hooks/BrowserExtensionHooks';
@@ -25,17 +25,7 @@ const defaultProps = {
 
 const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bottomDivider, hasBgColor, invertColor, ...props }) => {
   //Get PactContext and KadcarGameContext
-  const {
-    account,
-    chainId,
-    setAccount,
-    setChainId,
-    defaultMeta,
-    readFromContract,
-    setNetworkSettings,
-    useSetNetworkSettings,
-    setCurrTransactionState
-  } = useContext(PactContext);
+  const pactContextObject = useContext(PactContext);
 
   const { setCurrentScreen, setMyKadcars } = useContext(KadcarGameContext);
 
@@ -57,16 +47,6 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   const [showWalletNameModal, setShowWalletModal] = useState(false);
 
 
-  const openModal = (e) => {
-    e.preventDefault();
-    setVideomodalactive(true);
-  }
-
-  const closeModal = (e) => {
-    e.preventDefault();
-    setVideomodalactive(false);
-  }
-
   const outerClasses = classNames(
     'hero section center-content',
     topOuterDivider && 'has-top-divider',
@@ -83,8 +63,8 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   );
 
   useEffect(() => {
-    // console.log(account)
-  }, [account]);
+    "lolololo"
+  }, [pactContextObject]);
 
   // useEffect(() => {
   //   console.log(currentUserKadcarNfts)
@@ -92,21 +72,8 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
 
   //Handle connecting user's X-Wallet
   function initiateKadenaConnection() {
-    //Variable to hold required pact context parameters
-    var pactContextObject = null;
-
     //Check if user has x-wallet downloaded
     if (window.kadena) {
-      //Encapsulate all PactContext parameters to be modified by the API call as needed
-      pactContextObject = {
-        account: account,
-        chainId: chainId,
-        setAccount: setAccount,
-        setChainId: setChainId,
-        setNetworkSettings: setNetworkSettings,
-        setCurrTransactionState: setCurrTransactionState
-      }
-
       //Connect this user's account to the app
       connectKadena(pactContextObject);
     } else {
@@ -116,15 +83,6 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
 
   //Disconnect the user's account from the app
   function disconnectKadenaAccount() {
-    //Encapsulate all PactContext parameters to be modified by the API call as needed
-    var pactContextObject = {
-      account: account,
-      chainId: chainId,
-      setAccount: setAccount,
-      setChainId: setChainId,
-      setNetworkSettings: setNetworkSettings
-    }
-
     //Call the API function to disconnect this user's wallet from the app
     disconnectKadena(pactContextObject);
   }
@@ -153,7 +111,11 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   function initiateKadcarTransfer() {
     const recv = "k:ccf45d4b9e7a05b1f8ae03e362fac9502610d239191a3215774c5251a662c1eb";
     const nft = "0690";
-    transferKadcarsFunction(nft, account, recv);
+    transferKadcarsFunction(nft, pactContextObject.account, recv);
+  }
+
+  function handleClick() {
+    currentUserKadcarFunction();
   }
 
   return (
@@ -182,13 +144,13 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                   </Button>
                 }
                 {
-                  extensionInstalled && (account === null || account === 'null') &&
+                  extensionInstalled && (pactContextObject.account === null || pactContextObject.account === 'null') &&
                   <Button onClick={initiateKadenaConnection} tag="a" color="primary" wideMobile>
                     Connect X-Wallet
                   </Button>
                 }
                 {
-                  extensionInstalled && account !== null && account !== 'null' &&
+                  extensionInstalled && pactContextObject.account !== null && pactContextObject.account !== 'null' &&
                   <Button onClick={disconnectKadenaAccount} tag="a" color="primary" wideMobile>
                     Disconnect X-Wallet
                   </Button>
@@ -227,7 +189,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
             <Button tag="a" color="dark" wideMobile style={{ width: '90%' }}>
               Garage Mode
             </Button>
-            <Button tag="a" color="dark" wideMobile style={{ width: '90%' }}>
+            <Button onClick={handleClick} tag="a" color="dark" wideMobile style={{ width: '90%' }}>
               Race Mode
             </Button>
             <Button onClick={initiateKadcarTransfer} tag="a" color="dark" wideMobile style={{ width: '90%' }}>

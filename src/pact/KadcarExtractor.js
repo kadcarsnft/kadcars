@@ -21,12 +21,15 @@ async function executeContract(parameters, getPactCommandFunction, invocableStat
 }
 
 function useGetMyKadcarsFunction() {
-    const { account, readFromContract, defaultMeta } = useContext(PactContext);
+    const { account, readFromContract, defaultMeta, fetchAccountDetails } = useContext(PactContext);
 
     return async () => {
         const pactCode = `(free.kakars-nft-collection.get-owner "7")`; //TODO: MAKE CONSTANTS
         const meta = defaultMeta(1000000);
         const contractOutput = await readFromContract({ pactCode, meta });
+        const res = await fetchAccountDetails(account);
+        console.log(account)
+        console.log(res)
         return contractOutput;
     };
 }
@@ -82,17 +85,30 @@ function useGetAllKadcars() {
 }
 
 function useMintKadcar() {
-    const { account, defaultMeta, networkUrl, readFromContract, chainId, netId, gasPrice, sendTransaction, signTransaction, currTransactionState } = useContext(PactContext);
+    const { 
+        account, 
+        defaultMeta, 
+        networkUrl, 
+        readFromContract, 
+        chainId, 
+        netId, 
+        gasPrice, 
+        sendTransaction, 
+        signTransaction, 
+        currTransactionState,
+        fetchAccountDetails } = useContext(PactContext);
     const { pricePerKadcar } = useContext(KadcarGameContext);
 
-    return (amount, callback) => {
+    return async (amount, callback) => {
+        const accountDetails = await fetchAccountDetails(account);
         const priceToPay = amount * pricePerKadcar;
-        const pactCode = getPactCommandForMintingNft(account);
+        const pactCode = getPactCommandForMintingNft(accountDetails.account);
+        console.log(accountDetails)
         const cmd = {
             pactCode,
             caps: [
                 Pact.lang.mkCap(`Pay to manufacture`, "Pay to manufacture", `coin.TRANSFER`, [
-                    account,
+                    accountDetails.account,
                     ADMIN_ADDRESS,
                     priceToPay,
                 ]),
@@ -100,20 +116,20 @@ function useMintKadcar() {
                     "Verify your account",
                     "Verify your account",
                     `free.${KADCAR_NFT_COLLECTION}.ACCOUNT_GUARD`,
-                    [account]
+                    [accountDetails.account]
                 ),
                 Pact.lang.mkCap("Gas capability", "Pay gas", "coin.GAS", []),
             ],
-            sender: account,
+            sender: accountDetails.account,
             gasLimit: 3000 * amount,
             gasPrice,
             chainId,
             ttl: 600,
             envData: {
-                "user-ks": account.guard,
-                account: account,
+                "user-ks": accountDetails.account,
+                account: accountDetails.account,
             },
-            signingPubKey: split(account, ":")[1],
+            signingPubKey: accountDetails.guard.keys[0],
             networkId: netId,
         };
         const previewContent = (
@@ -128,16 +144,30 @@ function useMintKadcar() {
             callback ?? (() => alert("Manufactured!"))
         );
         // signTransaction(currTransactionState.cmdToConfirm);
+        
+        console.log(cmd)
         signTransaction(cmd);
     }
 }
 
 function useTransferKadcars() {
-    const { account, defaultMeta, networkUrl, readFromContract, chainId, netId, gasPrice, sendTransaction, signTransaction, currTransactionState } = useContext(PactContext);
+    const { 
+        account, 
+        defaultMeta, 
+        networkUrl, 
+        readFromContract, 
+        chainId, 
+        netId, 
+        gasPrice, 
+        sendTransaction, 
+        signTransaction, 
+        currTransactionState,
+        fetchAccountDetails } = useContext(PactContext);
 
-    return (nftId, sender, receiver, callback) => {
+    return async (nftId, sender, receiver, callback) => {
         const priceToPay = 1;
         const pactCode = getPactCommandForTransferNft(nftId, sender, receiver);
+        const accountDetails = await fetchAccountDetails(account);
         const cmd = {
             pactCode,
             caps: [
@@ -160,7 +190,7 @@ function useTransferKadcars() {
             chainId,
             ttl: 600,
             envData: {
-                "user-ks": account.guard,
+                "user-ks": accountDetails.guard,
                 account: account,
             },
             signingPubKey: split(account, ":")[1],

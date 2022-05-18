@@ -49,6 +49,18 @@ function makeRequest(method, headers, cmd) {
     };
 }
 
+function mkReq(cmd) {
+    console.log(cmd)
+    console.log(JSON.stringify(cmd))
+    return {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(cmd),
+    };
+  }
+
 //Generic async function to parse an http response
 async function parseResponse(raw) {
     const rawRes = await raw;
@@ -76,10 +88,11 @@ const wait = async (timeout) => {
 
 export {
     wait,
-    parseResponse as parseRes,
+    parseResponse,
     makeRequest,
     creationTime,
     tryLoadLocal,
     trySaveLocal,
     checkIfNullOrUndefined,
+    mkReq
 }

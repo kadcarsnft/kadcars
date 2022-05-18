@@ -8,8 +8,10 @@ import {
     KDA_DISCONNECT,
     KDA_GET_SELECTED_ACCOUNT,
     KDA_REQUEST_ACCOUNT,
-    DEFAULT_GAS_PRICE
+    DEFAULT_GAS_PRICE,
+    DEFAULT_CHAIN_ID
 } from "../utils/Constants";
+import { trySaveLocal } from "../utils/utils";
 
 //Attempt to connect application to Kadena X-Wallet extension
 async function connectKadena(pactContextObject) {
@@ -28,13 +30,23 @@ async function connectKadena(pactContextObject) {
         let account = response.account.account;
         let chainId = response.account.chainId;
 
-        localStorage.setItem(LOCAL_ACCOUNT_KEY, account);
-        localStorage.setItem(LOCAL_CHAIN_ID, chainId);
+        trySaveLocal(LOCAL_ACCOUNT_KEY, account);
+        trySaveLocal(LOCAL_CHAIN_ID, chainId);
+        
+        //TODO: SEPARATE NETWORK SETTINGS FROM LOCAL SETTINGS
+        pactContextObject.setNetworkSettings(NETWORK_ID, chainId, DEFAULT_GAS_PRICE);
+        pactContextObject.setAccount(account);
+        console.log(pactContextObject.chainId)
+        // console.log(chainId)
+        // console.log(pactContextObject.chainId)
 
-        // if (pactContextObject) {
-            pactContextObject.setNetworkSettings(NETWORK_ID, chainId, DEFAULT_GAS_PRICE); //TODO: MAKE GASPRICE AND NETID DYNAMIC BASED ON WALLET TYPE
-            pactContextObject.setAccount(account);
+        // let accountDetails = await pactContextObject.fetchAccountDetails(account);
+        // accountDetails = {
+        //     ...accountDetails,
+        //     chainId: chainId
         // }
+        // console.log(accountDetails)
+        // pactContextObject.setAccountDetails(accountDetails);
     } 
 }
 
@@ -84,8 +96,6 @@ async function disconnectKadena(pactContextObject) {
         console.error(e.message)
         return;
     });
-
-    console.log(response)
 
     localStorage.setItem(LOCAL_ACCOUNT_KEY, null);
     localStorage.setItem(LOCAL_CHAIN_ID, null);
