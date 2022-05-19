@@ -25,17 +25,17 @@ const defaultProps = {
 
 const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bottomDivider, hasBgColor, invertColor, ...props }) => {
   //Get PactContext and KadcarGameContext
-  const { 
-    account, 
-    chainId, 
-    setAccount, 
-    setChainId, 
+  const {
+    account,
+    chainId,
+    setAccount,
+    setChainId,
     defaultMeta,
-    readFromContract, 
-    setNetworkSettings, 
+    readFromContract,
+    setNetworkSettings,
     useSetNetworkSettings,
     setCurrTransactionState
-  } = useContext(PactContext); 
+  } = useContext(PactContext);
 
   const { setCurrentScreen, setMyKadcars } = useContext(KadcarGameContext);
 
@@ -47,6 +47,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
 
   //Kadcar hook calls
   const currentUserKadcarFunction = useGetMyKadcarsFunction();
+  // const transferKadcarsFunction = useTransferKadcars();
   const mintKadcarFunction = useMintKadcar();
 
   const currentUserKadcarNfts = useGetMyKadcars();
@@ -84,7 +85,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   useEffect(() => {
     // console.log(account)
   }, [account]);
- 
+
   // useEffect(() => {
   //   console.log(currentUserKadcarNfts)
   // }, [currentUserKadcarNfts]);
@@ -92,8 +93,8 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   //Handle connecting user's X-Wallet
   function initiateKadenaConnection() {
     //Variable to hold required pact context parameters
-    var pactContextObject = null; 
-    
+    var pactContextObject = null;
+
     //Check if user has x-wallet downloaded
     if (window.kadena) {
       //Encapsulate all PactContext parameters to be modified by the API call as needed
@@ -105,9 +106,9 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
         setNetworkSettings: setNetworkSettings,
         setCurrTransactionState: setCurrTransactionState
       }
-  
+
       //Connect this user's account to the app
-      connectKadena(pactContextObject); 
+      connectKadena(pactContextObject);
     } else {
       //TODO: render error to install extension
     }
@@ -125,7 +126,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
     }
 
     //Call the API function to disconnect this user's wallet from the app
-    disconnectKadena(pactContextObject); 
+    disconnectKadena(pactContextObject);
   }
 
   //Display all this user's kadcars
@@ -146,7 +147,13 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   }
 
   function initiateMintKadcar() {
-    mintKadcarFunction(1, ()=>console.log("HAHA"));
+    mintKadcarFunction(1, () => console.log("HAHA"));
+  }
+
+  function initiateKadcarTransfer() {
+    // const recv = "k:ccf45d4b9e7a05b1f8ae03e362fac9502610d239191a3215774c5251a662c1eb";
+    // const nft = "0690";
+    // transferKadcarsFunction(nft, account, recv);
   }
 
   return (
@@ -155,54 +162,81 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
       className={outerClasses}
     >
       {/* <div className="container-sm"> */}
-        {/* <div className={innerClasses}> */}
-        <div style={{flexDirection: 'column', justifyContent:'center', alignContent:'center', height:'100vh', display:'flex'}}>
-
-          <div className="hero-content" style={{ marginBottom: '20px'}}>
-            <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
-              Build the Ultimate <span className="text-color-primary">Kadcar</span>!
-            </h1>
-            <div className="container-sm">
-              <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
-                Our landing page template works on all devices, so you only have to set it up once, and get beautiful results forever.
-              </p>
-              <div className="reveal-from-bottom" data-reveal-delay="600">
-                <ButtonGroup>
-                  {
-                    !extensionInstalled && 
-                    <Button tag="a" color="primary" wideMobile href={"https://xwallet.kaddex.com/#ux"}>
-                      Install X-Wallet
-                    </Button>
-                  }
-                  {
-                    extensionInstalled && (account === null || account === 'null') &&
-                    <Button onClick={initiateKadenaConnection} tag="a" color="primary" wideMobile>
-                      Connect X-Wallet
-                     </Button>
-                  }
-                  {
-                    extensionInstalled  && account !== null && account !== 'null' &&
-                    <Button onClick={disconnectKadenaAccount} tag="a" color="primary" wideMobile>
-                      Disconnect X-Wallet
-                    </Button>
-                  }
-                  <Button onClick={initiateMintKadcar} tag="a" color="dark" wideMobile>
-                    Mint Kadcar
+      {/* <div className={innerClasses}> */}
+      <div style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', height: '80vh', display: 'flex' }}>
+        <div className="hero-content" style={{ marginBottom: '20px' }}>
+          <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
+            Build the Ultimate <span className="text-color-primary">Kadcar</span>!
+          </h1>
+          <div className="container-sm">
+            <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
+              Our landing page template works on all devices, so you only have to set it up once, and get beautiful results forever.
+            </p>
+            <div className="reveal-from-bottom" data-reveal-delay="600">
+              <ButtonGroup>
+                {
+                  !extensionInstalled &&
+                  <Button tag="a" color="primary" wideMobile href={"https://xwallet.kaddex.com/#ux"}>
+                    Install X-Wallet
                   </Button>
-                  <Button onClick={displayCurrentUserKadcars} tag="a" color="dark" wideMobile>
-                    My Cars
+                }
+                {
+                  extensionInstalled && (account === null || account === 'null') &&
+                  <Button onClick={initiateKadenaConnection} tag="a" color="primary" wideMobile>
+                    Connect X-Wallet
                   </Button>
-                  <Button tag="a" color="dark" wideMobile>
-                    All Kadcars
+                }
+                {
+                  extensionInstalled && account !== null && account !== 'null' &&
+                  <Button onClick={disconnectKadenaAccount} tag="a" color="primary" wideMobile>
+                    Disconnect X-Wallet
                   </Button>
-                </ButtonGroup>
-              </div>
+                }
+                <Button onClick={initiateMintKadcar} tag="a" color="dark" wideMobile>
+                  Mint Kadcar
+                </Button>
+                <Button onClick={displayCurrentUserKadcars} tag="a" color="dark" wideMobile>
+                  My Cars
+                </Button>
+                <Button tag="a" color="dark" wideMobile>
+                  All Kadcars
+                </Button>
+              </ButtonGroup>
             </div>
           </div>
-          <div style={{flexDirection:'row', display:'flex', justifyContent:'center', alignContent:'center', flexDirection:'row', width:'100%', height:'75%'}}>
-            <MainHeaderScreenContainer/>
+        </div>
+        <div style={{
+          flexDirection: 'row',
+          display: 'flex',
+          justifyContent: 'center',
+          alignContent: 'center',
+          width: '60%',
+          height: '70%',
+          alignSelf: 'center',
+          marginTop: '20px',
+        }}>
+          <ButtonGroup className={'reveal-from-bottom'}
+            style={{
+              width: '15%',
+              height: '70%',
+              justifyContent: 'space-evenly',
+              marginRight: '20px'
+            }}>
+            <Button tag="a" color="dark" wideMobile style={{ width: '90%' }}>
+              Garage Mode
+            </Button>
+            <Button tag="a" color="dark" wideMobile style={{ width: '90%' }}>
+              Race Mode
+            </Button>
+            <Button onClick={initiateKadcarTransfer} tag="a" color="dark" wideMobile style={{ width: '90%' }}>
+              Trade
+            </Button>
+          </ButtonGroup>
+          <div style={{ width: '85%', justifyContent: 'center' }}>
+            <MainHeaderScreenContainer />
           </div>
         </div>
+      </div>
       {/* </div> */}
     </section>
   );

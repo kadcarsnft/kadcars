@@ -24,6 +24,10 @@ export const CardWrapper = styled.div`
   background: #000;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9);
   text-align: center;
+  margin-top: 25px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 `;
 
 export const CardImage = styled.div`
@@ -78,7 +82,6 @@ export const CardStatWrapper = styled.div`
   /* grid-template-columns: 1fr 1fr 1fr; */
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-
   
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;

@@ -22,26 +22,26 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
                 style={{
                     display: "flex",
                     flexDirection: "row",
-                    justifyContent: "center",
-                    width: "75vw",
+                    // justifyContent: "center",
+                    width: "67vw",
                     height:"100%",
                     flexWrap: "wrap",
                 }}
             >
-                {kadcars == null && <CustomMessage text="Loading Kadcars..." />}
-                {kadcars?.length === 0 && <CustomMessage text="No kadcars exist yet!" />}
-                {kadcars != null && (
+                { kadcars == null && <CustomMessage text="Loading Kadcars..." /> }
+                { kadcars?.length === 0 && <CustomMessage text="No kadcars exist yet!" /> }
+                { kadcars != null && (
                     <>
-                        {kadcars.map((kadcar, index) => {
+                        { kadcars.map((kadcar, index) => {
                             return (
-                                <div key={index}>
-                                    <KadcarCard kadcarNft={kadcar} />
+                                <div key={ index }>
+                                    <KadcarCard kadcarNft={ kadcar } />
                                 </div>
                             );
-                        })}
-                        <ListNav pages={pages} page={page} setPage={setPage} />
+                        }) }
+                        <ListNav pages={ pages } page={ page } setPage={ setPage } />
                     </>
-                )}
+                ) }
             </div>
         //</CenterColumn>
     )

@@ -16,8 +16,9 @@ import unknown from "../../../assets/images/unknown.png"
 
 
 const KadcarCard = ({ kadcarNft }) => {
+
     return (
-        <Tilt style={{ marginLeft: '10px', marginRight: '10px' }}>
+        <Tilt>
             <CardWrapper>
                 <CardImage image={unknown} />
                 <CardTextWrapper>
