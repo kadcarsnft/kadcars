@@ -7,7 +7,7 @@ import Image from '../elements/Image';
 import Modal from '../elements/Modal';
 import { DEFAULT_GAS_PRICE, DEFAULT_NETWORK_ID, LOCAL_CHAIN_ID, NETWORK_ID, SCREEN_NAMES } from '../../utils/Constants';
 import { connectKadena, disconnectKadena, getAccountSelected, getKadenaConnectStatus, getSelectedAccount, getUserWallet } from '../../wallets/KadenaApi';
-import { useGetMyKadcarsFunction, useGetAllKadcars, useGetMyKadcars, useMintKadcar } from '../../pact/KadcarExtractor';
+import { useGetMyKadcarsFunction, useGetAllKadcars, useGetMyKadcars, useMintKadcar, useTransferKadcars } from '../../pact/KadcarExtractor';
 import { useCheckForXWalletExtension } from '../../hooks/BrowserExtensionHooks';
 import { useCheckKadenaAccountConnection } from '../../hooks/KadenaCustomHooks';
 import { PactContext } from '../../pact/PactContextProvider';
@@ -39,15 +39,18 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
 
   const { setCurrentScreen, setMyKadcars } = useContext(KadcarGameContext);
 
-  //Check if the user has the X-Wallet extension installed
+  /*
+   ******************
+   *** Hook calls ***
+   ******************
+   */
   const extensionInstalled = useCheckForXWalletExtension();
 
-  //Check if the user has their X-Wallet account connected to this app
   // const kadenaConnected = useCheckKadenaAccountConnection(extensionInstalled); 
 
   //Kadcar hook calls
   const currentUserKadcarFunction = useGetMyKadcarsFunction();
-  // const transferKadcarsFunction = useTransferKadcars();
+  const transferKadcarsFunction = useTransferKadcars();
   const mintKadcarFunction = useMintKadcar();
 
   const currentUserKadcarNfts = useGetMyKadcars();
@@ -151,9 +154,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   }
 
   function initiateKadcarTransfer() {
-    // const recv = "k:ccf45d4b9e7a05b1f8ae03e362fac9502610d239191a3215774c5251a662c1eb";
-    // const nft = "0690";
-    // transferKadcarsFunction(nft, account, recv);
+    transferKadcarsFunction();
   }
 
   return (
@@ -229,7 +230,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
               Race Mode
             </Button>
             <Button onClick={initiateKadcarTransfer} tag="a" color="dark" wideMobile style={{ width: '90%' }}>
-              Trade
+              Transfer
             </Button>
           </ButtonGroup>
           <div style={{ width: '85%', justifyContent: 'center' }}>

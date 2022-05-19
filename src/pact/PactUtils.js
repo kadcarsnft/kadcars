@@ -1,4 +1,5 @@
 import React from 'react';
+import { DEFAULT_CHAIN_ID, KADCAR_NFT_COLLECTION, MAINNET_NETWORK_ID, TESTNET_NETWORK_ID } from '../utils/Constants';
 
 async function executePactContract(pactContextObject, pactCmd) {
     const pactCode = pactCmd; 
@@ -29,10 +30,30 @@ function getPactCommandForMintingNft(account) {
     return `(free.kadcars-nft-collection.manufacture-k1 "${account}" 1)`;
 }
 
+//Retrieve the Pact command to Mint new NFT ID
+function getPactCommandForTransferNft(nftId, sender, receiver) {
+    return `(free.${KADCAR_NFT_COLLECTION}.transfer "${nftId}" "${sender}" "${receiver}")`;
+}
+
+//Get the URL using the provided network ID
+function getNetworkUrl(netId) {
+    if (netId == null) {
+        return;
+    }
+    if (netId === TESTNET_NETWORK_ID) {
+        return `https://api.testnet.chainweb.com/chainweb/0.0/${TESTNET_NETWORK_ID}/chain/${DEFAULT_CHAIN_ID}/pact`;
+    } else if (netId === MAINNET_NETWORK_ID) {
+        return `https://api.chainweb.com/chainweb/0.0/${MAINNET_NETWORK_ID}/chain/${DEFAULT_CHAIN_ID}/pact`;
+    }
+    throw new Error("networkId must be testnet or mainnet");
+}
+
 export {
+    getNetworkUrl,
     executePactContract,
     getPactCommandForAllNfts,
+    getPactCommandForMintingNft,
     getPactCommandForNftByNftId,
     getPactCommandForNftsByOwner,
-    getPactCommandForMintingNft,
+    getPactCommandForTransferNft,
 }
