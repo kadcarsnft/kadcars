@@ -12,7 +12,7 @@ import {
   } from "./KadcarCardStyles";
   import Tilt from "react-parallax-tilt";
 
-import unknown from "../../../assets/images/unknown.png"
+import unknown from "../../../assets/images/logo-nobackground.svg"
 
 
 const KadcarCard = ({ kadcarNft }) => {
