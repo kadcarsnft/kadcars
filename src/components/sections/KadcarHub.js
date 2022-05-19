@@ -171,7 +171,10 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
           </h1>
           <div className="container-sm">
             <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
-              Our landing page template works on all devices, so you only have to set it up once, and get beautiful results forever.
+              Kadena's first car NFT where owners can collect, upgrade, race and trade their Kadcars
+            </p>
+            <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400" style={{fontColor:'red'}}>
+              This website is still in a testing environment!!!
             </p>
             <div className="reveal-from-bottom" data-reveal-delay="600">
               <ButtonGroup>
