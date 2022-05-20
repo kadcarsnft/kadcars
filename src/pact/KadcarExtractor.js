@@ -86,13 +86,14 @@ function useMintKadcar() {
     const { pricePerKadcar } = useContext(KadcarGameContext);
 
     return (amount, callback) => {
+        console.log(account)
         const priceToPay = amount * pricePerKadcar;
-        const pactCode = getPactCommandForMintingNft(account);
+        const pactCode = getPactCommandForMintingNft(account.account);
         const cmd = {
             pactCode,
             caps: [
                 Pact.lang.mkCap(`Pay to manufacture`, "Pay to manufacture", `coin.TRANSFER`, [
-                    account,
+                    account.account,
                     ADMIN_ADDRESS,
                     priceToPay,
                 ]),
@@ -100,20 +101,20 @@ function useMintKadcar() {
                     "Verify your account",
                     "Verify your account",
                     `free.${KADCAR_NFT_COLLECTION}.ACCOUNT_GUARD`,
-                    [account]
+                    [account.account]
                 ),
                 Pact.lang.mkCap("Gas capability", "Pay gas", "coin.GAS", []),
             ],
-            sender: account,
+            sender: account.account,
             gasLimit: 3000 * amount,
             gasPrice,
             chainId,
             ttl: 600,
             envData: {
                 "user-ks": account.guard,
-                account: account,
+                account: account.account,
             },
-            signingPubKey: split(account, ":")[1],
+            signingPubKey: account.guard.keys[0],
             networkId: netId,
         };
         const previewContent = (

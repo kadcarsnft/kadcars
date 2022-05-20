@@ -124,6 +124,64 @@ const PactContextProvider = ({ children }) => {
         return null;
     };
 
+    const setConnectedWallet = async (account, isXwallet) => {
+        console.log(isXwallet);
+        if (account != null) {
+            if (isXwallet) {
+                try {
+                    await window.kadena.request({
+                        method: "kda_disconnect",
+                        networkId: netId,
+                    });
+                    await window.kadena.request({
+                        method: "kda_connect",
+                        networkId: netId,
+                    });
+                    const res = await window.kadena.request({
+                        method: "kda_connect",
+                        networkId: netId,
+                    });
+                    if (res.status !== "success") {
+                        toast.error(`Could not connect to X Wallet`);
+                        // closeConnectWallet();
+                        return;
+                    }
+                    if (res.account?.account !== account.account) {
+                        toast.error(
+                            "Tried to connect to X Wallet but not with the account entered. Make sure you have logged into the right account in X Wallet"
+                        );
+                        // closeConnectWallet();
+                        return;
+                    }
+                    if (res.account?.chainId !== chainId) {
+                        toast.error(`You need to select chain ${chainId} from X Wallet`);
+                        // closeConnectWallet();
+                        return;
+                    }
+                } catch (e) {
+                    console.log(e);
+                    toast.error("Couldn't connect to Xwallet");
+                    // closeConnectWallet();
+
+                    return;
+                }
+            }
+            console.log(account)
+            setAccount(account);
+            toast.success(`Connected ${account.account.slice(0, 10)}...`, {
+                hideProgressBar: true,
+                autoClose: 2000,
+            });
+            trySaveLocal(LOCAL_ACCOUNT_KEY, account);
+        } else {
+            toast.error(`Couldn't connect account :(`, {
+                hideProgressBar: true,
+            });
+            setAccount({ account: null, guard: null, balance: 0 });
+        }
+        // closeConnectWallet();
+    };
+
     const pollForTransaction = async (requestKey) => {
         let time_spent_polling_s = 0;
         let pollRes = null;
@@ -220,9 +278,9 @@ const PactContextProvider = ({ children }) => {
                     clearTransaction();
                     logoutAccount();
                     return;
-                } else if (accountConnectedRes?.wallet?.account !== account) {
+                } else if (accountConnectedRes?.wallet?.account !== account.account) {
                     toast.error(
-                        `Wrong X Wallet account selected in extension, please select ${account}`
+                        `Wrong X Wallet account selected in extension, please select ${account.account}`
                     );
                     return;
                 } else if (accountConnectedRes?.wallet?.chainId !== chainId) {
@@ -319,6 +377,8 @@ const PactContextProvider = ({ children }) => {
                 readFromContract,
                 setNetworkSettings,
                 useSetNetworkSettings,
+                fetchAccountDetails,
+                setConnectedWallet
             }}
         >
             <ToastContainer

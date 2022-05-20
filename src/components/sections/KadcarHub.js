@@ -14,6 +14,7 @@ import { PactContext } from '../../pact/PactContextProvider';
 import { MainHeaderScreenContainer } from '../kadcarcomponents/KadcarComponents';
 import { KadcarGameContext } from '../kadcarcomponents/KadcarGameContextProvider';
 import { checkIfNullOrUndefined } from '../../utils/utils';
+import { throttle } from 'throttle-debounce';
 
 const propTypes = {
   ...SectionProps.types
@@ -29,25 +30,24 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
 
   const { setCurrentScreen, setMyKadcars } = useContext(KadcarGameContext);
 
-  /*
-   ******************
-   *** Hook calls ***
-   ******************
-   */
+  /**********************************************************/
   const extensionInstalled = useCheckForXWalletExtension();
-
   // const kadenaConnected = useCheckKadenaAccountConnection(extensionInstalled); 
 
-  //Kadcar hook calls
   const currentUserKadcarFunction = useGetMyKadcarsFunction();
   const transferKadcarsFunction = useTransferKadcars();
   const mintKadcarFunction = useMintKadcar();
 
   const currentUserKadcarNfts = useGetMyKadcars();
   const allKadcarNfts = useGetAllKadcars();
+  /**********************************************************/
 
   const [videoModalActive, setVideomodalactive] = useState(false);
-  const [showWalletNameModal, setShowWalletModal] = useState(false);
+  
+  //Local states
+  const [modalWallet, setModalWallet] = useState("");
+  const [tempAccount, setTempAccount] = useState(null);
+  const [showWalletNameModal, setShowWalletNameModal] = useState(false);
 
 
   const openModal = (e) => {
@@ -83,15 +83,12 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   //   console.log(currentUserKadcarNfts)
   // }, [currentUserKadcarNfts]);
 
-  //Handle connecting user's X-Wallet
   function initiateKadenaConnection() {
-    //Variable to hold required pact context parameters
-    var pactContextObject = null;
-
-    //Check if user has x-wallet downloaded
     if (window.kadena) {
       //Connect this user's account to the app
-      connectKadena(pactContext);
+      // connectKadena(pactContext);
+      pactContext.setConnectedWallet(tempAccount, extensionInstalled);
+      setShowWalletNameModal(false);
     } else {
       //TODO: render error to install extension
     }
@@ -129,6 +126,23 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
     transferKadcarsFunction();
   }
 
+  function handleWalletModalClose() {
+    setShowWalletNameModal(false)
+    setModalWallet("");
+  }
+
+  const handleModalWalletChange = throttle(500, async (event) => {
+    setModalWallet(event.target.value);
+    const accountDetails = await pactContext.fetchAccountDetails(event.target.value);
+
+    if (checkIfNullOrUndefined(accountDetails)) {
+      //Insert toast error here
+      console.log("wallet not found")
+    } else {
+      setTempAccount(accountDetails);
+    }
+  });
+
   return (
     <section
       {...props}
@@ -158,7 +172,10 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                 }
                 {
                   extensionInstalled && (pactContext.account === null || pactContext.account === 'null') &&
-                  <Button onClick={initiateKadenaConnection} tag="a" color="primary" wideMobile>
+                  // <Button onClick={initiateKadenaConnection} tag="a" color="primary" wideMobile>
+                  //   Connect X-Wallet
+                  // </Button>
+                  <Button onClick={()=>setShowWalletNameModal(true)} tag="a" color="primary" wideMobile>
                     Connect X-Wallet
                   </Button>
                 }
@@ -211,6 +228,13 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
           <div style={{ width: '85%', justifyContent: 'center' }}>
             <MainHeaderScreenContainer />
           </div>
+          <Modal show={showWalletNameModal} handleClose={handleWalletModalClose}>
+              <label>
+                Wallet Name:
+                <input type="text" value={modalWallet} onChange={handleModalWalletChange} />
+              </label>
+              <input type="submit" value="Submit" onClick={initiateKadenaConnection}/>
+          </Modal>
         </div>
       </div>
       {/* </div> */}
