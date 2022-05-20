@@ -6,7 +6,7 @@ import Button from '../elements/Button';
 import Image from '../elements/Image';
 import Modal from '../elements/Modal';
 import { DEFAULT_GAS_PRICE, DEFAULT_NETWORK_ID, LOCAL_CHAIN_ID, NETWORK_ID, SCREEN_NAMES } from '../../utils/Constants';
-import { connectKadena, disconnectKadena, getAccountSelected, getKadenaConnectStatus, getSelectedAccount, getUserWallet } from '../../wallets/KadenaApi';
+import { connectKadena, disconnectKadena, getAccountSelected, getKadenaConnectStatus, getSelectedAccount, getUserWallet } from '../../kadenaInteraction/KadenaApi';
 import { useGetMyKadcarsFunction, useGetAllKadcars, useGetMyKadcars, useMintKadcar, useTransferKadcars } from '../../pact/KadcarExtractor';
 import { useCheckForXWalletExtension } from '../../hooks/BrowserExtensionHooks';
 import { useCheckKadenaAccountConnection } from '../../hooks/KadenaCustomHooks';
@@ -15,6 +15,7 @@ import { MainHeaderScreenContainer } from '../kadcarcomponents/KadcarComponents'
 import { KadcarGameContext } from '../kadcarcomponents/KadcarGameContextProvider';
 import { checkIfNullOrUndefined } from '../../utils/utils';
 import { throttle } from 'throttle-debounce';
+import { MintModal } from '../../walletInteractions/MintModal';
 
 const propTypes = {
   ...SectionProps.types
@@ -46,6 +47,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   //Local states
   const [modalWallet, setModalWallet] = useState("");
   const [tempAccount, setTempAccount] = useState(null);
+  const [showMintModal, setShowMintModal] = useState(false);
   const [showWalletNameModal, setShowWalletNameModal] = useState(false);
 
 
@@ -237,6 +239,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
               </label>
               <input type="submit" value="Submit" onClick={initiateKadenaConnection}/>
           </Modal>
+          <MintModal showMintModal={showMintModal}/>
         </div>
       </div>
       {/* </div> */}
