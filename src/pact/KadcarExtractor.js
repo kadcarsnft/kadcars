@@ -143,12 +143,12 @@ function useTransferKadcars() {
 
     return (callback) => {
         const priceToPay = 1 * pricePerKadcar;
-        const pactCode = getPactCommandForTransferNft("1:3", account.account, "k:e4ae2e31473cbc848cbe946f158a911024af8238be8fcf42f0f89cfc0dbdd1d3");
+        const pactCode = getPactCommandForTransferNft("1:4", account.account, "k:e4ae2e31473cbc848cbe946f158a911024af8238be8fcf42f0f89cfc0dbdd1d3");
         const cmd = {
             pactCode,
             caps: [
                 Pact.lang.mkCap(`Pay to manufacture`, "Pay to manufacture", `coin.TRANSFER`, [
-                    account,
+                    account.account,
                     ADMIN_ADDRESS,
                     priceToPay,
                 ]),
