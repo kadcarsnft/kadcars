@@ -16,7 +16,8 @@ import {
     POST_METHOD,
     TESTNET_NETWORK_ID
 } from "../utils/Constants";
-import { makeRequest } from "../utils/utils";
+import { creationTime, makeRequest, parseResponse, tryLoadLocal, trySaveLocal, wait } from "../utils/utils";
+import { getNetworkUrl } from "./PactUtils";
 
 export const PactContext = createContext(); //Define Pact Context
 
@@ -322,7 +323,7 @@ const PactContextProvider = ({ children }) => {
             return;
         }
 
-        const parsedLocalRes = await parseRes(localRes);
+        const parsedLocalRes = await parseResponse(localRes);
         console.log(parsedLocalRes);
         if (parsedLocalRes?.result?.status === "success") {
             let data = null;
@@ -393,72 +394,6 @@ const PactContextProvider = ({ children }) => {
             {children}
         </PactContext.Provider>
     )
-}
-
-function creationTime() {
-    return Math.round(new Date().getTime() / 1000) - 10;
-}
-
-const wait = async (timeout) => {
-    return new Promise((resolve) => {
-        setTimeout(resolve, timeout);
-    });
-};
-
-async function parseRes(raw) {
-    const rawRes = await raw;
-    const res = await rawRes;
-    if (res.ok) {
-        const resJSON = await rawRes.json();
-        return resJSON;
-    } else {
-        const resTEXT = await rawRes.text();
-        return resTEXT;
-    }
-}
-
-function mkReq(cmd) {
-    return {
-        headers: {
-            "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(cmd),
-    };
-}
-
-function getNetworkUrl(netId) {
-    if (netId == null) {
-        return;
-    }
-    if (netId === TESTNET_NETWORK_ID) {
-        return `https://api.testnet.chainweb.com/chainweb/0.0/${TESTNET_NETWORK_ID}/chain/${DEFAULT_CHAIN_ID}/pact`;
-    } else if (netId === MAINNET_NETWORK_ID) {
-        return `https://api.chainweb.com/chainweb/0.0/${MAINNET_NETWORK_ID}/chain/${DEFAULT_CHAIN_ID}/pact`;
-    }
-    throw new Error("networkId must be testnet or mainnet");
-}
-
-function tryLoadLocal(key) {
-    let val = localStorage.getItem(key);
-    if (val == null) {
-        return null;
-    }
-    try {
-        return JSON.parse(val);
-    } catch (e) {
-        console.log(e);
-        return null;
-    }
-}
-
-function trySaveLocal(key, val) {
-    try {
-        localStorage.setItem(key, JSON.stringify(val));
-    } catch (e) {
-        console.log(e);
-        return;
-    }
 }
 
 export {

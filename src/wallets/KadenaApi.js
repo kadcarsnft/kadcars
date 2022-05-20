@@ -63,6 +63,8 @@ async function getSelectedAccount() {
         console.error(e.message)
         return;
     });
+    
+    return response;
 }
 
 //Disconnect the user's X-Wallet account from this application
@@ -75,27 +77,14 @@ async function disconnectKadena(pactContextObject) {
         console.error(e.message)
         return;
     });
-
-    console.log(response)
-
-    localStorage.setItem(LOCAL_ACCOUNT_KEY, null);
-    localStorage.setItem(LOCAL_CHAIN_ID, null);
-
-    pactContextObject.setAccount(null);
-    // pactContextObject.setNetworkSettings(MAINNET_NETWORK_ID, undefined, DEFAULT_GAS_PRICE);
-    pactContextObject.setNetworkSettings(NETWORK_ID, null, DEFAULT_GAS_PRICE);
-}
-
-
-function getUserWallet() {
-    return window.kadena.userWallet;
+    
+    return response;
 }
 
 export {
     connectKadena,
-    getUserWallet,
+    requestAccount,
     disconnectKadena,
     getSelectedAccount,
-    requestAccount,
     getKadenaConnectStatus,
 }

@@ -19,8 +19,7 @@ function tryLoadLocal(key) {
         return null;
     }
     try {
-        // return JSON.parse(val);
-        return val;
+        return JSON.parse(val);
     } catch (e) {
         console.log(e);
         return null;

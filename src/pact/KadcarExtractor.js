@@ -143,7 +143,7 @@ function useTransferKadcars() {
 
     return (callback) => {
         const priceToPay = 1 * pricePerKadcar;
-        const pactCode = getPactCommandForTransferNft("1:3", account, "k:e4ae2e31473cbc848cbe946f158a911024af8238be8fcf42f0f89cfc0dbdd1d3");
+        const pactCode = getPactCommandForTransferNft("1:3", account.account, "k:e4ae2e31473cbc848cbe946f158a911024af8238be8fcf42f0f89cfc0dbdd1d3");
         const cmd = {
             pactCode,
             caps: [
@@ -156,20 +156,20 @@ function useTransferKadcars() {
                     "Verify your account",
                     "Verify your account",
                     `free.${KADCAR_NFT_COLLECTION}.ACCOUNT_GUARD`,
-                    [account]
+                    [account.account]
                 ),
                 Pact.lang.mkCap("Gas capability", "Pay gas", "coin.GAS", []),
             ],
-            sender: account,
+            sender: account.account,
             gasLimit: 3000 * 1,
             gasPrice,
             chainId,
             ttl: 600,
             envData: {
                 "user-ks": account.guard,
-                account: account,
+                account: account.account,
             },
-            signingPubKey: split(account, ":")[1],
+            signingPubKey: account.guard.keys[0],
             networkId: netId,
         };
         const previewContent = (
