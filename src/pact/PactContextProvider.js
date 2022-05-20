@@ -101,8 +101,8 @@ const PactContextProvider = ({ children }) => {
         trySaveLocal(LOCAL_ACCOUNT_KEY, null);
         trySaveLocal(IS_X_WALLET_KEY, false);
         setAccount(null);
-        setIsXwallet(false);
-        setIsConnectWallet(false);
+        // setIsXwallet(false);
+        // setIsConnectWallet(false);
     };
 
     const readFromContract = async (cmd, returnError) => {
@@ -131,10 +131,6 @@ const PactContextProvider = ({ children }) => {
                 try {
                     await window.kadena.request({
                         method: "kda_disconnect",
-                        networkId: netId,
-                    });
-                    await window.kadena.request({
-                        method: "kda_connect",
                         networkId: netId,
                     });
                     const res = await window.kadena.request({
@@ -378,7 +374,8 @@ const PactContextProvider = ({ children }) => {
                 setNetworkSettings,
                 useSetNetworkSettings,
                 fetchAccountDetails,
-                setConnectedWallet
+                setConnectedWallet,
+                logoutAccount
             }}
         >
             <ToastContainer

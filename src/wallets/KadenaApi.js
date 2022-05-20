@@ -24,18 +24,7 @@ async function connectKadena(pactContextObject) {
         return;
     });
 
-    if (response.status === 'success') {
-        let account = response.account.account;
-        let chainId = response.account.chainId;
-
-        localStorage.setItem(LOCAL_ACCOUNT_KEY, account);
-        localStorage.setItem(LOCAL_CHAIN_ID, chainId);
-
-        // if (pactContextObject) {
-            pactContextObject.setNetworkSettings(NETWORK_ID, chainId, DEFAULT_GAS_PRICE); //TODO: MAKE GASPRICE AND NETID DYNAMIC BASED ON WALLET TYPE
-            pactContextObject.setAccount(account);
-        // }
-    } 
+    return response;
 }
 
 //Check the user's Kadena extenstion connection status
@@ -61,6 +50,8 @@ async function requestAccount() {
         console.error(e.message)
         return;
     });
+
+    return response;
 }
 
 async function getSelectedAccount() {

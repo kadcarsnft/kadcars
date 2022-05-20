@@ -27,8 +27,7 @@ const defaultProps = {
 const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bottomDivider, hasBgColor, invertColor, ...props }) => {
   //Get PactContext and KadcarGameContext
   const pactContext = useContext(PactContext);
-
-  const { setCurrentScreen, setMyKadcars } = useContext(KadcarGameContext);
+  const kadcarGameContext = useContext(KadcarGameContext);
 
   /**********************************************************/
   const extensionInstalled = useCheckForXWalletExtension();
@@ -87,6 +86,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
     if (window.kadena) {
       //Connect this user's account to the app
       // connectKadena(pactContext);
+      console.log(tempAccount)
       pactContext.setConnectedWallet(tempAccount, extensionInstalled);
       setShowWalletNameModal(false);
     } else {
@@ -98,14 +98,15 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   function disconnectKadenaAccount() {
 
     //Call the API function to disconnect this user's wallet from the app
-    disconnectKadena(pactContext);
+    // disconnectKadena(pactContext);
+    pactContext.logoutAccount();
   }
 
   //Display all this user's kadcars
   async function displayCurrentUserKadcars() {
     console.log(currentUserKadcarNfts)
-    setMyKadcars(currentUserKadcarNfts);
-    setCurrentScreen(SCREEN_NAMES.MY_KADCARS);
+    kadcarGameContext.setMyKadcars(currentUserKadcarNfts);
+    kadcarGameContext.setCurrentScreen(SCREEN_NAMES.MY_KADCARS);
 
     // const connectStatus = getKadenaConnectStatus();
 
