@@ -43,12 +43,13 @@ function useGetMyKadcars(parameters) {
     //Establish the parameters needed for the pact command to get the kadcar ids
     const paramsForNftPactContract = useMemo(() => {
         var parameters = {
-            account: account,
+            account: account.account,
             chainId: chainId,
             metaData: defaultMeta,
             networkUrl: networkUrl,
             readFromContract: readFromContract
         }
+        console.log(parameters)
         executeContractForUser(parameters, getPactCommandForNftsByOwner, setCurrentUseKadcarNfts);
     }, [account, chainId, readFromContract, defaultMeta]);
 
@@ -56,7 +57,7 @@ function useGetMyKadcars(parameters) {
     useEffect(() => {
 
     }, [paramsForNftPactContract]);
-
+    
     return currentUserKadcarNfts;
 }
 

@@ -103,6 +103,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
 
   //Display all this user's kadcars
   async function displayCurrentUserKadcars() {
+    console.log(currentUserKadcarNfts)
     setMyKadcars(currentUserKadcarNfts);
     setCurrentScreen(SCREEN_NAMES.MY_KADCARS);
 

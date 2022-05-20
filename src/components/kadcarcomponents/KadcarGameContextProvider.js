@@ -10,7 +10,11 @@ const KadcarGameContextProvider = ({ children }) => {
     const [allKadcars, setAllKadcars] = useState(null);
     const [allKadcarIds, setAllKadcarIds] = useState(null);
     const { account } = useContext(PactContext);
-    const pricePerKadcar = 3; //TODO: change this!
+    const pricePerKadcar = 5; //TODO: change this!
+
+    // useEffect(() => {
+    //     if (account)
+    // }, [account]);
 
     // Memoize the parameters of the game context to avoid having to retrieve the data on every render
     // but instead, only rerun them whenever the new data is different from the cached ones
