@@ -4,9 +4,7 @@ import { DEFAULT_CHAIN_ID, KADCAR_NFT_COLLECTION, MAINNET_NETWORK_ID, TESTNET_NE
 async function executePactContract(pactContextObject, pactCmd) {
     const pactCode = pactCmd; 
     const meta = pactContextObject.metaData(1000000);
-    console.log(pactCode)
     const contractOutput = await pactContextObject.readFromContract({ pactCode, meta });
-    console.log(contractOutput);
     return contractOutput;
 }
 

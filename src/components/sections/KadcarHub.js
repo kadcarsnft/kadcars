@@ -25,17 +25,7 @@ const defaultProps = {
 
 const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bottomDivider, hasBgColor, invertColor, ...props }) => {
   //Get PactContext and KadcarGameContext
-  const {
-    account,
-    chainId,
-    setAccount,
-    setChainId,
-    defaultMeta,
-    readFromContract,
-    setNetworkSettings,
-    useSetNetworkSettings,
-    setCurrTransactionState
-  } = useContext(PactContext);
+  const pactContext = useContext(PactContext);
 
   const { setCurrentScreen, setMyKadcars } = useContext(KadcarGameContext);
 
@@ -86,8 +76,8 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   );
 
   useEffect(() => {
-    // console.log(account)
-  }, [account]);
+    console.log(pactContext.account)
+  }, [pactContext]);
 
   // useEffect(() => {
   //   console.log(currentUserKadcarNfts)
@@ -100,18 +90,8 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
 
     //Check if user has x-wallet downloaded
     if (window.kadena) {
-      //Encapsulate all PactContext parameters to be modified by the API call as needed
-      pactContextObject = {
-        account: account,
-        chainId: chainId,
-        setAccount: setAccount,
-        setChainId: setChainId,
-        setNetworkSettings: setNetworkSettings,
-        setCurrTransactionState: setCurrTransactionState
-      }
-
       //Connect this user's account to the app
-      connectKadena(pactContextObject);
+      connectKadena(pactContext);
     } else {
       //TODO: render error to install extension
     }
@@ -119,17 +99,9 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
 
   //Disconnect the user's account from the app
   function disconnectKadenaAccount() {
-    //Encapsulate all PactContext parameters to be modified by the API call as needed
-    var pactContextObject = {
-      account: account,
-      chainId: chainId,
-      setAccount: setAccount,
-      setChainId: setChainId,
-      setNetworkSettings: setNetworkSettings
-    }
 
     //Call the API function to disconnect this user's wallet from the app
-    disconnectKadena(pactContextObject);
+    disconnectKadena(pactContext);
   }
 
   //Display all this user's kadcars
@@ -185,13 +157,13 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                   </Button>
                 }
                 {
-                  extensionInstalled && (account === null || account === 'null') &&
+                  extensionInstalled && (pactContext.account === null || pactContext.account === 'null') &&
                   <Button onClick={initiateKadenaConnection} tag="a" color="primary" wideMobile>
                     Connect X-Wallet
                   </Button>
                 }
                 {
-                  extensionInstalled && account !== null && account !== 'null' &&
+                  extensionInstalled && pactContext.account !== null && pactContext.account !== 'null' &&
                   <Button onClick={disconnectKadenaAccount} tag="a" color="primary" wideMobile>
                     Disconnect X-Wallet
                   </Button>
