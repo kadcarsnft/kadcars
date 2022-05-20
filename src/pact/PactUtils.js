@@ -29,6 +29,11 @@ function getPactCommandForMintingNft(account) {
 }
 
 //Retrieve the Pact command to Mint new NFT ID
+// function getPactCommandForMintingNft(account, model) {
+//     return `(free.kadcars-nft-collection.manufacture-${model} "${account}" 1)`;
+// }
+
+//Retrieve the Pact command to Mint new NFT ID
 function getPactCommandForTransferNft(nftId, sender, receiver) {
     return `(free.${KADCAR_NFT_COLLECTION}.transfer "${nftId}" "${sender}" "${receiver}")`;
 }

@@ -85,6 +85,11 @@ const wait = async (timeout) => {
     });
 };
 
+function checkIfItemExistsInDropdownList(item, list) {
+    const filtered = list.filter((option) => item === option.value);
+    return filtered.length > 0;
+}
+
 export {
     wait,
     parseResponse,
@@ -93,5 +98,6 @@ export {
     tryLoadLocal,
     trySaveLocal,
     checkIfNullOrUndefined,
+    checkIfItemExistsInDropdownList,
     mkReq
 }

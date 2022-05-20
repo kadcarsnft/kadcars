@@ -21,6 +21,11 @@ const IS_X_WALLET_KEY = "IS_X_WALLET_KEY";
 
 //Domain
 
+//NFT Models
+const KADCAR_NFT_OPTIONS = [
+    { value: 'K1', label: 'K1' },
+    { value: 'K2', label: 'K2' }
+]
 
 //Request response constants
 const DEFAULT_REQUEST_HEADERS = { "Content-Type": "application/json" };
@@ -74,5 +79,6 @@ export {
     IS_X_WALLET_KEY,
     DEFAULT_REQUEST_HEADERS,
     POST_METHOD,
-    GET_METHOD
+    GET_METHOD,
+    KADCAR_NFT_OPTIONS
 }

@@ -130,6 +130,10 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
     transferKadcarsFunction();
   }
 
+  function openMintModal() {
+    setShowMintModal(true);
+  }
+
   function handleWalletModalClose() {
     setShowWalletNameModal(false)
     setModalWallet("");
@@ -189,7 +193,10 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                     Disconnect X-Wallet
                   </Button>
                 }
-                <Button onClick={initiateMintKadcar} tag="a" color="dark" wideMobile>
+                {/* <Button onClick={initiateMintKadcar} tag="a" color="dark" wideMobile>
+                  Mint Kadcar
+                </Button> */}
+                <Button onClick={openMintModal} tag="a" color="dark" wideMobile>
                   Mint Kadcar
                 </Button>
                 <Button onClick={displayCurrentUserKadcars} tag="a" color="dark" wideMobile>
@@ -239,7 +246,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
               </label>
               <input type="submit" value="Submit" onClick={initiateKadenaConnection}/>
           </Modal>
-          <MintModal showMintModal={showMintModal}/>
+          <MintModal showMintModal={showMintModal} setShowMintModal={setShowMintModal}/>
         </div>
       </div>
       {/* </div> */}
