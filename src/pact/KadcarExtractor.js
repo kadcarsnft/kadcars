@@ -90,9 +90,9 @@ function useMintKadcar() {
     const { pricePerKadcar } = useContext(KadcarGameContext);
 
     return (amount, callback) => {
-        console.log(account)
         const priceToPay = amount * pricePerKadcar;
         const pactCode = getPactCommandForMintingNft(account.account);
+        console.log(pactCode)
         const cmd = {
             pactCode,
             caps: [
@@ -141,9 +141,10 @@ function useTransferKadcars() {
     const { account, defaultMeta, networkUrl, readFromContract, chainId, netId, gasPrice, sendTransaction, signTransaction, currTransactionState } = useContext(PactContext);
     const { pricePerKadcar } = useContext(KadcarGameContext);
 
-    return (callback) => {
+    return (nftId, receiver, callback) => {
+        console.log(nftId, receiver)
         const priceToPay = 1 * pricePerKadcar;
-        const pactCode = getPactCommandForTransferNft("1:11", account.account, "k:e4ae2e31473cbc848cbe946f158a911024af8238be8fcf42f0f89cfc0dbdd1d3");
+        const pactCode = getPactCommandForTransferNft(nftId, account.account, receiver);
         const cmd = {
             pactCode,
             caps: [

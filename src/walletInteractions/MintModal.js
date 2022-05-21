@@ -8,13 +8,12 @@ import { KADCAR_NFT_OPTIONS } from "../utils/Constants";
 import Button from "../components/elements/Button";
 import { checkIfItemExistsInDropdownList, checkIfNullOrUndefined } from "../utils/utils";
 
-const MintModal = ({ showMintModal, setShowMintModal }) => {
+const MintModal = ({ show, setShow }) => {
     const mintKadcarFunction = useMintKadcar();
     const [modelSelected, setModelSelected] = useState(null);
 
     function handleClose() {
-
-        setShowMintModal(false);
+        setShow(false);
     }
 
     function onSelectModelOption(option) {
@@ -28,11 +27,11 @@ const MintModal = ({ showMintModal, setShowMintModal }) => {
         }
 
         mintKadcarFunction(1, () => console.log("HAHA"));
-        setShowMintModal(false);
+        setShow(false);
     }
 
     return (
-        <Modal show={showMintModal} handleClose={handleClose}>
+        <Modal show={show} handleClose={handleClose}>
             <label>
                 Model:
                 <Select options={KADCAR_NFT_OPTIONS} onChange={onSelectModelOption} />

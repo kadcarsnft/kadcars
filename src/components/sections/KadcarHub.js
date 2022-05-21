@@ -16,6 +16,7 @@ import { KadcarGameContext } from '../kadcarcomponents/KadcarGameContextProvider
 import { checkIfNullOrUndefined } from '../../utils/utils';
 import { throttle } from 'throttle-debounce';
 import { MintModal } from '../../walletInteractions/MintModal';
+import { TransferNftModal } from '../../walletInteractions/TransferModal';
 
 const propTypes = {
   ...SectionProps.types
@@ -44,13 +45,15 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
 
   const [videoModalActive, setVideomodalactive] = useState(false);
   
-  //Local states
+  //Wallet modal controls
   const [modalWallet, setModalWallet] = useState("");
   const [tempAccount, setTempAccount] = useState(null);
+  
+  //Wallet, mint, and trasnfer modal controls
   const [showMintModal, setShowMintModal] = useState(false);
+  const [showTransferModal, setShowTransferModal] = useState(false);
   const [showWalletNameModal, setShowWalletNameModal] = useState(false);
-
-
+  
   const openModal = (e) => {
     e.preventDefault();
     setVideomodalactive(true);
@@ -80,9 +83,9 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
     console.log(pactContext.account)
   }, [pactContext]);
 
-  // useEffect(() => {
-  //   console.log(currentUserKadcarNfts)
-  // }, [currentUserKadcarNfts]);
+  useEffect(() => {
+    kadcarGameContext.setMyKadcars(currentUserKadcarNfts);
+  }, [currentUserKadcarNfts]);
 
   function initiateKadenaConnection() {
     if (window.kadena) {
@@ -118,27 +121,6 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
     // }
   }
 
-  function showDisconnect() {
-
-  }
-
-  function initiateMintKadcar() {
-    mintKadcarFunction(1, () => console.log("HAHA"));
-  }
-
-  function initiateKadcarTransfer() {
-    transferKadcarsFunction();
-  }
-
-  function openMintModal() {
-    setShowMintModal(true);
-  }
-
-  function handleWalletModalClose() {
-    setShowWalletNameModal(false)
-    setModalWallet("");
-  }
-
   const handleModalWalletChange = throttle(500, async (event) => {
     setModalWallet(event.target.value);
     const accountDetails = await pactContext.fetchAccountDetails(event.target.value);
@@ -150,6 +132,31 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
       setTempAccount(accountDetails);
     }
   });
+
+  function initiateMintKadcar() {
+    mintKadcarFunction(1, () => console.log("HAHA"));
+  }
+
+  function initiateKadcarTransfer() {
+    transferKadcarsFunction();
+  }
+
+  function handleWalletModalClose() {
+    setShowWalletNameModal(false)
+    setModalWallet("");
+  }
+
+  function handleOpenMintModal() {
+    setShowMintModal(true);
+  }
+  
+  function handleOpenWalletModal() {
+    setShowWalletNameModal(true);
+  }
+  
+  function handleOpenTransferModal() {
+    setShowTransferModal(true);
+  }
 
   return (
     <section
@@ -196,7 +203,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                 {/* <Button onClick={initiateMintKadcar} tag="a" color="dark" wideMobile>
                   Mint Kadcar
                 </Button> */}
-                <Button onClick={openMintModal} tag="a" color="dark" wideMobile>
+                <Button onClick={handleOpenMintModal} tag="a" color="dark" wideMobile>
                   Mint Kadcar
                 </Button>
                 <Button onClick={displayCurrentUserKadcars} tag="a" color="dark" wideMobile>
@@ -232,9 +239,12 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
             <Button tag="a" color="dark" wideMobile style={{ width: '90%' }}>
               Race Mode
             </Button>
-            <Button onClick={initiateKadcarTransfer} tag="a" color="dark" wideMobile style={{ width: '90%' }}>
+            <Button onClick={handleOpenTransferModal} tag="a" color="dark" wideMobile style={{ width: '90%' }}>
               Transfer
             </Button>
+            {/* <Button onClick={initiateKadcarTransfer} tag="a" color="dark" wideMobile style={{ width: '90%' }}>
+              Transfer
+            </Button> */}
           </ButtonGroup>
           <div style={{ width: '85%', justifyContent: 'center' }}>
             <MainHeaderScreenContainer />
@@ -246,7 +256,8 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
               </label>
               <input type="submit" value="Submit" onClick={initiateKadenaConnection}/>
           </Modal>
-          <MintModal showMintModal={showMintModal} setShowMintModal={setShowMintModal}/>
+          <MintModal show={showMintModal} setShow={setShowMintModal}/>
+          <TransferNftModal show={showTransferModal} setShow={setShowTransferModal}/>
         </div>
       </div>
       {/* </div> */}

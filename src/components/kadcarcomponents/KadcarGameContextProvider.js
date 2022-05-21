@@ -1,6 +1,8 @@
 import React, { createContext, useState, useContext, useEffect, useMemo } from 'react';
+import { useGetMyKadcars } from '../../pact/KadcarExtractor';
 import { PactContext } from '../../pact/PactContextProvider';
-import { SCREEN_NAMES } from '../../utils/Constants';
+import { LOCAL_ACCOUNT_KEY, SCREEN_NAMES } from '../../utils/Constants';
+import { tryLoadLocal } from '../../utils/utils';
 
 const KadcarGameContext = createContext();
 
@@ -45,9 +47,12 @@ const KadcarGameContextProvider = ({ children }) => {
 
     //If account changed, reset the screen contents and cached kadcars
     useEffect(() => {
+        const localAccount = tryLoadLocal(LOCAL_ACCOUNT_KEY);
         if (account) {
-            setMyKadcars(null);
-            setCurrentScreen(null);
+            if (account.account !== localAccount.account) {
+                setMyKadcars(null);
+                setCurrentScreen(null);
+            }
         }
     }, [account]);
 
