@@ -165,7 +165,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
     >
       {/* <div className="container-sm"> */}
       {/* <div className={innerClasses}> */}
-      <div style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', height: '80vh', display: 'flex' }}>
+      <div style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', height: '100%', display: 'flex' }}>
         <div className="hero-content" style={{ marginBottom: '20px' }}>
           <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
             Build the Ultimate <span className="text-color-primary">Kadcar</span>!
@@ -222,16 +222,16 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
           justifyContent: 'center',
           alignContent: 'center',
           width: '60%',
-          height: '70%',
+          height: '50vh',
           alignSelf: 'center',
-          marginTop: '20px',
         }}>
           <ButtonGroup className={'reveal-from-bottom'}
             style={{
               width: '15%',
-              height: '70%',
+              height: '75%',
               justifyContent: 'space-evenly',
-              marginRight: '20px'
+              marginRight: '20px',
+              marginTop: '30px'
             }}>
             <Button tag="a" color="dark" wideMobile style={{ width: '90%' }}>
               Garage Mode
@@ -246,7 +246,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
               Transfer
             </Button> */}
           </ButtonGroup>
-          <div style={{ width: '85%', justifyContent: 'center' }}>
+          <div style={{ width: '85%', height: '60vh', justifyContent: 'center' }}>
             <MainHeaderScreenContainer />
           </div>
           <Modal show={showWalletNameModal} handleClose={handleWalletModalClose}>

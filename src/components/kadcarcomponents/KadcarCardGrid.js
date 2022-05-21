@@ -2,6 +2,15 @@ import React from "react";
 import { CardContainer } from "./kadcarCard/KadcarCardStyles";
 import { KadcarCard } from "./KadcarComponents";
 import { CenterColumn, ListNav } from "../../utils/GalleryUtilities";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import "swiper/css";
+import "swiper/css/grid";
+import "swiper/css/pagination";
+
+import "./styles.css"
+
+import { Pagination } from "swiper";
 
 const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
     const extraStyle = { overflowY: "scroll" };
@@ -18,31 +27,46 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
 
     return (
         // <CenterColumn centerColumnStyle={centerColumnStyle} extraStyle={extraStyle}>
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    // justifyContent: "center",
-                    width: "67vw",
-                    height:"100%",
-                    flexWrap: "wrap",
-                }}
-            >
-                { kadcars == null && <CustomMessage text="Loading Kadcars..." /> }
-                { kadcars?.length === 0 && <CustomMessage text="No kadcars exist yet!" /> }
-                { kadcars != null && (
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "row",
+                // justifyContent: "center",
+                width: "67vw",
+                height: "100%",
+                flexWrap: "wrap",
+            }}
+        >
+            {kadcars == null && <CustomMessage text="Loading Kadcars..." />}
+            {kadcars?.length === 0 && <CustomMessage text="No kadcars exist yet!" />}
+            {kadcars != null &&
+                (
                     <>
-                        { kadcars.map((kadcar, index) => {
-                            return (
-                                <div key={ index }>
-                                    <KadcarCard kadcarNft={ kadcar } />
-                                </div>
-                            );
-                        }) }
-                        <ListNav pages={ pages } page={ page } setPage={ setPage } />
+                        <Swiper
+                            slidesPerView={3}
+                            grid={{
+                                rows: 1
+                            }}
+                            spaceBetween={30}
+                            centeredSlides={true}
+                            pagination={{
+                                type: 'fraction'
+                            }}
+                            modules={[Pagination]}
+                        >
+                            {kadcars.map((kadcar, index) => {
+                                return (
+                                    <div key={index}>
+                                        <SwiperSlide>
+                                            <KadcarCard kadcarNft={kadcar} />
+                                        </SwiperSlide>
+                                    </div>
+                                );
+                            })}
+                        </Swiper>
                     </>
-                ) }
-            </div>
+                )}
+        </div>
         //</CenterColumn>
     )
 }

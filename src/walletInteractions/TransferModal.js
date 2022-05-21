@@ -44,7 +44,7 @@ const TransferNftModal = ({ show, setShow }) => {
 
     function initiateKadcarTransfer() {
         // transferKadcarsFunction(selectedNfts, receiverAccount);
-        transferKadcarsFunction(selectedNfts, "k:e4ae2e31473cbc848cbe946f158a911024af8238be8fcf42f0f89cfc0dbdd1d3");
+        transferKadcarsFunction(selectedNfts, "k:3e84c7a7a21e69e666a82f8a38f55fe79049fa6b675860681f11f514d92ae6f5");
         console.log(myKadcars)
     }
 

@@ -11,6 +11,8 @@ import LayoutDefault from './layouts/LayoutDefault';
 import Home from './views/Home';
 import { PactContextProvider } from './pact/PactContextProvider';
 
+import "swiper/css/bundle"
+
 // Initialize Google Analytics
 ReactGA.initialize(process.env.REACT_APP_GA_CODE);
 

@@ -18,16 +18,15 @@ export const Separator = styled.span`
 export const CardWrapper = styled.div`
   display: grid;
   grid-template-columns: 300px;
-  grid-template-rows: 210px 210px 80px;
+  grid-template-rows: 210px 190px 80px;
   grid-template-areas: "image" "text" "stats";
   border-radius: 18px;
   background: #000;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9);
   text-align: center;
-  margin-top: 25px;
   margin-left: 10px;
   margin-right: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 `;
 
 export const CardImage = styled.div`
