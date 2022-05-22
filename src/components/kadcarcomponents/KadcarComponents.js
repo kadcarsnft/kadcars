@@ -15,18 +15,18 @@ const DefaultScreen = () => {
     return (
         <div style={screenStyles}>
             <div style={{ width: '70%', height: '50%', flexDirection: 'row', display:'flex' }}>
-                <div style={{ width: '50%', flexDirection:'column', justifyContent:'space-evenly' }}>
-                    <div style={{ height: '50% ', justifyContent:'center', alignContent:'center'}}>
+                <div style={{ flexDirection:'column', justifyContent:'space-evenly' }}>
+                    <div style={{ justifyContent:'center', alignContent:'center'}}>
                         Welcome to the Kadcars NFT collection!
                     </div>
-                    <div style={{ height: '50% '}}>
+                    <div style={{ marginBottom:'20px'}}>
                         Start by connecting your X-Wallet to explore Kadcars
                     </div>
+                    <Image
+                        src={require('./../../assets/images/kadcarsHome.png')}
+                        alt="Open"/>
                 </div>
                 <div style={{ width: '50%' }}>
-                    <Image
-                        src={require('./../../assets/images/logo-nobackground-5000.png')}
-                        alt="Open"/>
                 </div>
             </div>
         </div>

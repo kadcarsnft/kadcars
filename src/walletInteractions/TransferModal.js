@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Modal from "../components/elements/Modal";
 import { PactContext } from "../pact/PactContextProvider";
 import Select from 'react-select';
@@ -42,9 +42,16 @@ const TransferNftModal = ({ show, setShow }) => {
         setSelectedNfts(options.value);
     }
 
+    function removeTransferredKadcarFromList() {
+        const updatedList = myKadcars.filter((kadcar) => {
+            return kadcar['nft-id'] !== selectedNfts;
+        });
+        console.log(updatedList)
+    }
+
     function initiateKadcarTransfer() {
         // transferKadcarsFunction(selectedNfts, receiverAccount);
-        transferKadcarsFunction(selectedNfts, "k:3e84c7a7a21e69e666a82f8a38f55fe79049fa6b675860681f11f514d92ae6f5");
+        transferKadcarsFunction(selectedNfts, "k:3e84c7a7a21e69e666a82f8a38f55fe79049fa6b675860681f11f514d92ae6f5", removeTransferredKadcarFromList);
         console.log(myKadcars)
     }
 

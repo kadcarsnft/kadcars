@@ -222,13 +222,13 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
           justifyContent: 'center',
           alignContent: 'center',
           width: '60%',
-          height: '50vh',
+          height: '60vh',
           alignSelf: 'center',
         }}>
           <ButtonGroup className={'reveal-from-bottom'}
             style={{
               width: '15%',
-              height: '75%',
+              height: '65%',
               justifyContent: 'space-evenly',
               marginRight: '20px',
               marginTop: '30px'

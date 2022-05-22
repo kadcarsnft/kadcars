@@ -56,11 +56,11 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
                         >
                             {kadcars.map((kadcar, index) => {
                                 return (
-                                    <div key={index}>
-                                        <SwiperSlide>
+                                    <SwiperSlide>
+                                        <div key={index}>
                                             <KadcarCard kadcarNft={kadcar} />
-                                        </SwiperSlide>
-                                    </div>
+                                        </div>
+                                    </SwiperSlide>
                                 );
                             })}
                         </Swiper>

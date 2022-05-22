@@ -142,7 +142,6 @@ function useTransferKadcars() {
     const { pricePerKadcar } = useContext(KadcarGameContext);
 
     return (nftId, receiver, callback) => {
-        console.log(nftId, receiver)
         const priceToPay = 1 * pricePerKadcar;
         const pactCode = getPactCommandForTransferNft(nftId, account.account, receiver);
         const cmd = {

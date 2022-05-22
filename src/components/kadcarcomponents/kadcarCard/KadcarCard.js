@@ -13,6 +13,7 @@ import {
   import Tilt from "react-parallax-tilt";
 
 import unknown from "../../../assets/images/logo-nobackground.svg"
+// import logoPixelated from "../../../assets/images/kadcarsHomeCropped.png"
 
 
 const KadcarCard = ({ kadcarNft }) => {

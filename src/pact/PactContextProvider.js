@@ -60,6 +60,7 @@ const PactContextProvider = ({ children }) => {
 
     const updateTransactionState = (newParams) => {
         const { transactionMessage, successCallback } = { currTransactionState };
+        successCallback && successCallback();
         setCurrTransactionState({
             transactionMessage,
             successCallback,
@@ -237,7 +238,9 @@ const PactContextProvider = ({ children }) => {
                 closeOnClick: true,
                 draggable: true,
             });
+            console.log(currTransactionState)
             if (currTransactionState?.successCallback != null) {
+                console.log("IM HERE BITCHES")
                 currTransactionState.successCallback();
             }
             console.log(pollRes);
@@ -268,8 +271,6 @@ const PactContextProvider = ({ children }) => {
                     networkId: netId,
                     domain: window.location.hostname,
                 });
-                console.log(accountConnectedRes);
-                console.log(account)
                 if (accountConnectedRes?.status !== "success") {
                     toast.error("X Wallet connection was lost, please re-connect");
                     clearTransaction();
