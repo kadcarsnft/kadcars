@@ -59,6 +59,7 @@ const PactContextProvider = ({ children }) => {
     };
 
     const updateTransactionState = (newParams) => {
+        console.log(currTransactionState)
         const { transactionMessage, successCallback } = { currTransactionState };
         successCallback && successCallback();
         setCurrTransactionState({
@@ -91,6 +92,7 @@ const PactContextProvider = ({ children }) => {
             cmdToConfirm: cmd,
             previewComponent,
         });
+        console.log(currTransactionState)
     };
 
     const logoutAccount = async () => {
@@ -238,10 +240,9 @@ const PactContextProvider = ({ children }) => {
                 closeOnClick: true,
                 draggable: true,
             });
-            console.log(currTransactionState)
             if (currTransactionState?.successCallback != null) {
-                console.log("IM HERE BITCHES")
-                currTransactionState.successCallback();
+                console.log("in here")
+                currTransactionState.successCallback(pollRes);
             }
             console.log(pollRes);
         } else {
@@ -262,6 +263,7 @@ const PactContextProvider = ({ children }) => {
 
     const signTransaction = async (cmdToSign) => {
         updateTransactionState({ signingCmd: cmdToSign });
+        console.log(currTransactionState)
         let signedCmd = null;
         if (isXwallet) {
             let xwalletSignRes = null;
@@ -272,18 +274,18 @@ const PactContextProvider = ({ children }) => {
                     domain: window.location.hostname,
                 });
                 if (accountConnectedRes?.status !== "success") {
-                    toast.error("X Wallet connection was lost, please re-connect");
+                    toast.error("Please reconnect your X-Wallet");
                     clearTransaction();
                     logoutAccount();
                     return;
                 } else if (accountConnectedRes?.wallet?.account !== account.account) {
                     toast.error(
-                        `Wrong X Wallet account selected in extension, please select ${account.account}`
+                        `Please select ${account.account} from your X-Wallet extension`
                     );
                     return;
                 } else if (accountConnectedRes?.wallet?.chainId !== chainId) {
                     toast.error(
-                        `Wrong chain selected in X Wallet, please select ${chainId}`
+                        `Please make sure you select chain ${chainId} in the X-Wallet extension`
                     );
                     return;
                 }
@@ -296,7 +298,7 @@ const PactContextProvider = ({ children }) => {
                 console.log(e);
             }
             if (xwalletSignRes.status !== "success") {
-                toast.error("Failed to sign the command in X-Wallet");
+                toast.error("Command could not be signed in X-Wallet");
                 clearTransaction();
                 return;
             }
@@ -306,7 +308,7 @@ const PactContextProvider = ({ children }) => {
                 signedCmd = await Pact.wallet.sign(cmdToSign);
             } catch (e) {
                 console.log(e);
-                toast.error("Failed to sign the command in the wallet");
+                toast.error("Command could not be signed in wallet");
                 clearTransaction();
                 return;
             }
@@ -314,12 +316,13 @@ const PactContextProvider = ({ children }) => {
         
         console.log(signedCmd);
         updateTransactionState({ signedCmd });
+        console.log(currTransactionState)
         let localRes = null;
         try {
             localRes = await fetch(`${networkUrl}/api/v1/local`, makeRequest(POST_METHOD, DEFAULT_REQUEST_HEADERS, signedCmd));
         } catch (e) {
             console.log(e);
-            toast.error("Failed to confirm transaction with the network");
+            toast.error("Confirming transaction with network failed, check your network URL");
             clearTransaction();
             return;
         }
@@ -332,7 +335,7 @@ const PactContextProvider = ({ children }) => {
                 data = await Pact.wallet.sendSigned(signedCmd, networkUrl);
             } catch (e) {
                 console.log(e);
-                toast.error("Had issues sending the transaction to the blockchain");
+                toast.error("Sending transaction to blockchain failed, please make sure the command format is correct");
                 clearTransaction();
                 return;
             }
@@ -342,10 +345,11 @@ const PactContextProvider = ({ children }) => {
                 sentCmd: signedCmd,
                 requestKey,
             });
+            console.log(currTransactionState)
             await pollForTransaction(requestKey);
         } else {
             console.log(parsedLocalRes);
-            toast.error(`Couldn't sign the transaction`, {
+            toast.error(`Failed to sign transaction`, {
                 hideProgressBar: true,
             });
             clearTransaction();
