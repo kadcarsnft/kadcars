@@ -53,13 +53,9 @@ const MintModal = ({ show, setShow }) => {
 
     async function updateWithMintedNftId(data) {
         if (data) {
-            console.log(data)
-            console.log(data.result.data)
             var nftId = data.result.data.match(REGEX_FOR_NFT_ID)[1];
-            console.log(nftId)
             const newNft = await getMintedNftId(nftId);
             setMintedNft(newNft);
-            console.log(newNft)
         } else {
             toast.error("Invalid data, unable to update kadcar list");
         }

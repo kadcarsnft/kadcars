@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import classNames from 'classnames';
 import { SectionProps } from '../../utils/SectionProps';
 import ButtonGroup from '../elements/ButtonGroup';
@@ -44,16 +44,16 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   /**********************************************************/
 
   const [videoModalActive, setVideomodalactive] = useState(false);
-  
+
   //Wallet modal controls
   const [modalWallet, setModalWallet] = useState("");
   const [tempAccount, setTempAccount] = useState(null);
-  
+
   //Wallet, mint, and trasnfer modal controls
   const [showMintModal, setShowMintModal] = useState(false);
   const [showTransferModal, setShowTransferModal] = useState(false);
   const [showWalletNameModal, setShowWalletNameModal] = useState(false);
-  
+
   const openModal = (e) => {
     e.preventDefault();
     setVideomodalactive(true);
@@ -78,6 +78,16 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
     topDivider && 'has-top-divider',
     bottomDivider && 'has-bottom-divider'
   );
+
+  const setCurrentUserKadcars = useCallback(async () => {
+    const currentUserKadcars = await currentUserKadcarFunction();
+    currentUserKadcars && kadcarGameContext.setMyKadcars(currentUserKadcarNfts);
+    console.log(currentUserKadcarNfts)
+  }, [currentUserKadcarNfts]);
+
+  useEffect(() => {
+    setCurrentUserKadcars();
+  }, [setCurrentUserKadcars]);
 
   // useEffect(() => {
   //   console.log(pactContext.account)
@@ -149,11 +159,11 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   function handleOpenMintModal() {
     setShowMintModal(true);
   }
-  
+
   function handleOpenWalletModal() {
     setShowWalletNameModal(true);
   }
-  
+
   function handleOpenTransferModal() {
     setShowTransferModal(true);
   }
@@ -174,7 +184,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
             <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
               Kadena's first car NFT where owners can collect, upgrade, race and trade their Kadcars
             </p>
-            <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400" style={{fontColor:'red'}}>
+            <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400" style={{ fontColor: 'red' }}>
               This website is still in a testing environment!!!
             </p>
             <div className="reveal-from-bottom" data-reveal-delay="600">
@@ -190,7 +200,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                   // <Button onClick={initiateKadenaConnection} tag="a" color="primary" wideMobile>
                   //   Connect X-Wallet
                   // </Button>
-                  <Button onClick={()=>setShowWalletNameModal(true)} tag="a" color="primary" wideMobile>
+                  <Button onClick={() => setShowWalletNameModal(true)} tag="a" color="primary" wideMobile>
                     Connect X-Wallet
                   </Button>
                 }
@@ -250,14 +260,14 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
             <MainHeaderScreenContainer />
           </div>
           <Modal show={showWalletNameModal} handleClose={handleWalletModalClose}>
-              <label>
-                Wallet Name:
-                <input type="text" value={modalWallet} onChange={handleModalWalletChange} />
-              </label>
-              <input type="submit" value="Submit" onClick={initiateKadenaConnection}/>
+            <label>
+              Wallet Name:
+              <input type="text" value={modalWallet} onChange={handleModalWalletChange} />
+            </label>
+            <input type="submit" value="Submit" onClick={initiateKadenaConnection} />
           </Modal>
-          <MintModal show={showMintModal} setShow={setShowMintModal}/>
-          <TransferNftModal show={showTransferModal} setShow={setShowTransferModal}/>
+          <MintModal show={showMintModal} setShow={setShowMintModal} />
+          <TransferNftModal show={showTransferModal} setShow={setShowTransferModal} />
         </div>
       </div>
       {/* </div> */}

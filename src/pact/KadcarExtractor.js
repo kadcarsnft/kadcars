@@ -29,7 +29,7 @@ async function executeContract(parameters, getPactCommandFunction, invocableStat
 
 function useGetMyKadcarsFunction() {
     const { account, chainId, networkUrl, readFromContract, defaultMeta, setNetworkSettings } = useContext(PactContext);
-    const { setMyKadcars } = useContext(KadcarGameContext);
+    const { myKadcars, setMyKadcars } = useContext(KadcarGameContext);
 
     return async () => {
         // const pactCode = `(free.kakars-nft-collection.get-owner "7")`; //TODO: MAKE CONSTANTS
@@ -45,6 +45,7 @@ function useGetMyKadcarsFunction() {
                 readFromContract: readFromContract
             }
             executeContractForUser(parameters, getPactCommandForNftsByOwner(account.account), setMyKadcars);
+            return myKadcars;
         }
     };
 }
@@ -91,9 +92,6 @@ function useGetKadcarByNftId() {
         console.log(parameters)
         // executeContractForUser(parameters, getPactCommandForNftByNftId(nftId), setNewKadcarNft);
         const result = await executePactContract(parameters, getPactCommandForNftByNftId(nftId));
-        console.log(result)
-        console.log(result[0])
-        console.log(result[0]['nft-id'])
         return result[0];
     }
 }
