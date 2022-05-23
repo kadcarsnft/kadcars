@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "react-toastify";
 
 //Check if given variable is null or undefined
 function checkIfNullOrUndefined(variable) {
@@ -90,6 +91,21 @@ function checkIfItemExistsInDropdownList(item, list) {
     return filtered.length > 0;
 }
 
+async function confirmTransactionWithNetwork(networkUrl, method, headers, signedCmd, callback=null) {
+    let localRes = null;
+
+    try {
+        localRes = await fetch(`${networkUrl}/api/v1/local`, makeRequest(method, headers, signedCmd));
+    } catch (e) {
+        console.log(e);
+        toast.error("Confirming transaction with network failed, check your network URL");
+        callback && callback();
+        return;
+    }
+
+    return localRes;
+}
+
 export {
     wait,
     parseResponse,
@@ -99,5 +115,6 @@ export {
     trySaveLocal,
     checkIfNullOrUndefined,
     checkIfItemExistsInDropdownList,
-    mkReq
+    mkReq,
+    confirmTransactionWithNetwork
 }

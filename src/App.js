@@ -14,7 +14,8 @@ import { PactContextProvider } from './pact/PactContextProvider';
 import "swiper/css/bundle"
 
 // Initialize Google Analytics
-ReactGA.initialize(process.env.REACT_APP_GA_CODE);
+// ReactGA.initialize(process.env.REACT_APP_GA_CODE);
+ReactGA.initialize('UA-000000-01');
 
 const trackPage = page => {
   ReactGA.set({ page });

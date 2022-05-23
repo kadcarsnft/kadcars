@@ -51,6 +51,9 @@ const SCREEN_NAMES = {
 //REGEX
 const REGEX_FOR_NFT_ID = ".*([0-9]+:[0-9]+).*";
 
+//Time
+const S_TO_MS_MULTIPLIER = 1000;
+
 //KDA API Calls
 const KDA_CONNECT = 'kda_connect';
 const KDA_DISCONNECT = 'kda_disconnect';
@@ -60,6 +63,7 @@ const KDA_REQUEST_ACCOUNT = 'kda_requestAccount';
 const KDA_GET_SELECTED_ACCOUNT = 'kda_getSelectedAccount';
 
 export {
+    S_TO_MS_MULTIPLIER,
     POLL_INTERVAL_S,
     KDA_CONNECT,
     SCREEN_NAMES,

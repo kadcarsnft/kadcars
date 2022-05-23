@@ -1,6 +1,5 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Modal from "../components/elements/Modal";
-import { PactContext } from "../pact/PactContextProvider";
 import Select from 'react-select';
 import { KadcarGameContext } from "../components/kadcarcomponents/KadcarGameContextProvider";
 import { useTransferKadcars } from "../pact/KadcarExtractor";
@@ -53,8 +52,8 @@ const TransferNftModal = ({ show, setShow }) => {
 
     function initiateKadcarTransfer() {
         // transferKadcarsFunction(selectedNfts, receiverAccount);
-        transferKadcarsFunction(selectedNfts, "k:3e84c7a7a21e69e666a82f8a38f55fe79049fa6b675860681f11f514d92ae6f5", removeTransferredKadcarFromList);
         // transferKadcarsFunction(selectedNfts, receiverAccount, removeTransferredKadcarFromList);
+        transferKadcarsFunction(selectedNfts, "k:3e84c7a7a21e69e666a82f8a38f55fe79049fa6b675860681f11f514d92ae6f5", removeTransferredKadcarFromList);
         console.log(myKadcars)
         handleTransferModalClose();
     }

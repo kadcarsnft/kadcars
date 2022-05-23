@@ -1,7 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import Modal from "../components/elements/Modal";
 import { PactContext } from "../pact/PactContextProvider";
-import { throttle } from 'throttle-debounce';
 import { useGetKadcarByNftId, useGetMyKadcarsFunction, useMintKadcar } from "../pact/KadcarExtractor";
 import Select from 'react-select';
 import { KADCAR_NFT_OPTIONS, REGEX_FOR_NFT_ID } from "../utils/Constants";

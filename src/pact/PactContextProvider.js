@@ -14,9 +14,10 @@ import {
     NETWORK_ID,
     POLL_INTERVAL_S,
     POST_METHOD,
+    S_TO_MS_MULTIPLIER,
     TESTNET_NETWORK_ID
 } from "../utils/Constants";
-import { creationTime, makeRequest, parseResponse, tryLoadLocal, trySaveLocal, wait } from "../utils/utils";
+import { creationTime, makeRequest, parseResponse, confirmTransactionWithNetwork, tryLoadLocal, trySaveLocal, wait } from "../utils/utils";
 import { getNetworkUrl } from "./PactUtils";
 import { connectKadena, disconnectKadena, requestKadenaAccount, requestSign } from "../kadenaInteraction/KadenaApi";
 
@@ -130,9 +131,7 @@ const PactContextProvider = ({ children }) => {
             if (isXwallet) {
                 try {
                     await disconnectKadena(netId);
-
                     const res = await connectKadena(netId);
-
                     if (res.status !== "success") {
                         toast.error(`Could not connect to X Wallet`);
                         // closeConnectWallet();
@@ -175,8 +174,10 @@ const PactContextProvider = ({ children }) => {
     };
 
     const pollForTransaction = async (requestKey) => {
+        let reqKeyPreview = requestKey.slice(0, 10);
         let time_spent_polling_s = 0;
         let pollRes = null;
+
         const { transactionMessage } = currTransactionState;
         let waitingText = (
             <span
@@ -187,8 +188,7 @@ const PactContextProvider = ({ children }) => {
                     )
                 }
             >
-                {`Waiting ${POLL_INTERVAL_S}s for transaction ${requestKey.slice(0, 10)}
-            ... (${transactionMessage})`}
+                {`Waiting ${POLL_INTERVAL_S}s for transaction ${reqKeyPreview}... (${transactionMessage})`}
             </span>
         );
         toast.info(waitingText, {
@@ -199,7 +199,7 @@ const PactContextProvider = ({ children }) => {
             toastId: requestKey,
         });
         while (time_spent_polling_s < 240) {
-            await wait(POLL_INTERVAL_S * 1000);
+            await wait(POLL_INTERVAL_S * S_TO_MS_MULTIPLIER);
             try {
                 pollRes = await Pact.fetch.poll(
                     { requestKeys: [requestKey] },
@@ -207,24 +207,20 @@ const PactContextProvider = ({ children }) => {
                 );
             } catch (e) {
                 console.log(e);
-                toast.error("Had trouble getting transaction update, will try again");
+                toast.error("Attempting transaction update again...");
                 continue;
             }
             if (Object.keys(pollRes).length !== 0) {
                 break;
             }
             time_spent_polling_s += POLL_INTERVAL_S;
-            waitingText = `Waiting ${time_spent_polling_s + POLL_INTERVAL_S
-                }s for transaction ${requestKey.slice(0, 10)}... (${transactionMessage})`;
+            waitingText = `Waiting ${time_spent_polling_s + POLL_INTERVAL_S}s for transaction ${reqKeyPreview}... (${transactionMessage})`;
             toast.update(requestKey, { render: waitingText });
         }
 
         if (pollRes[requestKey].result.status === "success") {
             toast.update(requestKey, {
-                render: `Succesfully completed ${requestKey.slice(
-                    0,
-                    10
-                )}... (${transactionMessage})`,
+                render: `Transaction ${reqKeyPreview}... (${transactionMessage}) completed!`,
                 type: "success",
                 position: "top-right",
                 autoClose: 3000,
@@ -240,7 +236,7 @@ const PactContextProvider = ({ children }) => {
         } else {
             console.log(pollRes);
             toast.error(
-                `Failed transaction ${requestKey}... (${transactionMessage})`,
+                `Transaction ${requestKey}... (${transactionMessage}) failed, please try again`,
                 {
                     position: "top-right",
                     autoClose: 3000,
@@ -308,14 +304,15 @@ const PactContextProvider = ({ children }) => {
         updateTransactionState({ signedCmd });
         console.log(currTransactionState)
         let localRes = null;
-        try {
-            localRes = await fetch(`${networkUrl}/api/v1/local`, makeRequest(POST_METHOD, DEFAULT_REQUEST_HEADERS, signedCmd));
-        } catch (e) {
-            console.log(e);
-            toast.error("Confirming transaction with network failed, check your network URL");
-            clearTransaction();
-            return;
-        }
+        // try {
+        //     localRes = await fetch(`${networkUrl}/api/v1/local`, makeRequest(POST_METHOD, DEFAULT_REQUEST_HEADERS, signedCmd));
+        // } catch (e) {
+        //     console.log(e);
+        //     toast.error("Confirming transaction with network failed, check your network URL");
+        //     clearTransaction();
+        //     return;
+        // }
+        localRes = await confirmTransactionWithNetwork(networkUrl, POST_METHOD, DEFAULT_REQUEST_HEADERS, signedCmd);
 
         const parsedLocalRes = await parseResponse(localRes);
         console.log(parsedLocalRes);
