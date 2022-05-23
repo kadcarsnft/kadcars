@@ -252,6 +252,9 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
             <Button onClick={handleOpenTransferModal} tag="a" color="dark" wideMobile style={{ width: '90%' }}>
               Transfer
             </Button>
+            <Button tag="a" color="dark" wideMobile style={{ width: '90%' }}>
+              Marketplace
+            </Button>
             {/* <Button onClick={initiateKadcarTransfer} tag="a" color="dark" wideMobile style={{ width: '90%' }}>
               Transfer
             </Button> */}
