@@ -20,7 +20,7 @@ const TransferNftModal = ({ show, setShow }) => {
     const transferKadcarsFunction = useTransferKadcars();
     const [selectedNfts, setSelectedNfts] = useState();
     const [receiverAccount, setReceiverAccount] = useState("");
-    const { myKadcars } = useContext(KadcarGameContext);
+    const { myKadcars, setMyKadcars } = useContext(KadcarGameContext);
     const [kadcarOptions, setKadcarOptions] = useState(null);
 
     useEffect(() => {
@@ -46,13 +46,17 @@ const TransferNftModal = ({ show, setShow }) => {
         const updatedList = myKadcars.filter((kadcar) => {
             return kadcar['nft-id'] !== selectedNfts;
         });
+        setMyKadcars(updatedList);
+        setKadcarOptions(updatedList);
         console.log(updatedList)
     }
 
     function initiateKadcarTransfer() {
         // transferKadcarsFunction(selectedNfts, receiverAccount);
         transferKadcarsFunction(selectedNfts, "k:3e84c7a7a21e69e666a82f8a38f55fe79049fa6b675860681f11f514d92ae6f5", removeTransferredKadcarFromList);
+        // transferKadcarsFunction(selectedNfts, receiverAccount, removeTransferredKadcarFromList);
         console.log(myKadcars)
+        handleTransferModalClose();
     }
 
     return (
