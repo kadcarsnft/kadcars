@@ -22,9 +22,7 @@ const MintModal = ({ show, setShow }) => {
     const [amountToMint, setAmountToMint] = useState(0);
     
     useEffect(() => {
-        console.log(mintedNft)
         if (mintedNft) {
-            console.log(mintedNft)
             setMyKadcars([...myKadcars, mintedNft]);
         }
     }, [mintedNft]);

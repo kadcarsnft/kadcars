@@ -18,6 +18,7 @@ import {
 } from "../utils/Constants";
 import { creationTime, makeRequest, parseResponse, tryLoadLocal, trySaveLocal, wait } from "../utils/utils";
 import { getNetworkUrl } from "./PactUtils";
+import { connectKadena, disconnectKadena, requestKadenaAccount, requestSign } from "../kadenaInteraction/KadenaApi";
 
 export const PactContext = createContext(); //Define Pact Context
 
@@ -95,10 +96,7 @@ const PactContextProvider = ({ children }) => {
 
     const logoutAccount = async () => {
         if (isXwallet) {
-            await window.kadena.request({
-                method: "kda_disconnect",
-                networkId: netId,
-            });
+            await disconnectKadena(netId);
         }
         trySaveLocal(LOCAL_ACCOUNT_KEY, null);
         trySaveLocal(IS_X_WALLET_KEY, false);
@@ -131,14 +129,10 @@ const PactContextProvider = ({ children }) => {
         if (account != null) {
             if (isXwallet) {
                 try {
-                    await window.kadena.request({
-                        method: "kda_disconnect",
-                        networkId: netId,
-                    });
-                    const res = await window.kadena.request({
-                        method: "kda_connect",
-                        networkId: netId,
-                    });
+                    await disconnectKadena(netId);
+
+                    const res = await connectKadena(netId);
+
                     if (res.status !== "success") {
                         toast.error(`Could not connect to X Wallet`);
                         // closeConnectWallet();
@@ -266,11 +260,8 @@ const PactContextProvider = ({ children }) => {
         if (isXwallet) {
             let xwalletSignRes = null;
             try {
-                const accountConnectedRes = await window.kadena.request({
-                    method: "kda_requestAccount",
-                    networkId: netId,
-                    domain: window.location.hostname,
-                });
+                const accountConnectedRes = await requestKadenaAccount(netId, window.location.hostname);
+
                 if (accountConnectedRes?.status !== "success") {
                     toast.error("Please reconnect your X-Wallet");
                     clearTransaction();
@@ -287,11 +278,12 @@ const PactContextProvider = ({ children }) => {
                     );
                     return;
                 }
-                xwalletSignRes = await window.kadena.request({
-                    method: "kda_requestSign",
+                const dataToSign = {
                     networkId: netId,
-                    data: { networkId: netId, signingCmd: cmdToSign },
-                });
+                    signingCmd: cmdToSign
+                };
+
+                xwalletSignRes = await requestSign(netId, dataToSign);
             } catch (e) {
                 console.log(e);
             }
