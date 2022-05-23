@@ -79,13 +79,14 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
     bottomDivider && 'has-bottom-divider'
   );
 
-  useEffect(() => {
-    console.log(pactContext.account)
-  }, [pactContext]);
+  // useEffect(() => {
+  //   console.log(pactContext.account)
+  // }, [pactContext]);
 
-  useEffect(() => {
-    kadcarGameContext.setMyKadcars(currentUserKadcarNfts);
-  }, [currentUserKadcarNfts]);
+  // useEffect(() => {
+  //   kadcarGameContext.setMyKadcars(currentUserKadcarNfts);
+  //   console.log(currentUserKadcarNfts)
+  // }, [currentUserKadcarNfts]);
 
   function initiateKadenaConnection() {
     if (window.kadena) {
@@ -109,7 +110,6 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
 
   //Display all this user's kadcars
   async function displayCurrentUserKadcars() {
-    console.log(currentUserKadcarNfts)
     kadcarGameContext.setMyKadcars(currentUserKadcarNfts);
     kadcarGameContext.setCurrentScreen(SCREEN_NAMES.MY_KADCARS);
 

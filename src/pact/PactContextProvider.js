@@ -59,7 +59,6 @@ const PactContextProvider = ({ children }) => {
     };
 
     const updateTransactionState = (newParams) => {
-        console.log(currTransactionState)
         const { transactionMessage, successCallback } = { currTransactionState };
         successCallback && successCallback();
         setCurrTransactionState({
@@ -92,7 +91,6 @@ const PactContextProvider = ({ children }) => {
             cmdToConfirm: cmd,
             previewComponent,
         });
-        console.log(currTransactionState)
     };
 
     const logoutAccount = async () => {
@@ -241,10 +239,10 @@ const PactContextProvider = ({ children }) => {
                 draggable: true,
             });
             if (currTransactionState?.successCallback != null) {
-                console.log("in here")
-                currTransactionState.successCallback(pollRes);
+                // console.log(pollRes[requestKey])
+                currTransactionState.successCallback(pollRes[requestKey]);
             }
-            console.log(pollRes);
+            // console.log(pollRes);
         } else {
             console.log(pollRes);
             toast.error(

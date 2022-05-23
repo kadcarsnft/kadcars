@@ -4,35 +4,49 @@ import { ADMIN_ADDRESS, KADCAR_NFT_COLLECTION, LOCAL_ACCOUNT_KEY } from "../util
 import { checkIfNullOrUndefined } from "../utils/utils";
 import { PactContext } from "./PactContextProvider";
 import Pact from "pact-lang-api";
-import { executePactContract, getPactCommandForAllNfts, getPactCommandForMintingNft, getPactCommandForNftByNftId, getPactCommandForNftsByOwner, getPactCommandForTransferNft } from "./PactUtils";
+import { 
+    executePactContract, 
+    getPactCommandForAllNfts, 
+    getPactCommandForMintingNft, 
+    getPactCommandForNftByNftId, 
+    getPactCommandForTransferNft, 
+    getPactCommandForNftsByOwner, 
+} from "./PactUtils";
 import { split } from "lodash";
 
 async function executeContractForUser(parameters, getPactCommandFunction, invocableStateSetter=null) {
     if (!checkIfNullOrUndefined(parameters.account) && 
         !checkIfNullOrUndefined(parameters.chainId) && 
         !checkIfNullOrUndefined(parameters.networkUrl)) {
-        executeContract(parameters, getPactCommandFunction,invocableStateSetter);
+        executeContract(parameters, getPactCommandFunction, invocableStateSetter);
     }
 }
 
 async function executeContract(parameters, getPactCommandFunction, invocableStateSetter = null) {
-    const data = await executePactContract(parameters, getPactCommandFunction(parameters.account));
+    const data = await executePactContract(parameters, getPactCommandFunction);
     invocableStateSetter && invocableStateSetter(data);
 }
 
 function useGetMyKadcarsFunction() {
-    const { account, readFromContract, defaultMeta } = useContext(PactContext);
+    const { account, chainId, networkUrl, readFromContract, defaultMeta, setNetworkSettings } = useContext(PactContext);
+    const { setMyKadcars } = useContext(KadcarGameContext);
 
     return async () => {
-        const pactCode = `(free.kakars-nft-collection.get-owner "7")`; //TODO: MAKE CONSTANTS
-        const meta = defaultMeta(1000000);
-        const contractOutput = await readFromContract({ pactCode, meta });
-        return contractOutput;
+        // const pactCode = `(free.kakars-nft-collection.get-owner "7")`; //TODO: MAKE CONSTANTS
+        // const meta = defaultMeta(1000000);
+        // const contractOutput = await readFromContract({ pactCode, meta });
+        // return contractOutput;
+        if (account) {
+            var parameters = {
+                account: account.account,
+                chainId: chainId,
+                metaData: defaultMeta,
+                networkUrl: networkUrl,
+                readFromContract: readFromContract
+            }
+            executeContractForUser(parameters, getPactCommandForNftsByOwner(account.account), setMyKadcars);
+        }
     };
-}
-
-async function checkAccountAndExecuteContract() {
-
 }
 
 //Custom hook to retrieve all kadcars minted by user
@@ -43,7 +57,6 @@ function useGetMyKadcars(parameters) {
     //Establish the parameters needed for the pact command to get the kadcar ids
     const paramsForNftPactContract = useMemo(() => {
         if (account) {
-
             var parameters = {
                 account: account.account,
                 chainId: chainId,
@@ -51,8 +64,7 @@ function useGetMyKadcars(parameters) {
                 networkUrl: networkUrl,
                 readFromContract: readFromContract
             }
-            console.log(parameters)
-            executeContractForUser(parameters, getPactCommandForNftsByOwner, setCurrentUseKadcarNfts);
+            executeContractForUser(parameters, getPactCommandForNftsByOwner(account.account), setCurrentUseKadcarNfts);
         }
     }, [account, chainId, readFromContract, defaultMeta]);
 
@@ -62,6 +74,28 @@ function useGetMyKadcars(parameters) {
     }, [paramsForNftPactContract]);
     
     return currentUserKadcarNfts;
+}
+
+function useGetKadcarByNftId() {
+    const { account, chainId, networkUrl, readFromContract, defaultMeta, setNetworkSettings } = useContext(PactContext);
+    const [newKadcarNft, setNewKadcarNft] = useState(null);
+
+    return async (nftId) => {
+        var parameters = {
+            account: account.account,
+            chainId: chainId,
+            metaData: defaultMeta,
+            networkUrl: networkUrl,
+            readFromContract: readFromContract
+        }
+        console.log(parameters)
+        // executeContractForUser(parameters, getPactCommandForNftByNftId(nftId), setNewKadcarNft);
+        const result = await executePactContract(parameters, getPactCommandForNftByNftId(nftId));
+        console.log(result)
+        console.log(result[0])
+        console.log(result[0]['nft-id'])
+        return result[0];
+    }
 }
 
 //Custom hook to retrieve all minted kadcars
@@ -92,7 +126,6 @@ function useMintKadcar() {
     return (amount, callback) => {
         const priceToPay = amount * pricePerKadcar;
         const pactCode = getPactCommandForMintingNft(account.account);
-        console.log(pactCode)
         const cmd = {
             pactCode,
             caps: [
@@ -133,7 +166,7 @@ function useMintKadcar() {
             callback ?? (() => alert("Manufactured!"))
         );
         // signTransaction(currTransactionState.cmdToConfirm);
-        signTransaction(cmd);
+        // signTransaction(cmd);
     }
 }
 
@@ -189,9 +222,10 @@ function useTransferKadcars() {
 }
 
 export {
-    useGetMyKadcars,
-    useGetMyKadcarsFunction,
-    useGetAllKadcars,
     useMintKadcar,
-    useTransferKadcars
+    useGetMyKadcars,
+    useGetAllKadcars,
+    useTransferKadcars,
+    useGetKadcarByNftId,
+    useGetMyKadcarsFunction,
 }

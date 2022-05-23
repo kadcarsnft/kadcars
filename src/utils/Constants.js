@@ -48,6 +48,9 @@ const SCREEN_NAMES = {
     MINT_KADCAR :  "MINT_KADCAR",
 }
 
+//REGEX
+const REGEX_FOR_NFT_ID = ".*([0-9]+:[0-9]+).*";
+
 //KDA API Calls
 const KDA_CONNECT = 'kda_connect';
 const KDA_DISCONNECT = 'kda_disconnect';
@@ -80,5 +83,6 @@ export {
     DEFAULT_REQUEST_HEADERS,
     POST_METHOD,
     GET_METHOD,
-    KADCAR_NFT_OPTIONS
+    KADCAR_NFT_OPTIONS,
+    REGEX_FOR_NFT_ID
 }

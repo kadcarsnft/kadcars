@@ -1,33 +1,87 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Modal from "../components/elements/Modal";
 import { PactContext } from "../pact/PactContextProvider";
 import { throttle } from 'throttle-debounce';
-import { useMintKadcar } from "../pact/KadcarExtractor";
+import { useGetKadcarByNftId, useGetMyKadcarsFunction, useMintKadcar } from "../pact/KadcarExtractor";
 import Select from 'react-select';
-import { KADCAR_NFT_OPTIONS } from "../utils/Constants";
+import { KADCAR_NFT_OPTIONS, REGEX_FOR_NFT_ID } from "../utils/Constants";
 import Button from "../components/elements/Button";
 import { checkIfItemExistsInDropdownList, checkIfNullOrUndefined } from "../utils/utils";
+import { KadcarGameContext } from "../components/kadcarcomponents/KadcarGameContextProvider";
+import { toast } from "react-toastify";
 
 const MintModal = ({ show, setShow }) => {
     const mintKadcarFunction = useMintKadcar();
+    const getMintedNftId = useGetKadcarByNftId();
+    const updateKadcars = useGetMyKadcarsFunction();
+
+    const { currTransactionState, signTransaction } = useContext(PactContext);
+    const { myKadcars, setMyKadcars } = useContext(KadcarGameContext);
     const [modelSelected, setModelSelected] = useState(null);
+    const [mintedNft, setMintedNft] = useState(null);
+    const [amountToMint, setAmountToMint] = useState(0);
+    
+    useEffect(() => {
+        console.log(mintedNft)
+        if (mintedNft) {
+            console.log(mintedNft)
+            setMyKadcars([...myKadcars, mintedNft]);
+        }
+    }, [mintedNft]);
+
+    const executeTransaction = useCallback(() => {
+        if (!checkIfNullOrUndefined(currTransactionState.cmdToConfirm)) {
+            signTransaction(currTransactionState.cmdToConfirm);
+            console.log(currTransactionState);
+        }
+    }, [currTransactionState]);
+
+    useEffect(() => {
+        executeTransaction();
+    }, [executeTransaction]);
 
     function handleClose() {
         setShow(false);
+        setMintedNft(null);
+        setAmountToMint(0);
+        setModelSelected(null);
     }
 
     function onSelectModelOption(option) {
         setModelSelected(option.value);
     }
 
+    async function updateWithMintedNftId(data) {
+        if (data) {
+            console.log(data)
+            console.log(data.result.data)
+            var nftId = data.result.data.match(REGEX_FOR_NFT_ID)[1];
+            console.log(nftId)
+            const newNft = await getMintedNftId(nftId);
+            setMintedNft(newNft);
+            console.log(newNft)
+        } else {
+            toast.error("Invalid data, unable to update kadcar list");
+        }
+        // updateKadcars();
+    }
+
     function initiateMintKadcar() {
         if (!checkIfItemExistsInDropdownList(modelSelected, KADCAR_NFT_OPTIONS)) {
             //TODO: THROW ERROR HERE
+            toast.error("Please select a Kadcar model!");
             return;
         }
 
-        mintKadcarFunction(1, () => console.log("HAHA"));
-        setShow(false);
+        mintKadcarFunction(amountToMint, updateWithMintedNftId);
+        handleClose();
+    }
+
+    function checkIfReadyToMint() {
+        if (!checkIfNullOrUndefined(modelSelected) && amountToMint > 0) {
+            return false;
+        }
+        return true;
     }
 
     return (
@@ -36,7 +90,11 @@ const MintModal = ({ show, setShow }) => {
                 Model:
                 <Select options={KADCAR_NFT_OPTIONS} onChange={onSelectModelOption} />
             </label>
-            <Button onClick={initiateMintKadcar} color={'primary'} disabled={checkIfNullOrUndefined(modelSelected)}>
+            <label>
+                Amount:
+                <input type={'number'} value={amountToMint} onChange={(event)=>setAmountToMint(event.target.value)}/>
+            </label>
+            <Button onClick={initiateMintKadcar} color={'primary'} disabled={checkIfReadyToMint()}>
                 Mint!
             </Button>
         </Modal>
