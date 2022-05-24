@@ -108,13 +108,13 @@ async function confirmTransactionWithNetwork(networkUrl, method, headers, signed
 
 export {
     wait,
-    parseResponse,
+    mkReq,
     makeRequest,
     creationTime,
     tryLoadLocal,
     trySaveLocal,
+    parseResponse,
     checkIfNullOrUndefined,
+    confirmTransactionWithNetwork,
     checkIfItemExistsInDropdownList,
-    mkReq,
-    confirmTransactionWithNetwork
 }

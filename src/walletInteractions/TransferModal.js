@@ -3,6 +3,8 @@ import Modal from "../components/elements/Modal";
 import Select from 'react-select';
 import { KadcarGameContext } from "../components/kadcarcomponents/KadcarGameContextProvider";
 import { useTransferKadcars } from "../pact/KadcarExtractor";
+import { checkIfNullOrUndefined } from "../utils/utils";
+import Button from "../components/elements/Button";
 
 function getKadcarOptionsForDropdown(kadcarList) {
     const kadcarOptions = kadcarList.map((kadcarNft) => {
@@ -17,7 +19,7 @@ function getKadcarOptionsForDropdown(kadcarList) {
 
 const TransferNftModal = ({ show, setShow }) => {
     const transferKadcarsFunction = useTransferKadcars();
-    const [selectedNfts, setSelectedNfts] = useState();
+    const [selectedNfts, setSelectedNfts] = useState(null);
     const [receiverAccount, setReceiverAccount] = useState("");
     const { myKadcars, setMyKadcars } = useContext(KadcarGameContext);
     const [kadcarOptions, setKadcarOptions] = useState(null);
@@ -58,31 +60,36 @@ const TransferNftModal = ({ show, setShow }) => {
         handleTransferModalClose();
     }
 
+    function checkIfReadyToTransfer() {
+        if (checkIfNullOrUndefined(selectedNfts) || receiverAccount === "") {
+            return true;
+        }
+        return false;
+    }
+
     return (
         <Modal show={show} handleClose={handleTransferModalClose}>
             <div style={modalStyles}>
                 <div style={rowStyles}>
                     <div style={subColLabelStyles}>
-                        <label>
-                            Receiver's address:
-                        </label>
+                        Receiver's address:
                     </div>
                     <div style={subColInputStyles}>
-                        <input type="text" value={receiverAccount} onChange={handleReceiverAccountChange} />
+                        <input style={{ height: '45px' }} type="text" value={receiverAccount} onChange={handleReceiverAccountChange} placeholder={'e.g. k:1234...'}/>
                     </div>
                 </div>
                 <div style={rowStyles}>
                     <div style={subColLabelStyles}>
-                        <label>
-                            Select Kadcar to transfer:
-                        </label>
+                        Select Kadcar to transfer:
                     </div>
                     <div style={subColInputStyles}>
-                        {myKadcars && <Select options={kadcarOptions} onChange={onSelectNftOptions} />}
+                        { myKadcars && <Select options={kadcarOptions} onChange={onSelectNftOptions} /> }
                     </div>
                 </div>
                 <div style={rowStyles}>
-                    <input type="submit" value="Submit" onClick={initiateKadcarTransfer} />
+                    <Button onClick={initiateKadcarTransfer} color={'primary'} disabled={checkIfReadyToTransfer()}>
+                        Mint!
+                    </Button>
                 </div>
             </div>
         </Modal>
@@ -90,31 +97,33 @@ const TransferNftModal = ({ show, setShow }) => {
 }
 
 const modalStyles = {
-    width: '50vh',
-    height: '25vh',
+    width: '100%',
+    height: '30vh',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
 };
 
 const rowStyles = {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'flex-end',
     width: '100%',
 }
 
 const subColLabelStyles = {
     display: 'flex',
-    flexDirection: 'column',
-    width: '40%',
+    flexDirection: 'row',
+    justifyContent: 'start',
+    alignContent: 'center',
+    width: '60%',
     marginRight: '5px'
 }
 
 const subColInputStyles = {
     display: 'flex',
     flexDirection: 'column',
-    width: '60%',
+    width: '80%',
     marginLeft: '5px'
 }
 
