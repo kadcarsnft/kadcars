@@ -1,22 +1,22 @@
+import { connectKadena, disconnectKadena, getAccountSelected, getKadenaConnectStatus, getSelectedAccount, getUserWallet } from '../../kadenaInteraction/KadenaApi';
+import { useGetMyKadcarsFunction, useGetAllKadcars, useGetMyKadcars, useMintKadcar, useTransferKadcars } from '../../pact/KadcarExtractor';
+import { DEFAULT_GAS_PRICE, DEFAULT_NETWORK_ID, LOCAL_CHAIN_ID, NETWORK_ID, SCREEN_NAMES } from '../../utils/Constants';
+import { KadcarGameContext } from '../kadcarcomponents/KadcarGameContextProvider';
+import { MainHeaderScreenContainer } from '../kadcarcomponents/KadcarComponents';
+import { useCheckForXWalletExtension } from '../../hooks/BrowserExtensionHooks';
+import { useCheckKadenaAccountConnection } from '../../hooks/KadenaCustomHooks';
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import classNames from 'classnames';
+import { TransferNftModal } from '../../walletInteractions/TransferModal';
+import { MintModal } from '../../walletInteractions/MintModal';
+import { PactContext } from '../../pact/PactContextProvider';
+import { checkIfNullOrUndefined } from '../../utils/utils';
 import { SectionProps } from '../../utils/SectionProps';
 import ButtonGroup from '../elements/ButtonGroup';
+import { throttle } from 'throttle-debounce';
 import Button from '../elements/Button';
 import Image from '../elements/Image';
 import Modal from '../elements/Modal';
-import { DEFAULT_GAS_PRICE, DEFAULT_NETWORK_ID, LOCAL_CHAIN_ID, NETWORK_ID, SCREEN_NAMES } from '../../utils/Constants';
-import { connectKadena, disconnectKadena, getAccountSelected, getKadenaConnectStatus, getSelectedAccount, getUserWallet } from '../../kadenaInteraction/KadenaApi';
-import { useGetMyKadcarsFunction, useGetAllKadcars, useGetMyKadcars, useMintKadcar, useTransferKadcars } from '../../pact/KadcarExtractor';
-import { useCheckForXWalletExtension } from '../../hooks/BrowserExtensionHooks';
-import { useCheckKadenaAccountConnection } from '../../hooks/KadenaCustomHooks';
-import { PactContext } from '../../pact/PactContextProvider';
-import { MainHeaderScreenContainer } from '../kadcarcomponents/KadcarComponents';
-import { KadcarGameContext } from '../kadcarcomponents/KadcarGameContextProvider';
-import { checkIfNullOrUndefined } from '../../utils/utils';
-import { throttle } from 'throttle-debounce';
-import { MintModal } from '../../walletInteractions/MintModal';
-import { TransferNftModal } from '../../walletInteractions/TransferModal';
+import classNames from 'classnames';
 
 const propTypes = {
   ...SectionProps.types

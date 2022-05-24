@@ -19,16 +19,7 @@ const defaultProps = {
   videoTag: 'iframe'
 }
 
-const Modal = ({
-  className,
-  children,
-  handleClose,
-  show,
-  closeHidden,
-  video,
-  videoTag,
-  ...props
-}) => {
+const Modal = ({ className, children, handleClose, show, closeHidden,  video, videoTag, ...props }) => {
 
   useEffect(() => {
     document.addEventListener('keydown', keyPress);
@@ -74,7 +65,7 @@ const Modal = ({
           className={classes}
           onClick={handleClose}
         >
-          <div className="modal-inner" onClick={stopProgagation}>
+          <div className="modal-inner" onClick={stopProgagation} style={{ borderRadius: '25px' }}>
             {video ?
               <div className="responsive-video">
                 {videoTag === 'iframe' ?

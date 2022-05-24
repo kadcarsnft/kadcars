@@ -8,7 +8,8 @@ $modal--bg: (
 
 // More modal settings
 $modal--min-width:			 		null;		// modal min-width
-$modal--max-width:			 		520px;		// modal max-width
+// $modal--max-width:			 		520px;		// modal max-width
+$modal--max-width:			 		35vw;		// modal max-width
 $modal-video--max-width:			1024px;		// modal video max-width
 $modal--outer-padding-v__mobile: 	16px;		// modal, outer top and bottom padding (mobile)
 $modal--outer-padding-v__desktop: 	48px;		// modal, outer top and bottom padding (desktop)

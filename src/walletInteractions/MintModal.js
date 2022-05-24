@@ -14,8 +14,8 @@ const MintModal = ({ show, setShow }) => {
     const getMintedNftId = useGetKadcarByNftId();
     const updateKadcars = useGetMyKadcarsFunction();
 
-    const { currTransactionState, signTransaction } = useContext(PactContext);
-    const { myKadcars, setMyKadcars } = useContext(KadcarGameContext);
+    const { account, currTransactionState, signTransaction } = useContext(PactContext);
+    const { myKadcars, setMyKadcars, pricePerKadcar } = useContext(KadcarGameContext);
     const [modelSelected, setModelSelected] = useState(null);
     const [mintedNft, setMintedNft] = useState(null);
     const [amountToMint, setAmountToMint] = useState(0);
@@ -60,6 +60,10 @@ const MintModal = ({ show, setShow }) => {
     }
 
     function initiateMintKadcar() {
+        if (account.balance < pricePerKadcar) {
+            toast.error(`Insufficient funds! Only ${account.balance} KDA remaining.`);
+            return;
+        }
         if (!checkIfItemExistsInDropdownList(modelSelected, KADCAR_NFT_OPTIONS)) {
             //TODO: THROW ERROR HERE
             toast.error("Please select a Kadcar model!");
@@ -79,19 +83,64 @@ const MintModal = ({ show, setShow }) => {
 
     return (
         <Modal show={show} handleClose={handleClose}>
-            <label>
-                Model:
-                <Select options={KADCAR_NFT_OPTIONS} onChange={onSelectModelOption} />
-            </label>
-            <label>
-                Amount:
-                <input type={'number'} value={amountToMint} onChange={(event)=>setAmountToMint(event.target.value)}/>
-            </label>
-            <Button onClick={initiateMintKadcar} color={'primary'} disabled={checkIfReadyToMint()}>
-                Mint!
-            </Button>
+            <div style={modalStyles}>
+                <div style={rowStyles}>
+                    <div style={subColLabelStyles}>
+                        Model:
+                    </div>
+                    <div style={subColInputStyles}>
+                        <Select options={KADCAR_NFT_OPTIONS} onChange={onSelectModelOption} />
+                    </div>
+                </div>
+                <div style={rowStyles}>
+                    <div style={subColLabelStyles}>
+                        Amount:
+                    </div>
+                    <div style={subColInputStyles}>
+                        <input style={{ height: '45px' }} type={'number'} value={amountToMint} onChange={(event) => setAmountToMint(event.target.value)} placeholder={'e.g. 2'}/>
+                    </div>
+                </div>
+                <div style={rowStyles}>
+                    <div style={{ marginRight: '20px' }}>
+                        Total for {amountToMint} Kadcars: {amountToMint * pricePerKadcar} KDA
+                    </div>
+                    <Button onClick={initiateMintKadcar} color={'primary'} disabled={checkIfReadyToMint()}>
+                        Mint!
+                    </Button>
+                </div>
+            </div>
         </Modal>
     )
+}
+
+const modalStyles = {
+    width: '100%',
+    height: '30vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly'
+};
+
+const rowStyles = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    width: '95%',
+}
+
+const subColLabelStyles = {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '20%',
+    marginRight: '5px',
+    alignContent: 'center',
+}
+
+const subColInputStyles = {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '80%',
+    marginLeft: '5px'
 }
 
 export {
