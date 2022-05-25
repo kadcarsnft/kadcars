@@ -80,16 +80,16 @@ const TransferNftModal = ({ show, setShow }) => {
     function initiateKadcarTransfer() {
         // transferKadcarsFunction(selectedNfts, "k:3e84c7a7a21e69e666a82f8a38f55fe79049fa6b675860681f11f514d92ae6f5", removeTransferredKadcarFromList);
 
-        // validateReceiverAccount() ? 
-            transferKadcarsFunction(selectedNfts, receiverAccount.account, removeTransferredKadcarFromList) 
-            // toast.error("Sorry the receiver acount details are invalid, wallet not found");
+        validateReceiverAccount ? 
+            transferKadcarsFunction(selectedNfts, receiverAccount.account, removeTransferredKadcarFromList) :
+            toast.error("Sorry the receiver acount details are invalid, wallet not found");
         
         console.log(myKadcars)
         handleTransferModalClose();
     }
 
     function checkIfNotReadyToTransfer() {
-        if (checkIfNullOrUndefined(selectedNfts) || checkIfNullOrUndefined(defaultReceiver)) {
+        if (checkIfNullOrUndefined(selectedNfts) || checkIfNullOrUndefined(receiverAccount)) {
             return true;
         }
         return false;
@@ -97,8 +97,8 @@ const TransferNftModal = ({ show, setShow }) => {
 
     const validateReceiverAccount = throttle(500, async () => {
         const accountDetails = await fetchAccountDetails(receiverAccount);
-
         if (checkIfNullOrUndefined(accountDetails)) {
+            console.log(accountDetails)
             return false;
         }
         return true;

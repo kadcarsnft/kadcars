@@ -1,7 +1,7 @@
 import React from 'react';
 import Pact from "pact-lang-api";
 import { toast } from 'react-toastify';
-import { DEFAULT_CHAIN_ID, KADCAR_NFT_COLLECTION, MAINNET_NETWORK_ID, TESTNET_NETWORK_ID } from '../utils/Constants';
+import { DEFAULT_CHAIN_ID, KADCAR_NFT_COLLECTION, MAINNET_NETWORK_ID, NETWORK_ID, TESTNET_NETWORK_ID } from '../utils/Constants';
 import { creationTime } from '../utils/utils';
 
 async function executePactContract(pactContextObject, pactCmd) {
@@ -69,7 +69,7 @@ const fetchAccountDetails = async (metaData) => {
     return await readFromContract({
         pactCode: `(coin.details ${JSON.stringify(metaData.account)})`,
         meta: defineMetaData(metaData.chainId, metaData.gasPrice, metaData.gasLimit),
-    });
+    }, getNetworkUrl(NETWORK_ID));
 };
 
 const readFromContract = async (cmd, networkUrl, returnError) => {
