@@ -1,5 +1,8 @@
 import React from 'react';
+import Pact from "pact-lang-api";
+import { toast } from 'react-toastify';
 import { DEFAULT_CHAIN_ID, KADCAR_NFT_COLLECTION, MAINNET_NETWORK_ID, TESTNET_NETWORK_ID } from '../utils/Constants';
+import { creationTime } from '../utils/utils';
 
 async function executePactContract(pactContextObject, pactCmd) {
     const pactCode = pactCmd; 
@@ -51,8 +54,48 @@ function getNetworkUrl(netId) {
     throw new Error("networkId must be testnet or mainnet");
 }
 
+const defineMetaData = (chainId, gasPrice, gasLimit) => {
+    return Pact.lang.mkMeta(
+        "",
+        chainId,
+        gasPrice,
+        gasLimit ?? 150000,
+        creationTime(),
+        600
+    );
+};
+
+const fetchAccountDetails = async (metaData) => {
+    return await readFromContract({
+        pactCode: `(coin.details ${JSON.stringify(metaData.account)})`,
+        meta: defineMetaData(metaData.chainId, metaData.gasPrice, metaData.gasLimit),
+    });
+};
+
+const readFromContract = async (cmd, networkUrl, returnError) => {
+    try {
+        let data = await Pact.fetch.local(cmd, networkUrl);
+        if (data?.result?.status === "success") {
+            return data.result.data;
+        } else {
+            if (returnError === true) {
+                return data?.result?.error?.message;
+            } else {
+                return null;
+            }
+        }
+    } catch (e) {
+        toast.error("Had trouble fetching data from the blockchain");
+        console.log(e);
+    }
+    return null;
+};
+
 export {
     getNetworkUrl,
+    defineMetaData,
+    readFromContract,
+    fetchAccountDetails,
     executePactContract,
     getPactCommandForAllNfts,
     getPactCommandForMintingNft,

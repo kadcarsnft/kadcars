@@ -1,10 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import Modal from "../components/elements/Modal";
 import Select from 'react-select';
+import { throttle } from 'throttle-debounce';
 import { KadcarGameContext } from "../components/kadcarcomponents/KadcarGameContextProvider";
 import { useTransferKadcars } from "../pact/KadcarExtractor";
 import { checkIfNullOrUndefined } from "../utils/utils";
 import Button from "../components/elements/Button";
+import { fetchAccountDetails } from "../pact/PactUtils";
+import { DEFAULT_GAS_LIMIT, DEFAULT_GAS_PRICE } from "../utils/Constants";
+import { toast } from "react-toastify";
+
+const defaultReceiver = {
+    account: "k:3e84c7a7a21e69e666a82f8a38f55fe79049fa6b675860681f11f514d92ae6f5",
+    chainId: "1",
+    gasPrice: DEFAULT_GAS_PRICE,
+    gasLimit: DEFAULT_GAS_LIMIT
+}
 
 function getKadcarOptionsForDropdown(kadcarList) {
     const kadcarOptions = kadcarList.map((kadcarNft) => {
@@ -20,7 +31,7 @@ function getKadcarOptionsForDropdown(kadcarList) {
 const TransferNftModal = ({ show, setShow }) => {
     const transferKadcarsFunction = useTransferKadcars();
     const [selectedNfts, setSelectedNfts] = useState(null);
-    const [receiverAccount, setReceiverAccount] = useState("");
+    const [receiverAccount, setReceiverAccount] = useState(defaultReceiver);
     const { myKadcars, setMyKadcars } = useContext(KadcarGameContext);
     const [kadcarOptions, setKadcarOptions] = useState(null);
 
@@ -36,7 +47,21 @@ const TransferNftModal = ({ show, setShow }) => {
     }
 
     function handleReceiverAccountChange(event) {
-        setReceiverAccount(event.target.value);
+        const updatedReceiver = {
+            ...receiverAccount,
+            account: event.target.value
+        }
+
+        setReceiverAccount(updatedReceiver);
+    }
+
+    function handleReceiverChainIdChange(event) {
+        const updatedReceiver = {
+            ...receiverAccount,
+            chainId: event.target.value
+        }
+
+        setReceiverAccount(updatedReceiver);
     }
 
     function onSelectNftOptions(options) {
@@ -53,19 +78,31 @@ const TransferNftModal = ({ show, setShow }) => {
     }
 
     function initiateKadcarTransfer() {
-        // transferKadcarsFunction(selectedNfts, receiverAccount);
-        // transferKadcarsFunction(selectedNfts, receiverAccount, removeTransferredKadcarFromList);
-        transferKadcarsFunction(selectedNfts, "k:3e84c7a7a21e69e666a82f8a38f55fe79049fa6b675860681f11f514d92ae6f5", removeTransferredKadcarFromList);
+        // transferKadcarsFunction(selectedNfts, "k:3e84c7a7a21e69e666a82f8a38f55fe79049fa6b675860681f11f514d92ae6f5", removeTransferredKadcarFromList);
+
+        // validateReceiverAccount() ? 
+            transferKadcarsFunction(selectedNfts, receiverAccount.account, removeTransferredKadcarFromList) 
+            // toast.error("Sorry the receiver acount details are invalid, wallet not found");
+        
         console.log(myKadcars)
         handleTransferModalClose();
     }
 
-    function checkIfReadyToTransfer() {
-        if (checkIfNullOrUndefined(selectedNfts) || receiverAccount === "") {
+    function checkIfNotReadyToTransfer() {
+        if (checkIfNullOrUndefined(selectedNfts) || checkIfNullOrUndefined(defaultReceiver)) {
             return true;
         }
         return false;
     }
+
+    const validateReceiverAccount = throttle(500, async () => {
+        const accountDetails = await fetchAccountDetails(receiverAccount);
+
+        if (checkIfNullOrUndefined(accountDetails)) {
+            return false;
+        }
+        return true;
+    });
 
     return (
         <Modal show={show} handleClose={handleTransferModalClose}>
@@ -75,7 +112,15 @@ const TransferNftModal = ({ show, setShow }) => {
                         Receiver's address:
                     </div>
                     <div style={subColInputStyles}>
-                        <input style={{ height: '45px' }} type="text" value={receiverAccount} onChange={handleReceiverAccountChange} placeholder={'e.g. k:1234...'}/>
+                        <input style={{ height: '45px' }} type="text" value={receiverAccount.account} onChange={handleReceiverAccountChange} placeholder={'e.g. k:1234...'}/>
+                    </div>
+                </div>
+                <div style={rowStyles}>
+                    <div style={subColLabelStyles}>
+                        Receiver's wallet chain ID:
+                    </div>
+                    <div style={subColInputStyles}>
+                        <input style={{ height: '45px' }} type="number" value={receiverAccount.chainId} onChange={handleReceiverChainIdChange} placeholder={'e.g. 0,1..'}/>
                     </div>
                 </div>
                 <div style={rowStyles}>
@@ -87,7 +132,7 @@ const TransferNftModal = ({ show, setShow }) => {
                     </div>
                 </div>
                 <div style={rowStyles}>
-                    <Button onClick={initiateKadcarTransfer} color={'primary'} disabled={checkIfReadyToTransfer()}>
+                    <Button onClick={initiateKadcarTransfer} color={'primary'} disabled={checkIfNotReadyToTransfer()}>
                         Mint!
                     </Button>
                 </div>

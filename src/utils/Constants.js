@@ -5,6 +5,7 @@ const NETWORK_ID = TESTNET_NETWORK_ID;
 
 //Default values
 const DEFAULT_GAS_PRICE = 0.00000001;
+const DEFAULT_GAS_LIMIT = 150000;
 const DEFAULT_CHAIN_ID = "1";
 const POLL_INTERVAL_S = 5;
 
@@ -63,6 +64,7 @@ const KDA_REQUEST_ACCOUNT = 'kda_requestAccount';
 const KDA_GET_SELECTED_ACCOUNT = 'kda_getSelectedAccount';
 
 export {
+    DEFAULT_GAS_LIMIT,
     S_TO_MS_MULTIPLIER,
     POLL_INTERVAL_S,
     KDA_CONNECT,
