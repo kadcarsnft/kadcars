@@ -17,6 +17,7 @@ import Button from '../elements/Button';
 import Image from '../elements/Image';
 import Modal from '../elements/Modal';
 import classNames from 'classnames';
+import { WalletModal } from '../../walletInteractions/WalletModal';
 
 const propTypes = {
   ...SectionProps.types
@@ -98,18 +99,6 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   //   console.log(currentUserKadcarNfts)
   // }, [currentUserKadcarNfts]);
 
-  function initiateKadenaConnection() {
-    if (window.kadena) {
-      //Connect this user's account to the app
-      // connectKadena(pactContext);
-      console.log(tempAccount)
-      pactContext.setConnectedWallet(tempAccount, extensionInstalled);
-      setShowWalletNameModal(false);
-    } else {
-      //TODO: render error to install extension
-    }
-  }
-
   //Disconnect the user's account from the app
   function disconnectKadenaAccount() {
 
@@ -122,26 +111,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   async function displayCurrentUserKadcars() {
     kadcarGameContext.setMyKadcars(currentUserKadcarNfts);
     kadcarGameContext.setCurrentScreen(SCREEN_NAMES.MY_KADCARS);
-
-    // const connectStatus = getKadenaConnectStatus();
-
-    // if (connectStatus) {
-    //   // getMyKadcars();
-    // } else {
-    // }
   }
-
-  const handleModalWalletChange = throttle(500, async (event) => {
-    setModalWallet(event.target.value);
-    const accountDetails = await pactContext.fetchAccountDetails(event.target.value);
-
-    if (checkIfNullOrUndefined(accountDetails)) {
-      //Insert toast error here
-      console.log("wallet not found")
-    } else {
-      setTempAccount(accountDetails);
-    }
-  });
 
   function initiateMintKadcar() {
     mintKadcarFunction(1, () => console.log("HAHA"));
@@ -262,13 +232,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
           <div style={{ width: '85%', height: '60vh', justifyContent: 'center' }}>
             <MainHeaderScreenContainer />
           </div>
-          <Modal show={showWalletNameModal} handleClose={handleWalletModalClose}>
-            <label>
-              Wallet Name:
-              <input type="text" value={modalWallet} onChange={handleModalWalletChange} />
-            </label>
-            <input type="submit" value="Submit" onClick={initiateKadenaConnection} />
-          </Modal>
+          <WalletModal show={showWalletNameModal} setShow={setShowWalletNameModal} isXwallet={extensionInstalled} />
           <MintModal show={showMintModal} setShow={setShowMintModal} />
           <TransferNftModal show={showTransferModal} setShow={setShowTransferModal} />
         </div>
