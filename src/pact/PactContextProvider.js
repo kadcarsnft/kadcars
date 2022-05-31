@@ -107,6 +107,7 @@ const PactContextProvider = ({ children }) => {
     };
 
     const readFromContract = async (cmd, returnError) => {
+        // console.log(cmd)
         try {
             let data = await Pact.fetch.local(cmd, networkUrl);
             if (data?.result?.status === "success") {

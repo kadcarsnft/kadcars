@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import Modal from "../components/elements/Modal";
 import { PactContext } from "../pact/PactContextProvider";
-import { useGetKadcarByNftId, useGetMyKadcarsFunction, useMintKadcar } from "../pact/KadcarExtractor";
+import { useGetKadcarByNftId, useGetMyKadcarsFunction, useMintKadcarFunction } from "../pact/KadcarExtractor";
 import Select from 'react-select';
 import { KADCAR_NFT_OPTIONS, REGEX_FOR_NFT_ID } from "../utils/Constants";
 import Button from "../components/elements/Button";
@@ -10,7 +10,7 @@ import { KadcarGameContext } from "../components/kadcarcomponents/KadcarGameCont
 import { toast } from "react-toastify";
 
 const MintModal = ({ show, setShow }) => {
-    const mintKadcarFunction = useMintKadcar();
+    const mintKadcarFunction = useMintKadcarFunction();
     const getMintedNftId = useGetKadcarByNftId();
     const updateKadcars = useGetMyKadcarsFunction();
 

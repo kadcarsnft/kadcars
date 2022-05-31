@@ -8,6 +8,7 @@ async function executePactContract(pactContextObject, pactCmd) {
     const pactCode = pactCmd; 
     const meta = pactContextObject.metaData(1000000);
     const contractOutput = await pactContextObject.readFromContract({ pactCode, meta });
+    // console.log(contractOutput)
     return contractOutput;
 }
 

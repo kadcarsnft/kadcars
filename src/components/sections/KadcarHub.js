@@ -1,6 +1,6 @@
 import { connectKadena, disconnectKadena, getAccountSelected, getKadenaConnectStatus, getSelectedAccount, getUserWallet } from '../../kadenaInteraction/KadenaApi';
-import { useGetMyKadcarsFunction, useGetAllKadcars, useGetMyKadcars, useMintKadcar, useTransferKadcars } from '../../pact/KadcarExtractor';
-import { DEFAULT_GAS_PRICE, DEFAULT_NETWORK_ID, LOCAL_CHAIN_ID, NETWORK_ID, SCREEN_NAMES } from '../../utils/Constants';
+import { useGetMyKadcarsFunction, useGetAllKadcars, useGetMyKadcars, useTransferKadcars, useMintKadcarFunction } from '../../pact/KadcarExtractor';
+import { DEFAULT_CHAIN_ID, DEFAULT_GAS_PRICE, DEFAULT_NETWORK_ID, LOCAL_CHAIN_ID, NETWORK_ID, SCREEN_NAMES } from '../../utils/Constants';
 import { KadcarGameContext } from '../kadcarcomponents/KadcarGameContextProvider';
 import { MainHeaderScreenContainer } from '../kadcarcomponents/KadcarComponents';
 import { useCheckForXWalletExtension } from '../../hooks/BrowserExtensionHooks';
@@ -38,7 +38,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
 
   const currentUserKadcarFunction = useGetMyKadcarsFunction();
   const transferKadcarsFunction = useTransferKadcars();
-  const mintKadcarFunction = useMintKadcar();
+  const mintKadcarFunction = useMintKadcarFunction();
 
   const currentUserKadcarNfts = useGetMyKadcars();
   const allKadcarNfts = useGetAllKadcars();
@@ -83,7 +83,6 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   const setCurrentUserKadcars = useCallback(async () => {
     const currentUserKadcars = await currentUserKadcarFunction();
     currentUserKadcars && kadcarGameContext.setMyKadcars(currentUserKadcarNfts);
-    console.log(currentUserKadcarNfts)
   }, [currentUserKadcarNfts]);
 
   useEffect(() => {
@@ -111,6 +110,10 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   async function displayCurrentUserKadcars() {
     kadcarGameContext.setMyKadcars(currentUserKadcarNfts);
     kadcarGameContext.setCurrentScreen(SCREEN_NAMES.MY_KADCARS);
+  }
+
+  async function displayAllMintedKadcars() {
+    console.log(allKadcarNfts)
   }
 
   function initiateMintKadcar() {
@@ -189,7 +192,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                 <Button onClick={displayCurrentUserKadcars} tag="a" color="dark" wideMobile>
                   My Cars
                 </Button>
-                <Button tag="a" color="dark" wideMobile>
+                <Button onClick={displayAllMintedKadcars} tag="a" color="dark" wideMobile>
                   All Kadcars
                 </Button>
               </ButtonGroup>
