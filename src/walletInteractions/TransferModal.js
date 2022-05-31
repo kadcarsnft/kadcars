@@ -107,6 +107,9 @@ const TransferNftModal = ({ show, setShow }) => {
     return (
         <Modal show={show} handleClose={handleTransferModalClose}>
             <div style={modalStyles}>
+                <div style={headerStyles}>
+                    <span className="text-color-primary" style={{ fontSize: '30px', fontWeight: 'bold' }}>Transfer a Kadcar(s)</span>
+                </div>
                 <div style={rowStyles}>
                     <div style={subColLabelStyles}>
                         Receiver's address:
@@ -143,11 +146,21 @@ const TransferNftModal = ({ show, setShow }) => {
 
 const modalStyles = {
     width: '100%',
-    height: '30vh',
+    height: '35vh',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
+    // backgroundColor: 'green'
 };
+
+const headerStyles = {
+    width: '100%',
+    height: '20%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    // backgroundColor:'blue'
+}
 
 const rowStyles = {
     display: 'flex',

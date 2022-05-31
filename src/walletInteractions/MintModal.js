@@ -84,6 +84,9 @@ const MintModal = ({ show, setShow }) => {
     return (
         <Modal show={show} handleClose={handleClose}>
             <div style={modalStyles}>
+                <div style={headerStyles}>
+                    <span className="text-color-primary" style={{ fontSize: '30px', fontWeight: 'bold' }}>Mint a Kadcar(s)</span>
+                </div>
                 <div style={rowStyles}>
                     <div style={subColLabelStyles}>
                         Model:
@@ -120,6 +123,15 @@ const modalStyles = {
     flexDirection: 'column',
     justifyContent: 'space-evenly'
 };
+
+const headerStyles = {
+    width: '100%',
+    height: '20%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    // backgroundColor:'blue'
+}
 
 const rowStyles = {
     display: 'flex',
