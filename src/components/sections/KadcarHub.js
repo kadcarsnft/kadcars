@@ -18,6 +18,8 @@ import Image from '../elements/Image';
 import Modal from '../elements/Modal';
 import classNames from 'classnames';
 import { WalletModal } from '../../walletInteractions/WalletModal';
+import md5 from 'md5';
+import hash from '../../text';
 
 const propTypes = {
   ...SectionProps.types
@@ -54,6 +56,9 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   const [showMintModal, setShowMintModal] = useState(false);
   const [showTransferModal, setShowTransferModal] = useState(false);
   const [showWalletNameModal, setShowWalletNameModal] = useState(false);
+
+  const [showPassModal, setShowPassModal] = useState(false);
+  const [pass, setPass] = useState("");
 
   const openModal = (e) => {
     e.preventDefault();
@@ -141,6 +146,10 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
     setShowTransferModal(true);
   }
 
+  function handleEnterRace(value) {
+    const hash = md5(value);
+  }
+
   return (
     <section
       {...props}
@@ -219,7 +228,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
             <Button tag="a" color="dark" wideMobile style={{ width: '90%' }}>
               Garage Mode
             </Button>
-            <Button tag="a" color="dark" wideMobile style={{ width: '90%' }}>
+            <Button onClick={()=>setShowPassModal(true)} tag="a" color="dark" wideMobile style={{ width: '90%' }}>
               Race Mode
             </Button>
             <Button onClick={handleOpenTransferModal} tag="a" color="dark" wideMobile style={{ width: '90%' }}>
@@ -235,6 +244,18 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
           <div style={{ width: '85%', height: '60vh', justifyContent: 'center' }}>
             <MainHeaderScreenContainer />
           </div>
+          <Modal show={showPassModal} handleClose={()=>setShowPassModal(false)}>
+            <label>
+              <input type={"text"} value={pass} onChange={(event) => {setPass(event.target.value)}}/>
+              <Button onClick={()=>{
+                  if (md5(pass).toString() === hash) {
+
+                  }
+                }}>
+                Enter
+              </Button>
+            </label>
+          </Modal>
           <WalletModal show={showWalletNameModal} setShow={setShowWalletNameModal} isXwallet={extensionInstalled} />
           <MintModal show={showMintModal} setShow={setShowMintModal} />
           <TransferNftModal show={showTransferModal} setShow={setShowTransferModal} />
