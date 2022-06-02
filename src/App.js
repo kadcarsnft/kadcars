@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { useLocation, Switch } from 'react-router-dom';
+import { useLocation, Routes, Route, Outlet } from 'react-router-dom';
 import AppRoute from './utils/AppRoute';
 import ScrollReveal from './utils/ScrollReveal';
 import ReactGA from 'react-ga';
@@ -12,6 +12,7 @@ import Home from './views/Home';
 import { PactContextProvider } from './pact/PactContextProvider';
 
 import "swiper/css/bundle"
+import { Atrium } from './games/Atrium';
 
 // Initialize Google Analytics
 // ReactGA.initialize(process.env.REACT_APP_GA_CODE);
@@ -40,9 +41,12 @@ const App = () => {
       <ScrollReveal
         ref={childRef}
         children={() => (
-          <Switch>
-            <AppRoute exact path="/" component={Home} layout={LayoutDefault} />
-          </Switch>
+          <Routes>
+            <Route element={<LayoutDefault><Outlet /></LayoutDefault>}>
+              <Route exact path="/" element={<Home />} />
+              <Route path="/atrium" element={<Atrium/>} />
+            </Route>
+          </Routes>
         )} />
     </PactContextProvider>
   );
