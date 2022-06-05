@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 
@@ -11,11 +12,20 @@ import './assets/scss/style.scss';
 
 const history = createBrowserHistory();
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+// ReactDOM.render(
+//   <BrowserRouter history={history}>
+//     <App />
+//   </BrowserRouter>,
+//   document.getElementById('root')
+// );
+root.render(
   <BrowserRouter history={history}>
     <App />
   </BrowserRouter>,
-  document.getElementById('root')
+  // document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

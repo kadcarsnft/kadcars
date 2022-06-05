@@ -1,0 +1,5 @@
+const DEFAULT_GARAGE_CAMERA_FOV = 450;
+
+export {
+    DEFAULT_GARAGE_CAMERA_FOV
+}

@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { SectionTilesProps } from '../utils/SectionProps';
 import Image from '../components/elements/Image';
 import SectionHeader from '../components/sections/partials/SectionHeader';
+import { ReactComponent as YourSvg } from './../assets/images/feature-tile-icon-01.svg';
 
 const propTypes = {
     ...SectionTilesProps.types
