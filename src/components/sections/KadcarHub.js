@@ -228,7 +228,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
               marginRight: '20px',
               marginTop: '30px'
             }}>
-            <Button tag="a" color="dark" wideMobile style={{ width: '90%' }}>
+            <Button onClick={() => { navigate("/garage") }} tag="a" color="dark" wideMobile style={{ width: '90%' }}>
               Garage Mode
             </Button>
             <Button onClick={() => setShowPassModal(true)} tag="a" color="dark" wideMobile style={{ width: '90%' }}>

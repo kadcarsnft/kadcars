@@ -9,9 +9,10 @@ import CAR2 from '../assets/images/mustang/Mustang.obj'
 import LIBERTY from '../assets/images/liberty/LibertyStatue/LibertStatue.obj'
 import LIBERTYMTL from '../assets/images/liberty/LibertyStatue/LibertStatue.mtl'
 import BENZ from '../assets/images/benz/benz.fbx'
+import BENZ2 from '../assets/images/benz/scene.gltf'
 import { DEFAULT_GARAGE_CAMERA_FOV } from "./GarageConstants";
 import { MaterialLoader } from 'three';
-import { Camera, CameraController, FBXModel } from '../utils/SceneUtils';
+import { Camera, CameraController, FBXModel, GLTFModel } from '../utils/SceneUtils';
 import { KadcarGameContext } from '../components/kadcarcomponents/KadcarGameContextProvider';
 
 function Box(props) {
@@ -67,8 +68,8 @@ const Garage = () => {
                     <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
                     <pointLight position={[-10, -10, -10]} />
 
-                    <FBXModel fbxModelPath={BENZ} position={[-113, -50, 250]} scale={1.6} />
-
+                    <FBXModel fbxModelPath={BENZ} position={[0,0,0]} scale={1.6} />
+                    {/* <GLTFModel gltfModelPath={BENZ2}/> */}
                     <primitive object={new THREE.AxesHelper(500)} />
                 </Suspense>
             </Canvas>
