@@ -46,6 +46,10 @@ const CameraController = (props) => {
         
         controller.minDistance = props.minDistance;
         controller.maxDistance = props.maxDistance;
+        controller.minPolarAngle = props.minPolarAngle;
+        controller.maxPolarAngle = props.maxPolarAngle;
+        controller.minAzimuthAngle = props.minAzimuthAngle;
+        controller.maxAzimuthAngle = props.maxAzimuthAngle;
 
         return () => {
             controller.dispose();
