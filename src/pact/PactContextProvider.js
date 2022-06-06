@@ -1,8 +1,7 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, createContext } from "react";
 import Pact from "pact-lang-api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { createContext } from "react/cjs/react.production.min";
 import {
     DEFAULT_CHAIN_ID,
     DEFAULT_GAS_PRICE,

@@ -40,8 +40,10 @@ const CameraController = (props) => {
 
     useEffect(() => {
         const controller = new OrbitControls(camera, gl.domElement);
-        controller.minDistance = 100;
-        controller.maxDistance = 300;
+        
+        controller.minDistance = props.minDistance;
+        controller.maxDistance = props.maxDistance;
+
         return () => {
             controller.dispose();
         }
@@ -51,7 +53,6 @@ const CameraController = (props) => {
 
 const FBXModel = (props) => {
     const fbxModel = useFBX(props.fbxModelPath);
-
     return <primitive object={fbxModel} position={props.position} scale={props.scale}/>
 }
 

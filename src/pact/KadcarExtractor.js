@@ -30,6 +30,25 @@ async function executeContract(parameters, getPactCommandFunction, invocableStat
     }
 }
 
+function useGetKadcarByNftId() {
+    const { account, chainId, networkUrl, readFromContract, defaultMeta, setNetworkSettings } = useContext(PactContext);
+    const [newKadcarNft, setNewKadcarNft] = useState(null);
+
+    return async (nftId) => {
+        var parameters = {
+            account: account.account,
+            chainId: chainId,
+            metaData: defaultMeta,
+            networkUrl: networkUrl,
+            readFromContract: readFromContract
+        }
+        console.log(parameters)
+        // executeContractForUser(parameters, getPactCommandForNftByNftId(nftId), setNewKadcarNft);
+        const result = await executePactContract(parameters, getPactCommandForNftByNftId(nftId));
+        return result[0];
+    }
+}
+
 function useGetMyKadcarsFunction() {
     const { account, chainId, networkUrl, readFromContract, defaultMeta, setNetworkSettings } = useContext(PactContext);
     const { myKadcars, setMyKadcars } = useContext(KadcarGameContext);
@@ -51,25 +70,6 @@ function useGetMyKadcarsFunction() {
             return myKadcars;
         }
     };
-}
-
-function useGetKadcarByNftId() {
-    const { account, chainId, networkUrl, readFromContract, defaultMeta, setNetworkSettings } = useContext(PactContext);
-    const [newKadcarNft, setNewKadcarNft] = useState(null);
-
-    return async (nftId) => {
-        var parameters = {
-            account: account.account,
-            chainId: chainId,
-            metaData: defaultMeta,
-            networkUrl: networkUrl,
-            readFromContract: readFromContract
-        }
-        console.log(parameters)
-        // executeContractForUser(parameters, getPactCommandForNftByNftId(nftId), setNewKadcarNft);
-        const result = await executePactContract(parameters, getPactCommandForNftByNftId(nftId));
-        return result[0];
-    }
 }
 
 //Custom hook to retrieve all kadcars minted by user
@@ -100,13 +100,35 @@ function useGetMyKadcars(parameters) {
     return currentUserKadcarNfts;
 }
 
+function useGetAllKadcarsFunction() {
+    const { account, chainId, networkUrl, readFromContract, defaultMeta, setNetworkSettings } = useContext(PactContext);
+    const { allKadcars, setAllKadcars } = useContext(KadcarGameContext);
+
+    return async () => {
+        // const pactCode = `(free.kakars-nft-collection.get-owner "7")`; //TODO: MAKE CONSTANTS
+        // const meta = defaultMeta(1000000);
+        // const contractOutput = await readFromContract({ pactCode, meta });
+        // return contractOutput;
+        if (account) {
+            var parameters = {
+                account: account.account,
+                chainId: chainId,
+                metaData: defaultMeta,
+                networkUrl: networkUrl,
+                readFromContract: readFromContract
+            }
+            executeContract(parameters, getPactCommandForAllNfts(), setAllKadcars);
+            return allKadcars;
+        }
+    };
+}
+
 //Custom hook to retrieve all minted kadcars
 function useGetAllKadcars() {
     const { chainId, networkUrl, readFromContract, defaultMeta } = useContext(PactContext);
-    const [allKadcars, setAllKadcars] = useState(null);
+    const { allKadcars, setAllKadcars } = useContext(KadcarGameContext);
 
-    //Establish parameters and execute the contract to retrieve all minted kadcars
-    const allKadcarsMemo = useMemo(() => {
+    useEffect(() => {
         var parameters = {
             chainId: chainId,
             metaData: defaultMeta,
@@ -115,12 +137,9 @@ function useGetAllKadcars() {
         }
         // console.log(parameters)
         executeContract(parameters, getPactCommandForAllNfts(), setAllKadcars);
-    }, [allKadcars, readFromContract, defaultMeta]);
+    }, []);
 
-    useEffect(() => {
-
-    }, [allKadcarsMemo]);
-    
+    console.log(allKadcars)
     return allKadcars;
 }
 
@@ -164,6 +183,7 @@ function useMintKadcarFunction() {
                 You will manufacture 1 for {priceToPay} KDA
             </p>
         );
+        console.log(cmd)
         sendTransaction(
             cmd,
             previewContent,
@@ -233,4 +253,5 @@ export {
     useGetKadcarByNftId,
     useMintKadcarFunction,
     useGetMyKadcarsFunction,
+    useGetAllKadcarsFunction
 }

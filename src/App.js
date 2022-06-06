@@ -13,6 +13,8 @@ import { PactContextProvider } from './pact/PactContextProvider';
 
 import "swiper/css/bundle"
 import { Atrium } from './games/Atrium';
+import { Garage } from './garage/Garage';
+import { KadcarGameContextProvider } from './components/kadcarcomponents/KadcarGameContextProvider';
 
 // Initialize Google Analytics
 // ReactGA.initialize(process.env.REACT_APP_GA_CODE);
@@ -42,9 +44,10 @@ const App = () => {
         ref={childRef}
         children={() => (
           <Routes>
-            <Route element={<LayoutDefault><Outlet /></LayoutDefault>}>
+            <Route element={<LayoutDefault><KadcarGameContextProvider><Outlet /></KadcarGameContextProvider></LayoutDefault>}>
               <Route exact path="/" element={<Home />} />
               <Route path="/atrium" element={<Atrium/>} />
+              <Route path="/garage" element={<Garage/>} />
             </Route>
           </Routes>
         )} />

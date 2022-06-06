@@ -1,10 +1,7 @@
 import * as THREE from 'three';
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
-import { useFBX } from '@react-three/drei';
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { OrbitControls as OrbitControlsDrei} from "@react-three/drei";
-import React, { useEffect, useRef, useState } from "react";
+import { Loader, useFBX } from '@react-three/drei';
+import React, { Suspense, useContext, useEffect, useRef, useState } from "react";
 import FeaturesSplit from "../components/sections/FeaturesSplit";
 import GameMenu from "../games/GameMenu";
 import CAR from '../assets/images/bugatti/bugatti/bugatti.obj'
@@ -14,6 +11,8 @@ import LIBERTYMTL from '../assets/images/liberty/LibertyStatue/LibertStatue.mtl'
 import BENZ from '../assets/images/benz/benz.fbx'
 import { DEFAULT_GARAGE_CAMERA_FOV } from "./GarageConstants";
 import { MaterialLoader } from 'three';
+import { Camera, CameraController, FBXModel } from '../utils/SceneUtils';
+import { KadcarGameContext } from '../components/kadcarcomponents/KadcarGameContextProvider';
 
 function Box(props) {
     // This reference gives us direct access to the THREE.Mesh object
@@ -38,83 +37,42 @@ function Box(props) {
     )
 }
 
-function Car() {
-    const obj = useLoader(OBJLoader, CAR2)
-    return <primitive object={obj}/>
-}
-
-function Liberty() {
-    const mtl = useLoader(MaterialLoader, LIBERTYMTL)
-    const obj = useLoader(OBJLoader, LIBERTY)
-    obj.traverse((child) => {
-        if (child.isMesh) {
-            child.material.map = mtl
-        }
-    })
-    return <primitive object={obj}/>
-}
-
-function FBX() {
-    const fbx = useFBX(BENZ);
-    // console.log(fbx.getWorldPosition())
-    return <primitive object={fbx} position={[-100, -100, 100]} scale={1.6}/>
-}
-
-const CameraController = (props) => {
-    const { camera, gl } = useThree();
-
-    useEffect(
-        () => {
-            const controls = new OrbitControls(camera, gl.domElement);
-
-            controls.minDistance = 5;
-            controls.maxDistance = 20;
-            
-            return () => {
-                controls.dispose();
-            };
-        },
-        [camera, gl]
-    );
-    return null;
-};
-
-const Camera = (props) => {
-    const ref = useRef();
-    const set = useThree((state) => state.set);
-    useEffect(() => void set({ camera: ref.current }), []);
-    // useFrame(() => ref.current.updateMatrixWorld());
-    return <perspectiveCamera ref={ref} {...props}/>;
-};
-
 const Garage = () => {
+    const { myKadcars } = useContext(KadcarGameContext);
+    const [kadcarFbxModels, setKadcarFbxModels] = useState([]);
+
+    useEffect(() => {
+        async function preloadUserKadcarModels() {
+            myKadcars.foreach((kadcarNft) => {
+
+            });
+        }
+        myKadcars && preloadUserKadcarModels();
+    }, [myKadcars])
+
+    function preloadUserKadcarModels() {
+        myKadcars.foreach((kadcarNft) => {
+
+        });
+    }
 
     return (
         <div style={{ flexDirection: 'column', position: 'absolute', alignContent: 'center', width: '100vw', height: '100vh', display: 'flex' }}>
-            {/* <Canvas camera={{ position: [0, 5, 0], fov: 50 }}> */}
-            <Canvas onCreated={({camera}) => camera.lookAt(-100,-100,100)}>
-                {/* <Camera position={[150,50,250]} fov={120} aspect={1920/1080} near={0.1} far={2000}/> */}
-                <CameraController position={[10,10,10]}/>
-                {/* <Camera lookAt={[0,0,0]} fov={50}/> */}
-                <ambientLight intensity={0.5} />
-                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-                <pointLight position={[-10, -10, -10]} />
+            <Canvas>
+                <Suspense fallback={null}>
+                    <Camera x={150} y={100} z={300} lookAt={new THREE.Vector3(0, 0, 0)} />
+                    <CameraController minDistance={300} maxDistance={400} />
 
-                <Box position={[-1.2, 0, 0]} />
-                <Box position={[1.2, 0, 0]} />
-                <Box position={[0, 0, 0]} />
-                <FBX/>
-                <OrbitControlsDrei
-                    makeDefault
-                    // minAzimuthAngle={0}
-                    // maxAzimuthAngle={Math.PI}
-                    // minPolarAngle={Math.PI / 3}
-                    // maxPolarAngle={Math.PI / 2}
-                    enableZoom={true}
-                    enablePan={true}
-                    zoomSpeed={0.3}
-                />
+                    <ambientLight intensity={0.5} />
+                    <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+                    <pointLight position={[-10, -10, -10]} />
+
+                    <FBXModel fbxModelPath={BENZ} position={[-113, -50, 250]} scale={1.6} />
+
+                    <primitive object={new THREE.AxesHelper(500)} />
+                </Suspense>
             </Canvas>
+            <Loader/>
         </div>
     )
 }
