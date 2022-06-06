@@ -4,10 +4,6 @@ import { Loader, useFBX } from '@react-three/drei';
 import React, { Suspense, useContext, useEffect, useRef, useState } from "react";
 import FeaturesSplit from "../components/sections/FeaturesSplit";
 import GameMenu from "../games/GameMenu";
-import CAR from '../assets/images/bugatti/bugatti/bugatti.obj'
-import CAR2 from '../assets/images/mustang/Mustang.obj'
-import LIBERTY from '../assets/images/liberty/LibertyStatue/LibertStatue.obj'
-import LIBERTYMTL from '../assets/images/liberty/LibertyStatue/LibertStatue.mtl'
 import BENZ from '../assets/images/benz/benz.fbx'
 import BENZ2 from '../assets/images/benz/scene.gltf'
 import { DEFAULT_GARAGE_CAMERA_FOV } from "./GarageConstants";
