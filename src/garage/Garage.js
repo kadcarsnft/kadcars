@@ -4,11 +4,12 @@ import { Loader, useFBX } from '@react-three/drei';
 import React, { Suspense, useContext, useEffect, useRef, useState } from "react";
 import FeaturesSplit from "../components/sections/FeaturesSplit";
 import GameMenu from "../games/GameMenu";
-import BENZ from '../assets/images/benz/benz.fbx'
-import BENZ2 from '../assets/images/benz/scene.gltf'
+import BENZ from '../assets/images/benz/benz.fbx';
+import BENZ2 from '../assets/images/benz/scene.gltf';
+import MODEL from '../assets/images/benz/rmooooch.obj';
 import { DEFAULT_GARAGE_CAMERA_FOV } from "./GarageConstants";
 import { MaterialLoader } from 'three';
-import { Camera, CameraController, FBXModel, GLTFModel } from '../utils/SceneUtils';
+import { Camera, CameraController, FBXModel, GLTFModel, OBJModel } from '../utils/SceneUtils';
 import { KadcarGameContext } from '../components/kadcarcomponents/KadcarGameContextProvider';
 
 function Box(props) {
@@ -39,10 +40,10 @@ const Garage = () => {
     const [kadcarFbxModels, setKadcarFbxModels] = useState([]);
 
     useEffect(() => {
-        async function preloadUserKadcarModels() {
-            myKadcars.foreach((kadcarNft) => {
+        function preloadUserKadcarModels() {
+            // myKadcars.foreach((kadcarNft) => {
 
-            });
+            // });
         }
         myKadcars && preloadUserKadcarModels();
     }, [myKadcars])
@@ -64,14 +65,15 @@ const Garage = () => {
                         minAzimuthAngle={0} 
                         maxAximuthAngle={Math.PI}
                         minPolarAngle={Math.PI/3} 
-                        maxPolarAngle={Math.PI/3}
+                        maxPolarAngle={Math.PI/2.5}
                     />
-                    
+
                     <ambientLight intensity={0.5} />
                     <pointLight position={[-10, -10, -10]} />
                     <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
 
                     <FBXModel fbxModelPath={BENZ} position={[0,0,0]} scale={1.6} />
+                    {/* <OBJModel objFilePath={MODEL} position={[-700,0,500]}/> */}
                     {/* <GLTFModel gltfModelPath={BENZ2}/> */}
                     <primitive object={new THREE.AxesHelper(500)} />
                 </Suspense>

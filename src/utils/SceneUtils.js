@@ -1,9 +1,10 @@
-import { useFBX, useGLTF } from '@react-three/drei';
+import { useFBX, useGLTF, OrbitControls } from '@react-three/drei';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import React, { Suspense, useEffect, useRef } from "react";
 import { useFrame, useLoader, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+import { useDrag } from '@use-gesture/react';
 
 const origin = new THREE.Vector3(0,0,0);
 
@@ -39,30 +40,35 @@ const Camera = (props) => {
 }
 
 const CameraController = (props) => {
-    const { camera, gl } = useThree();
-
-    useEffect(() => {
-        const controller = new OrbitControls(camera, gl.domElement);
-        
-        controller.minDistance = props.minDistance;
-        controller.maxDistance = props.maxDistance;
-        controller.minPolarAngle = props.minPolarAngle;
-        controller.maxPolarAngle = props.maxPolarAngle;
-        controller.minAzimuthAngle = props.minAzimuthAngle;
-        controller.maxAzimuthAngle = props.maxAzimuthAngle;
-
-        return () => {
-            controller.dispose();
-        }
-    }, [camera, gl]);
-    return null;
+    return (
+        <OrbitControls
+            makeDefault
+            autoRotate
+            autoRotateSpeed={props.autoRotateSpeed ? props.autoRotateSpeed : 0.0}
+            minAzimuthAngle={props.minAzimuthAngle}
+            maxAzimuthAngle={props.maxAzimuthAngle}
+            minPolarAngle={props.minPolarAngle}
+            maxPolarAngle={props.maxPolarAngle}
+            minDistance={props.minDistance}
+            maxDistance={props.maxDistance}
+            enableZoom={false}
+            enablePan={false}
+      />
+    )
 }
 
 const FBXModel = (props) => {
     const meshref = useRef(null);
     const fbxModel = useFBX(props.fbxModelPath);
+    const { gl, raycaster, mouse } = useThree();
     
-    function test() {
+    const drag = useDrag(({ pressed, dragging, movement: [deltaX, deltaY]}) => {
+        meshref.current.rotation.y += deltaY;
+
+    });
+
+    function test(event) {
+        console.log(event)
         var temp = new THREE.Vector3();
         fbxModel.getWorldPosition(temp)
 
@@ -70,9 +76,16 @@ const FBXModel = (props) => {
     }
 
     return (
-        <mesh ref={meshref} onClick={()=>test()}>
+        <mesh ref={meshref} onClick={(event)=>test(event)}>
             <primitive object={fbxModel} position={props.position} scale={props.scale}/>
         </mesh>
+    )
+}
+
+const OBJModel = (props) => {
+    const objModel = useLoader(OBJLoader, props.objFilePath)
+    return (
+        <primitive object={objModel} position={props.position}/>
     )
 }
 
@@ -110,10 +123,7 @@ function centerObjectAtDestination(object, destination) {
     var objPosVector = getObjectWorldPosition(object);
     var deltaVector = new THREE.Vector3();
 
-    console.log(sizeVector.x)
     if (!deltaVector.subVectors(sizeVector.divideScalar(2), destination).equals(origin)) {
-        console.log(objPosVector)
-        console.log(deltaVector)
     }
 }
 
@@ -121,5 +131,6 @@ export {
     Camera,
     CameraController,
     FBXModel,
-    GLTFModel
+    GLTFModel,
+    OBJModel
 }
