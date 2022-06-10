@@ -19,7 +19,7 @@ import Modal from '../elements/Modal';
 import classNames from 'classnames';
 import { WalletModal } from '../../walletInteractions/WalletModal';
 import md5 from 'md5';
-import hash from '../../text';
+// import hash from '../../text';
 import bg from '../../assets/images/kadcarsHome.png'
 import { useNavigate } from 'react-router-dom';
 
@@ -251,14 +251,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
         <Modal show={showPassModal} handleClose={() => setShowPassModal(false)}>
           <label>
             <input type={"text"} value={pass} onChange={(event) => { setPass(event.target.value) }} />
-            <Button onClick={() => 
-            {
-              console .log(md5(pass))
-              console .log(hash)
-              if (md5(pass).toString() === hash) {
-                navigate('/atrium')
-              }
-            }}>
+            <Button>
               Enter
             </Button>
           </label>

@@ -4,9 +4,9 @@ import { Loader, useFBX } from '@react-three/drei';
 import React, { Suspense, useContext, useEffect, useRef, useState } from "react";
 import FeaturesSplit from "../components/sections/FeaturesSplit";
 import GameMenu from "../games/GameMenu";
-import BENZ from '../assets/images/benz/benz.fbx';
-import BENZ2 from '../assets/images/benz/scene.gltf';
-import MODEL from '../assets/images/benz/rmooooch.obj';
+// import BENZ from '../assets/images/benz/benz.fbx';
+// import BENZ2 from '../assets/images/benz/scene.gltf';
+// import MODEL from '../assets/images/benz/rmooooch.obj';
 import { DEFAULT_GARAGE_CAMERA_FOV } from "./GarageConstants";
 import { MaterialLoader } from 'three';
 import { Camera, CameraController, FBXModel, GLTFModel, OBJModel } from '../utils/SceneUtils';
@@ -72,7 +72,7 @@ const Garage = () => {
                     <pointLight position={[-10, -10, -10]} />
                     <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
 
-                    <FBXModel fbxModelPath={BENZ} position={[0,0,0]} scale={1.6} />
+                    {/* <FBXModel fbxModelPath={BENZ} position={[0,0,0]} scale={1.6} /> */}
                     {/* <OBJModel objFilePath={MODEL} position={[-700,0,500]}/> */}
                     {/* <GLTFModel gltfModelPath={BENZ2}/> */}
                     <primitive object={new THREE.AxesHelper(500)} />
