@@ -46,7 +46,7 @@ const Header = ({
       document.removeEventListener('click', clickOutside);
       closeMenu();
     };
-  });  
+  });
 
   const openMenu = () => {
     document.body.classList.add('off-nav-is-active');
@@ -68,7 +68,7 @@ const Header = ({
     if (!nav.current) return
     if (!isActive || nav.current.contains(e.target) || e.target === hamburger.current) return;
     closeMenu();
-  }  
+  }
 
   const classes = classNames(
     'site-header',
@@ -113,16 +113,18 @@ const Header = ({
                       'list-reset text-xs',
                       navPosition && `header-nav-${navPosition}`
                     )}
-                    >
-                    <span style={{fontWeight:'bold', fontSize:'20px'}}>Follow us:</span>
+                  >
+                    <li>
+                      <span style={{ fontWeight: 'bold', fontSize: '20px' }}>Follow us:</span>
+                    </li>
                     <li>
                       <a href={TWITTER_URL} target="_blank">
-                        <FaTwitter size={25}/>
+                        <FaTwitter size={25} />
                       </a>
                     </li>
                     <li>
                       <a href={DISCORD_URL} target="_blank">
-                        <FaDiscord size={25}/>
+                        <FaDiscord size={25} />
                       </a>
                     </li>
                   </ul>
