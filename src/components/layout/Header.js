@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import Logo from './partials/Logo';
+import { FaDiscord, FaTwitter } from 'react-icons/fa';
+import { DISCORD_URL, TWITTER_URL } from '../../utils/Constants';
 
 const propTypes = {
   navPosition: PropTypes.string,
@@ -105,25 +107,34 @@ const Header = ({
                     'header-nav',
                     isActive && 'is-active'
                   )}>
-                {/* <div className="header-nav-inner">
+                <div className="header-nav-inner">
                   <ul className={
                     classNames(
                       'list-reset text-xs',
                       navPosition && `header-nav-${navPosition}`
-                    )}>
+                    )}
+                    >
+                    <span style={{fontWeight:'bold', fontSize:'20px'}}>Follow us:</span>
                     <li>
-                      <Link to="#0" onClick={closeMenu}>Documentation</Link>
+                      <a href={TWITTER_URL} target="_blank">
+                        <FaTwitter size={25}/>
+                      </a>
+                    </li>
+                    <li>
+                      <a href={DISCORD_URL} target="_blank">
+                        <FaDiscord size={25}/>
+                      </a>
                     </li>
                   </ul>
-                  {!hideSignin &&
+                  {/* {!hideSignin &&
                     <ul
                       className="list-reset header-nav-right"
                     >
                       <li>
                         <Link to="#0" className="button button-primary button-wide-mobile button-sm" onClick={closeMenu}>Sign up</Link>
                       </li>
-                    </ul>}
-                </div> */}
+                    </ul>} */}
+                </div>
               </nav>
             </>}
         </div>
