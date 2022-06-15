@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
     CardWrapper,
     CardImage,
@@ -8,19 +8,43 @@ import {
     CardTextBody,
     CardStatWrapper,
     CardStats,
-    LinkText
+    LinkText,
+    ExpandedCardWrapper
   } from "./KadcarCardStyles";
-  import Tilt from "react-parallax-tilt";
+import Tilt from "react-parallax-tilt";
+import { AiOutlineClose } from "react-icons/ai";
 
 import unknown from "../../../assets/images/logo-nobackground.svg"
+import { KadcarGarageContext } from "../KadcarGarageContextProvider";
 // import logoPixelated from "../../../assets/images/kadcarsHomeCropped.png"
 
+const KadcarCardExpanded = ({ kadcarNft, children }) => {
+    const { setSelectedKadcar } = useContext(KadcarGarageContext);
+
+    function handleCloseButtonClicked() {
+        setSelectedKadcar(null);
+    }
+
+    return (
+        <ExpandedCardWrapper>
+            <div style={{ position: 'absolute' }}>
+                <AiOutlineClose onClick={handleCloseButtonClicked} />
+            </div>
+            { children }
+        </ExpandedCardWrapper>
+    )
+}
 
 const KadcarCard = ({ kadcarNft }) => {
+    const { setSelectedKadcar } = useContext(KadcarGarageContext);
+
+    function handleCardClicked() {
+        setSelectedKadcar(kadcarNft);
+    }
 
     return (
         <Tilt>
-            <CardWrapper>
+            <CardWrapper onClick={handleCardClicked}>
                 <CardImage image={unknown} />
                 <CardTextWrapper>
                     <CardTextDate>Model: K1</CardTextDate>
@@ -46,5 +70,6 @@ const KadcarCard = ({ kadcarNft }) => {
 }
 
 export {
-    KadcarCard
+    KadcarCard,
+    KadcarCardExpanded
 }

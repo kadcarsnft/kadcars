@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { CardContainer } from "./kadcarCard/KadcarCardStyles";
 import { KadcarCard } from "./KadcarComponents";
 import { CenterColumn, ListNav } from "../../utils/GalleryUtilities";
@@ -11,6 +11,7 @@ import "swiper/css/pagination";
 import "./styles.css"
 
 import { Pagination } from "swiper";
+import { KadcarCardExpanded } from "./kadcarCard/KadcarCard";
 
 const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
     const extraStyle = { overflowY: "scroll" };

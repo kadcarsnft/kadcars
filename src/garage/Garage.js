@@ -5,8 +5,8 @@ import React, { Suspense, useContext, useEffect, useRef, useState } from "react"
 import FeaturesSplit from "../components/sections/FeaturesSplit";
 import GameMenu from "../games/GameMenu";
 // import BENZ from '../assets/images/benz/benz.fbx';
-// import BENZ2 from '../assets/images/benz/scene.gltf';
-// import MODEL from '../assets/images/benz/rmooooch.obj';
+// import BENZ2 from '../../public/scene.gltf';
+import MODEL from '../assets/models/1.fbx';
 import { DEFAULT_GARAGE_CAMERA_FOV } from "./GarageConstants";
 import { MaterialLoader } from 'three';
 import { Camera, CameraController, FBXModel, GLTFModel, OBJModel } from '../utils/SceneUtils';
@@ -66,15 +66,17 @@ const Garage = () => {
                         maxAximuthAngle={Math.PI}
                         minPolarAngle={Math.PI/3} 
                         maxPolarAngle={Math.PI/2.5}
+                        enableZoom={true}
+                        enablePan={false}
                     />
 
                     <ambientLight intensity={0.5} />
                     <pointLight position={[-10, -10, -10]} />
                     <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
 
-                    {/* <FBXModel fbxModelPath={BENZ} position={[0,0,0]} scale={1.6} /> */}
+                    <FBXModel fbxModelPath={MODEL} position={[0,0,0]} scale={1.6} />
                     {/* <OBJModel objFilePath={MODEL} position={[-700,0,500]}/> */}
-                    {/* <GLTFModel gltfModelPath={BENZ2}/> */}
+                    {/* <GLTFModel gltfModelPath={'/benz.gltf'} scale={75}/> */}
                     <primitive object={new THREE.AxesHelper(500)} />
                 </Suspense>
             </Canvas>

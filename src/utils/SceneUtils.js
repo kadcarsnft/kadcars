@@ -51,8 +51,8 @@ const CameraController = (props) => {
             maxPolarAngle={props.maxPolarAngle}
             minDistance={props.minDistance}
             maxDistance={props.maxDistance}
-            enableZoom={false}
-            enablePan={false}
+            enableZoom={props.enableZoom}
+            enablePan={props.enablePan}
       />
     )
 }
@@ -85,7 +85,7 @@ const FBXModel = (props) => {
 const OBJModel = (props) => {
     const objModel = useLoader(OBJLoader, props.objFilePath)
     return (
-        <primitive object={objModel} position={props.position}/>
+        <primitive object={objModel} position={props.position} scale={props.scale}/>
     )
 }
 
@@ -94,7 +94,7 @@ const GLTFModel = (props) => {
 
     return (
         <Suspense fallback={null}>
-            <primitive object={gltfModel.scene} />
+            <primitive object={gltfModel.scene} scale={props.scale}/>
         </Suspense>
     )
 }

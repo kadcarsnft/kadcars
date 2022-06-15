@@ -29,6 +29,20 @@ export const CardWrapper = styled.div`
   margin-bottom: 15px;
 `;
 
+export const ExpandedCardWrapper = styled.div`
+  display: flex;
+  alignSelf: center;
+  width: 80vw;
+  height: 80vh;
+  border-radius: 18px;
+  background: #000;
+  box-shadow: 5px 5px 15px rgba(89, 48, 229, 0.9);
+  margin-top: 40px;
+  text-align: center;
+  z-index: 999;
+  position: absolute;
+`;
+
 export const CardImage = styled.div`
   grid-area: image;
   background-image: url(${props=> props.image});

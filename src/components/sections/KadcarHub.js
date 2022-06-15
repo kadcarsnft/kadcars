@@ -22,6 +22,8 @@ import md5 from 'md5';
 // import hash from '../../text';
 import bg from '../../assets/images/kadcarsHome.png'
 import { useNavigate } from 'react-router-dom';
+import { KadcarGarageContext } from '../kadcarcomponents/KadcarGarageContextProvider';
+import { KadcarPreview } from '../../views/KadcarPreview';
 
 const propTypes = {
   ...SectionProps.types
@@ -32,9 +34,10 @@ const defaultProps = {
 }
 
 const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider, bottomDivider, hasBgColor, invertColor, ...props }) => {
-  //Get PactContext and KadcarGameContext
+  //Get PactContext, KadcarGarageContext, and KadcarGameContext
   const pactContext = useContext(PactContext);
   const kadcarGameContext = useContext(KadcarGameContext);
+  const kadcarGarageContext = useContext(KadcarGarageContext);
 
   /**********************************************************/
   const extensionInstalled = useCheckForXWalletExtension();
@@ -159,7 +162,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
     >
       {/* <div className="container-sm"> */}
       {/* <div className={innerClasses}> */}
-      <div style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', height: '100%', display: 'flex' }}>
+      <div style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', alignItems: 'center', height: '100%', display: 'flex' }}>
         <div className="hero-content" style={{ marginBottom: '20px' }}>
           <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
             Build the Ultimate <span className="text-color-primary">Kadcar</span>!
@@ -259,6 +262,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
         <WalletModal show={showWalletNameModal} setShow={setShowWalletNameModal} isXwallet={extensionInstalled} />
         <MintModal show={showMintModal} setShow={setShowMintModal} />
         <TransferNftModal show={showTransferModal} setShow={setShowTransferModal} />
+        
       </div>
       {/* </div> */}
     </section>
