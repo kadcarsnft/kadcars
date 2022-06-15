@@ -15,6 +15,7 @@ import "swiper/css/bundle"
 import { Atrium } from './games/Atrium';
 import { Garage } from './garage/Garage';
 import { KadcarGameContextProvider } from './components/kadcarcomponents/KadcarGameContextProvider';
+import { KadcarGarageContextProvider } from './components/kadcarcomponents/KadcarGarageContextProvider';
 
 // Initialize Google Analytics
 // ReactGA.initialize(process.env.REACT_APP_GA_CODE);
@@ -51,7 +52,12 @@ const App = () => {
                 </KadcarGameContextProvider>
               </LayoutDefault>
             }>
-              <Route exact path="/" element={<Home />} />
+              <Route exact path="/" element={
+                  <KadcarGarageContextProvider>
+                    <Home />
+                  </KadcarGarageContextProvider>
+                } 
+              />
               <Route path="/atrium" element={<Atrium />} />
               <Route path="/garage" element={<Garage />} />
             </Route>

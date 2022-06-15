@@ -9,7 +9,7 @@ import GameMenu from "../games/GameMenu";
 import MODEL from '../assets/models/1.fbx';
 import { DEFAULT_GARAGE_CAMERA_FOV } from "./GarageConstants";
 import { MaterialLoader } from 'three';
-import { Camera, CameraController, FBXModel, GLTFModel, OBJModel } from '../utils/SceneUtils';
+import { Camera, CameraController, FBXModel, GLTFModel, OBJModel } from '../graphics/SceneUtils';
 import { KadcarGameContext } from '../components/kadcarcomponents/KadcarGameContextProvider';
 
 function Box(props) {

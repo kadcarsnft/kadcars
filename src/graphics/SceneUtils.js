@@ -49,6 +49,7 @@ const CameraController = (props) => {
             maxAzimuthAngle={props.maxAzimuthAngle}
             minPolarAngle={props.minPolarAngle}
             maxPolarAngle={props.maxPolarAngle}
+            enableRotate={props.enableRotate}
             minDistance={props.minDistance}
             maxDistance={props.maxDistance}
             enableZoom={props.enableZoom}
@@ -67,6 +68,10 @@ const FBXModel = (props) => {
 
     });
 
+    useFrame(() =>{
+        console.log(props.rotation)
+    })
+
     function test(event) {
         console.log(event)
         var temp = new THREE.Vector3();
@@ -76,7 +81,7 @@ const FBXModel = (props) => {
     }
 
     return (
-        <mesh ref={meshref} onClick={(event)=>test(event)}>
+        <mesh {...drag()} ref={meshref} onClick={(event)=>test(event)}>
             <primitive object={fbxModel} position={props.position} scale={props.scale}/>
         </mesh>
     )

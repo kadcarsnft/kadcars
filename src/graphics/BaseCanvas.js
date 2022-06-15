@@ -1,14 +1,14 @@
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import * as THREE from 'three';
-import { Camera, CameraController } from "../utils/SceneUtils";
+import { Camera, CameraController } from "./SceneUtils";
 
 const BaseCanvas = ({ children }) => {
     return (
         <>
             <Canvas>
                 <Suspense fallback={null}>
-                    <Camera x={150} y={100} z={300} lookAt={new THREE.Vector3(0, 0, 0)} />
+                    <Camera x={100} y={100} z={300} lookAt={new THREE.Vector3(0, 0, 0)} />
                     <CameraController
                         minDistance={300}
                         maxDistance={400}
@@ -16,6 +16,7 @@ const BaseCanvas = ({ children }) => {
                         maxAximuthAngle={Math.PI}
                         minPolarAngle={Math.PI / 3}
                         maxPolarAngle={Math.PI / 2.5}
+                        enableRotate={false}
                         enableZoom={true}
                         enablePan={false}
                     />
@@ -24,7 +25,7 @@ const BaseCanvas = ({ children }) => {
                     <pointLight position={[-10, -10, -10]} />
                     <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
 
-                    { children }
+                    {children}
                     <primitive object={new THREE.AxesHelper(500)} />
                 </Suspense>
             </Canvas>
