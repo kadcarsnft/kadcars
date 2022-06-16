@@ -45,21 +45,21 @@ const App = () => {
         ref={childRef}
         children={() => (
           <Routes>
-            <Route element={
+            <Route path="/" element={
               <LayoutDefault>
                 <KadcarGameContextProvider>
                   <Outlet />
                 </KadcarGameContextProvider>
               </LayoutDefault>
             }>
-              <Route exact path="/" element={
+              <Route index path="/" element={
                   <KadcarGarageContextProvider>
                     <Home />
                   </KadcarGarageContextProvider>
                 } 
               />
-              <Route path="/atrium" element={<Atrium />} />
-              <Route path="/garage" element={<Garage />} />
+              <Route path="atrium/" element={<Atrium />} />
+              <Route path="garage/" element={<Garage />} />
             </Route>
           </Routes>
         )} />

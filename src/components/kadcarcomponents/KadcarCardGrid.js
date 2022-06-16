@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CardContainer } from "./kadcarCard/KadcarCardStyles";
 import { KadcarCard } from "./KadcarComponents";
 import { CenterColumn, ListNav } from "../../utils/GalleryUtilities";
@@ -55,15 +55,15 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
                             }}
                             modules={[Pagination]}
                         >
-                            {kadcars.map((kadcar, index) => {
-                                return (
-                                    <SwiperSlide>
-                                        <div key={index}>
+                            {
+                                kadcars.map((kadcar, index) => {
+                                    return (
+                                        <SwiperSlide key={index}>
                                             <KadcarCard kadcarNft={kadcar} />
-                                        </div>
-                                    </SwiperSlide>
-                                );
-                            })}
+                                        </SwiperSlide>
+                                    );
+                                })
+                            }
                         </Swiper>
                     </>
                 )}

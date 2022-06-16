@@ -17,12 +17,10 @@ const Home = () => {
 
   return (
     <>
-      <div style={{position: "absolute"}}>
-        <KadcarHub className="illustration-section-01" />
-      </div>
+      <KadcarHub className="illustration-section-01" style={{ position: 'absolute' }} />
       {
-          kadcarGarageContext.selectedKadcar ? <KadcarPreview /> : null
-        }
+        kadcarGarageContext.selectedKadcar ? <KadcarPreview /> : null
+      }
       {/* <FeaturesTiles /> */}
       {/* <FeaturesSplit invertMobile topDivider imageFill className="illustration-section-02" /> */}
       {/* <Testimonial topDivider /> */}
