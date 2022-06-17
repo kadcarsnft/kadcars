@@ -63,14 +63,10 @@ const FBXModel = (props) => {
     const fbxModel = useFBX(props.fbxModelPath);
     const { gl, raycaster, mouse } = useThree();
     
-    const drag = useDrag(({ pressed, dragging, movement: [deltaX, deltaY]}) => {
-        meshref.current.rotation.y += deltaY;
+    // const drag = useDrag(({ pressed, dragging, movement: [deltaX, deltaY]}) => {
+    //     meshref.current.rotation.y += deltaY;
 
-    });
-
-    useFrame(() =>{
-        console.log(props.rotation)
-    })
+    // });
 
     function test(event) {
         console.log(event)
@@ -81,9 +77,9 @@ const FBXModel = (props) => {
     }
 
     return (
-        <mesh {...drag()} ref={meshref} onClick={(event)=>test(event)}>
+        // <mesh {...drag()} ref={meshref} onClick={(event)=>test(event)}>
             <primitive object={fbxModel} position={props.position} scale={props.scale}/>
-        </mesh>
+        //</mesh>
     )
 }
 

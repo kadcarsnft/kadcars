@@ -39,7 +39,10 @@ const KadcarPreview = () => {
                         marginRight: '20px'
                     }}>
                     <BaseCanvas cameraController={true}>
+                        <Model>
+
                         <FBXModel fbxModelPath={MODEL} scale={1} />
+                        </Model>
                     </BaseCanvas>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
