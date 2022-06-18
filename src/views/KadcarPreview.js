@@ -40,8 +40,7 @@ const KadcarPreview = () => {
                     }}>
                     <BaseCanvas cameraController={true}>
                         <Model>
-
-                        <FBXModel fbxModelPath={MODEL} scale={1} />
+                            <FBXModel fbxModelPath={MODEL} scale={1} />
                         </Model>
                     </BaseCanvas>
                 </div>
