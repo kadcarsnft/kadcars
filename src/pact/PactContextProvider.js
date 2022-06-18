@@ -70,6 +70,7 @@ const PactContextProvider = ({ children }) => {
     };
 
     const defaultMeta = (gasLimit) => {
+        console.log(chainId)
         return Pact.lang.mkMeta(
             "",
             chainId,
@@ -144,7 +145,7 @@ const PactContextProvider = ({ children }) => {
                         // closeConnectWallet();
                         return;
                     }
-                    if (res.account?.chainId !== chainId) {
+                    if (res.account?.chainId !== parseInt(chainId)) {
                         toast.error(`You need to select chain ${chainId} from X Wallet`);
                         // closeConnectWallet();
                         return;

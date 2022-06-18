@@ -3,6 +3,7 @@ import Modal from "../components/elements/Modal";
 import { PactContext } from "../pact/PactContextProvider";
 import { throttle } from 'throttle-debounce';
 import { checkIfNullOrUndefined } from "../utils/utils";
+import { toast } from "react-toastify";
 
 const WalletModal = ({ show, setShow, isXwallet }) => {
     const pactContext = useContext(PactContext);
@@ -25,6 +26,7 @@ const WalletModal = ({ show, setShow, isXwallet }) => {
             handleWalletModalClose();
         } else {
             //TODO: render error to install extension
+            toast.error('Install the X-Wallet Extension')
         }
     }
 
@@ -34,7 +36,8 @@ const WalletModal = ({ show, setShow, isXwallet }) => {
         
         if (checkIfNullOrUndefined(accountDetails)) {
             //Insert toast error here
-            console.log("wallet not found")
+            toast.error("Wallet Not Found!");
+            setTempAccount(null);
         } else {
             setTempAccount(accountDetails);
         }
@@ -46,7 +49,7 @@ const WalletModal = ({ show, setShow, isXwallet }) => {
                 Wallet Name:
                 <input type="text" value={modalWallet} onChange={handleModalWalletChange} />
             </label>
-            <input type="submit" value="Submit" onClick={initiateKadenaConnection} />
+            <input type="submit" value="Submit" onClick={initiateKadenaConnection} disabled={tempAccount === null}/>
         </Modal>
     )
 }

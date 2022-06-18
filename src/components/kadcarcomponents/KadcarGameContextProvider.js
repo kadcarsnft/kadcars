@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, useEffect, useMemo } from '
 import { useGetMyKadcars } from '../../pact/KadcarExtractor';
 import { PactContext } from '../../pact/PactContextProvider';
 import { LOCAL_ACCOUNT_KEY, SCREEN_NAMES } from '../../utils/Constants';
-import { tryLoadLocal } from '../../utils/utils';
+import { tryLoadLocal, trySaveLocal } from '../../utils/utils';
 
 const KadcarGameContext = createContext();
 
@@ -44,12 +44,20 @@ const KadcarGameContextProvider = ({ children }) => {
     //If account changed, reset the screen contents and cached kadcars
     useEffect(() => {
         const localAccount = tryLoadLocal(LOCAL_ACCOUNT_KEY);
-        if (account) {
-            if (account.account !== localAccount.account) {
-                setMyKadcars(null);
-                setCurrentScreen(null);
+        console.log(localAccount)
+        console.log(account)
+        if (localAccount === undefined) {
+            trySaveLocal(LOCAL_ACCOUNT_KEY, "");
+        } else {
+            if (account) {
+                if (account.account !== localAccount.account) {
+                    setMyKadcars(null);
+                    setCurrentScreen(null);
+                }
             }
         }
+
+       
     }, [account]);
 
     //Function to compute price of a kadcar given an amount
