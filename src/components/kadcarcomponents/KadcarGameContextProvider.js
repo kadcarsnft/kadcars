@@ -44,8 +44,6 @@ const KadcarGameContextProvider = ({ children }) => {
     //If account changed, reset the screen contents and cached kadcars
     useEffect(() => {
         const localAccount = tryLoadLocal(LOCAL_ACCOUNT_KEY);
-        console.log(localAccount)
-        console.log(account)
         if (localAccount === undefined) {
             trySaveLocal(LOCAL_ACCOUNT_KEY, "");
         } else {

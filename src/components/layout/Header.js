@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import Logo from './partials/Logo';
 import { FaDiscord, FaTwitter } from 'react-icons/fa';
 import { DISCORD_URL, TWITTER_URL } from '../../utils/Constants';
+import { KadcarGameContext } from '../kadcarcomponents/KadcarGameContextProvider';
 
 const propTypes = {
   navPosition: PropTypes.string,
@@ -31,7 +32,7 @@ const Header = ({
   bottomDivider,
   ...props
 }) => {
-
+  const { setCurrentScreen } = useContext(KadcarGameContext);
   const [isActive, setIsactive] = useState(false);
 
   const nav = useRef(null);
@@ -87,7 +88,7 @@ const Header = ({
             'site-header-inner',
             bottomDivider && 'has-bottom-divider'
           )}>
-          <Logo />
+          <Logo onClick={() => setCurrentScreen(null)}/>
           {!hideNav &&
             <>
               <button

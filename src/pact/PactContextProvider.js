@@ -70,7 +70,6 @@ const PactContextProvider = ({ children }) => {
     };
 
     const defaultMeta = (gasLimit) => {
-        console.log(chainId)
         return Pact.lang.mkMeta(
             "",
             chainId,
