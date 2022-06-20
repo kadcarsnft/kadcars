@@ -132,10 +132,6 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
     mintKadcarFunction(1, () => console.log("HAHA"));
   }
 
-  function initiateKadcarTransfer() {
-    transferKadcarsFunction();
-  }
-
   function handleWalletModalClose() {
     setShowWalletNameModal(false)
     setModalWallet("");
@@ -197,9 +193,6 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                     Disconnect X-Wallet
                   </Button>
                 }
-                {/* <Button onClick={initiateMintKadcar} tag="a" color="dark" wideMobile>
-                  Mint Kadcar
-                </Button> */}
                 <Button onClick={handleOpenMintModal} tag="a" color="dark" wideMobile>
                   Mint Kadcar
                 </Button>
@@ -240,12 +233,6 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
             <Button onClick={handleOpenTransferModal} tag="a" color="dark" wideMobile style={{ width: '90%' }}>
               Transfer
             </Button>
-            <Button tag="a" color="dark" wideMobile style={{ width: '90%' }}>
-              Marketplace
-            </Button>
-            {/* <Button onClick={initiateKadcarTransfer} tag="a" color="dark" wideMobile style={{ width: '90%' }}>
-              Transfer
-            </Button> */}
           </ButtonGroup>
           <div style={{ width: '85%', height: '60vh', justifyContent: 'center' }}>
             <MainHeaderScreenContainer />
