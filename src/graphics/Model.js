@@ -12,11 +12,9 @@ const Model = ({ children }) => {
     });
 
     return (
-        // <div {...bind()}>
         <mesh {...bind()} ref={meshref}>
             { children }
         </mesh>
-        // {/* </div> */}
     )
 }
 

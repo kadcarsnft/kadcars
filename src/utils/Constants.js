@@ -28,6 +28,13 @@ const KADCAR_NFT_OPTIONS = [
     { value: 'K2', label: 'K2' }
 ]
 
+//Kadcar hub button group names
+const HOME_BUTTON_GROUP = 'HOME';
+const RACE_MODE_BUTTON_GROUP = 'RACE_MODE';
+const MY_KADCARS_BUTTON_GROUP = 'MY_KADCARS';
+const GARAGE_MODE_BUTTON_GROUP = 'GARAGE_MODE';
+const ALL_KADCARS_BUTTON_GROUP = 'ALL_KADCARS';
+
 //Request response constants
 const DEFAULT_REQUEST_HEADERS = { "Content-Type": "application/json" };
 const POST_METHOD = "POST";
@@ -96,5 +103,10 @@ export {
     KADCAR_NFT_OPTIONS,
     REGEX_FOR_NFT_ID,
     TWITTER_URL,
-    DISCORD_URL
+    DISCORD_URL,
+    RACE_MODE_BUTTON_GROUP,
+    HOME_BUTTON_GROUP,
+    MY_KADCARS_BUTTON_GROUP, 
+    ALL_KADCARS_BUTTON_GROUP,
+    GARAGE_MODE_BUTTON_GROUP
 }
