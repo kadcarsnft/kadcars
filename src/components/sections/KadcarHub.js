@@ -1,12 +1,12 @@
 import { connectKadena, disconnectKadena, getAccountSelected, getKadenaConnectStatus, getSelectedAccount, getUserWallet } from '../../kadenaInteraction/KadenaApi';
 import { useGetMyKadcarsFunction, useGetAllKadcars, useGetMyKadcars, useTransferKadcars, useMintKadcarFunction } from '../../pact/KadcarExtractor';
-import { 
-  DEFAULT_CHAIN_ID, 
-  DEFAULT_GAS_PRICE, 
-  DEFAULT_NETWORK_ID, 
-  LOCAL_CHAIN_ID, 
-  NETWORK_ID, 
-  SCREEN_NAMES, 
+import {
+  DEFAULT_CHAIN_ID,
+  DEFAULT_GAS_PRICE,
+  DEFAULT_NETWORK_ID,
+  LOCAL_CHAIN_ID,
+  NETWORK_ID,
+  SCREEN_NAMES,
   HOME_BUTTON_GROUP,
   RACE_MODE_BUTTON_GROUP,
   MY_KADCARS_BUTTON_GROUP,
@@ -141,20 +141,17 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
     console.log(allKadcarNfts)
   }
 
-  function handleWalletModalClose() {
-    setShowWalletNameModal(false);
-  }
-
   function handleOpenMintModal() {
     setShowMintModal(true);
   }
 
-  function handleOpenWalletModal() {
-    setShowWalletNameModal(true);
-  }
-
   function handleOpenTransferModal() {
     setShowTransferModal(true);
+  }
+
+  function handleNavigateToGarageMode() {
+    setCurrentActiveButtonSet(GARAGE_MODE_BUTTON_GROUP);
+    navigate("/garage");
   }
 
   return (
@@ -162,71 +159,86 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
       {...props}
       className={outerClasses}
     >
-      {/* <div className="container-sm"> */}
-      {/* <div className={innerClasses}> */}
-      <div style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', alignItems: 'center', height: '100%', display: 'flex' }}>
-        <div className="hero-content" style={{ marginBottom: '20px' }}>
-          <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
-            Build the Ultimate <span className="text-color-primary">Kadcar</span>!
-          </h1>
-          <div className="container-sm">
-            <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
-              Kadena's first car NFT where owners can collect, upgrade, race and trade their Kadcars
-            </p>
-            <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400" style={{ fontColor: 'red' }}>
-              This website is still in a testing environment!!!
-            </p>
-            <div className="reveal-from-bottom" data-reveal-delay="600">
-              {
-                currentActiveButtonSet === HOME_BUTTON_GROUP &&
-                <ButtonGroup>
+      <div className="container" style={{ backgroundColor: 'red' }}>
+        <div className={innerClasses}>
+          <div className="container" style={{
+            display: 'flex',
+            flexDirection: 'column',
+            // justifyContent: 'center',
+            // alignContent: 'center',
+            // alignItems: 'center',
+            // height: '100%',
+            height: '100vh',
+            width: '80vw',
+          }}>
+            <div className="hero-content" style={{ marginBottom: '20px' }}>
+              <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
+                Build the Ultimate <span className="text-color-primary">Kadcar</span>!
+              </h1>
+              <div className="container-sm">
+                <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
+                  Kadena's first car NFT where owners can collect, upgrade, race and trade their Kadcars
+                </p>
+                <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400" style={{ fontColor: 'red' }}>
+                  This website is still in a testing environment!!!
+                </p>
+                <div className="reveal-from-bottom" data-reveal-delay="600">
                   {
-                    !extensionInstalled &&
-                    <Button tag="a" color="primary" wideMobile href={"https://xwallet.kaddex.com/#ux"}>
-                      Install X-Wallet
-                    </Button>
+                    currentActiveButtonSet === HOME_BUTTON_GROUP &&
+                    <ButtonGroup>
+                      {
+                        !extensionInstalled &&
+                        <Button tag="a" color="primary" wideMobile href={"https://xwallet.kaddex.com/#ux"}>
+                          Install X-Wallet
+                        </Button>
+                      }
+                      {
+                        extensionInstalled && (pactContext.account === null || pactContext.account === 'null') &&
+                        <Button onClick={() => setShowWalletNameModal(true)} tag="a" color="primary" wideMobile>
+                          Connect X-Wallet
+                        </Button>
+                      }
+                      {
+                        extensionInstalled && pactContext.account !== null && pactContext.account !== 'null' &&
+                        <Button onClick={disconnectKadenaAccount} tag="a" color="primary" wideMobile>
+                          Disconnect X-Wallet
+                        </Button>
+                      }
+                      <Button onClick={handleOpenMintModal} tag="a" color="dark" wideMobile>
+                        Mint Kadcar
+                      </Button>
+                      <Button onClick={displayCurrentUserKadcars} tag="a" color="dark" wideMobile>
+                        My Cars
+                      </Button>
+                      <Button onClick={displayAllMintedKadcars} tag="a" color="dark" wideMobile>
+                        All Kadcars
+                      </Button>
+                      <Button onClick={() => setCurrentActiveButtonSet(RACE_MODE_BUTTON_GROUP)} tag="a" color="dark" wideMobile>
+                        Race Mode
+                      </Button>
+                    </ButtonGroup>
                   }
                   {
-                    extensionInstalled && (pactContext.account === null || pactContext.account === 'null') &&
-                    <Button onClick={() => setShowWalletNameModal(true)} tag="a" color="primary" wideMobile>
-                      Connect X-Wallet
-                    </Button>
+                    currentActiveButtonSet === MY_KADCARS_BUTTON_GROUP &&
+                    <ButtonGroup>
+                      <Button onClick={() => setCurrentActiveButtonSet(HOME_BUTTON_GROUP)} tag="a" color="primary" wideMobile>
+                        Back to Home
+                      </Button>
+                      <Button onClick={() => handleNavigateToGarageMode()} tag="a" color="dark" wideMobile>
+                        Garage
+                      </Button>
+                      <Button onClick={() => setCurrentActiveButtonSet(RACE_MODE_BUTTON_GROUP)} tag="a" color="dark" wideMobile>
+                        Race Mode
+                      </Button>
+                      <Button onClick={handleOpenTransferModal} tag="a" color="dark" wideMobile>
+                        Transfer
+                      </Button>
+                    </ButtonGroup>
                   }
-                  {
-                    extensionInstalled && pactContext.account !== null && pactContext.account !== 'null' &&
-                    <Button onClick={disconnectKadenaAccount} tag="a" color="primary" wideMobile>
-                      Disconnect X-Wallet
-                    </Button>
-                  }
-                  <Button onClick={handleOpenMintModal} tag="a" color="dark" wideMobile>
-                    Mint Kadcar
-                  </Button>
-                  <Button onClick={displayCurrentUserKadcars} tag="a" color="dark" wideMobile>
-                    My Cars
-                  </Button>
-                  <Button onClick={displayAllMintedKadcars} tag="a" color="dark" wideMobile>
-                    All Kadcars
-                  </Button>
-                </ButtonGroup>
-              }
-              {
-                currentActiveButtonSet === MY_KADCARS_BUTTON_GROUP &&
-                <ButtonGroup>
-                  <Button onClick={() => setCurrentActiveButtonSet(HOME_BUTTON_GROUP)} tag="a" color="primary" wideMobile>
-                    Back to Home
-                  </Button>
-                  <Button onClick={() => setCurrentActiveButtonSet(GARAGE_MODE_BUTTON_GROUP)} tag="a" color="dark" wideMobile>
-                    Garage
-                  </Button>
-                  <Button onClick={() => setCurrentActiveButtonSet(RACE_MODE_BUTTON_GROUP)} tag="a" color="dark" wideMobile>
-                    Race Mode
-                  </Button>
-              </ButtonGroup>
-              }
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div style={{
+            <div style={{
           flexDirection: 'row',
           display: 'flex',
           justifyContent: 'center',
@@ -236,7 +248,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
           alignSelf: 'center',
           backgroundImage: ''
         }}>
-          <ButtonGroup className={'reveal-from-bottom'}
+          {/* <ButtonGroup className={'reveal-from-bottom'}
             style={{
               width: '15%',
               height: '65%',
@@ -253,25 +265,25 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
             <Button onClick={handleOpenTransferModal} tag="a" color="dark" wideMobile style={{ width: '90%' }}>
               Transfer
             </Button>
-          </ButtonGroup>
+          </ButtonGroup> */}
           <div style={{ width: '85%', height: '60vh', justifyContent: 'center' }}>
             <MainHeaderScreenContainer />
           </div>
         </div>
-        <Modal show={showPassModal} handleClose={() => setShowPassModal(false)}>
-          <label>
-            <input type={"text"} value={pass} onChange={(event) => { setPass(event.target.value) }} />
-            <Button>
-              Enter
-            </Button>
-          </label>
-        </Modal>
-        <WalletModal show={showWalletNameModal} setShow={setShowWalletNameModal} isXwallet={extensionInstalled} />
-        <MintModal show={showMintModal} setShow={setShowMintModal} />
-        <TransferNftModal show={showTransferModal} setShow={setShowTransferModal} />
-
+            <Modal show={showPassModal} handleClose={() => setShowPassModal(false)}>
+              <label>
+                <input type={"text"} value={pass} onChange={(event) => { setPass(event.target.value) }} />
+                <Button>
+                  Enter
+                </Button>
+              </label>
+            </Modal>
+            <WalletModal show={showWalletNameModal} setShow={setShowWalletNameModal} isXwallet={extensionInstalled} />
+            <MintModal show={showMintModal} setShow={setShowMintModal} />
+            <TransferNftModal show={showTransferModal} setShow={setShowTransferModal} />
+          </div>
+        </div>
       </div>
-      {/* </div> */}
     </section>
   );
 }
