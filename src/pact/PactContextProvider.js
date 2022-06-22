@@ -268,7 +268,7 @@ const PactContextProvider = ({ children }) => {
                         `Please select ${account.account} from your X-Wallet extension`
                     );
                     return;
-                } else if (accountConnectedRes?.wallet?.chainId !== chainId) {
+                } else if (accountConnectedRes?.wallet?.chainId !== chainId && accountConnectedRes?.wallet?.chainId !== parseInt(chainId)) {
                     toast.error(
                         `Please make sure you select chain ${chainId} in the X-Wallet extension`
                     );

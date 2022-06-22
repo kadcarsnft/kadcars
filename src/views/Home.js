@@ -17,7 +17,7 @@ const Home = () => {
 
   return (
     <>
-      <KadcarHub className="illustration-section-01" style={{ position: 'absolute' }} />
+      <KadcarHub style={{ position: 'absolute' }} />
       {
         kadcarGarageContext.selectedKadcar ? <KadcarPreview /> : null
       }
