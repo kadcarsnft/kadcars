@@ -12,7 +12,7 @@ const KadcarPreview = () => {
     const { selectedKadcar } = useContext(KadcarGarageContext);
 
     return (
-        <div style={{ width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+        <div style={{ width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', position: 'absolute' }}>
             <div
                 style={{
                     width: '100vw',
@@ -45,12 +45,7 @@ const KadcarPreview = () => {
                     </BaseCanvas>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <div style={{
-                        height: '90%',
-                        width: '1px',
-                        backgroundColor: 'gray',
-                        opacity: '60%'
-                    }} />
+                    <div style={{ height: '90%', width: '1px', backgroundColor: 'gray', opacity: '60%' }} />
                 </div>
                 <div
                     style={{

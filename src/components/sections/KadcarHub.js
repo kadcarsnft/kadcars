@@ -6,12 +6,7 @@ import {
   DEFAULT_NETWORK_ID,
   LOCAL_CHAIN_ID,
   NETWORK_ID,
-  SCREEN_NAMES,
-  HOME_BUTTON_GROUP,
-  RACE_MODE_BUTTON_GROUP,
-  MY_KADCARS_BUTTON_GROUP,
-  ALL_KADCARS_BUTTON_GROUP,
-  GARAGE_MODE_BUTTON_GROUP
+  SCREEN_NAMES
 } from '../../utils/Constants';
 import { KadcarGameContext } from '../kadcarcomponents/KadcarGameContextProvider';
 import { MainHeaderScreenContainer } from '../kadcarcomponents/KadcarComponents';
@@ -67,7 +62,6 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   /**********************************************************/
   /**********************************************************/
 
-  const [currentActiveButtonSet, setCurrentActiveButtonSet] = useState(HOME_BUTTON_GROUP);
   const [videoModalActive, setVideomodalactive] = useState(false);
 
   //Wallet, mint, and trasnfer modal controls
@@ -113,18 +107,12 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
     setCurrentUserKadcars();
   }, [setCurrentUserKadcars]);
 
-  // useEffect(() => {
-  //   console.log(pactContext.account)
-  // }, [pactContext]);
-
-  // useEffect(() => {
-  //   kadcarGameContext.setMyKadcars(currentUserKadcarNfts);
-  //   console.log(currentUserKadcarNfts)
-  // }, [currentUserKadcarNfts]);
+  useEffect(() => {
+    kadcarGameContext.setCurrentScreen(null);
+  }, []);
 
   //Disconnect the user's account from the app
   function disconnectKadenaAccount() {
-
     //Call the API function to disconnect this user's wallet from the app
     // disconnectKadena(pactContext);
     pactContext.logoutAccount();
@@ -134,7 +122,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   async function displayCurrentUserKadcars() {
     kadcarGameContext.setMyKadcars(currentUserKadcarNfts);
     kadcarGameContext.setCurrentScreen(SCREEN_NAMES.MY_KADCARS);
-    setCurrentActiveButtonSet(MY_KADCARS_BUTTON_GROUP);
+    console.log(kadcarGameContext.currentScreen)
   }
 
   async function displayAllMintedKadcars() {
@@ -150,27 +138,34 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   }
 
   function handleNavigateToGarageMode() {
-    setCurrentActiveButtonSet(GARAGE_MODE_BUTTON_GROUP);
     navigate("/garage");
   }
 
+  function handleHomeButtonClick() {
+    kadcarGameContext.setCurrentScreen(null);
+    navigate("/");
+  }
+
   return (
-    <section
-      {...props}
-      className={outerClasses}
-    >
-      <div className="container" style={{ backgroundColor: 'red' }}>
-        <div className={innerClasses}>
-          <div className="container" style={{
-            display: 'flex',
-            flexDirection: 'column',
-            // justifyContent: 'center',
-            // alignContent: 'center',
-            // alignItems: 'center',
-            // height: '100%',
-            height: '100vh',
-            width: '80vw',
-          }}>
+    <>
+      <section
+        {...props}
+        className={outerClasses}
+        style={{
+          // position: 'absolute',
+          display: 'flex',
+          flexDirection: 'column',
+          // justifySelf : 'center',
+          justifyContent: 'center',
+          // alignContent: 'center',
+          // alignItems: 'center',
+          // height: '100%',
+          height: '100vh',
+          width: '80vw',
+        }}
+      >
+        <div className="container">
+          <div className={innerClasses}>
             <div className="hero-content" style={{ marginBottom: '20px' }}>
               <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
                 Build the Ultimate <span className="text-color-primary">Kadcar</span>!
@@ -184,7 +179,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                 </p>
                 <div className="reveal-from-bottom" data-reveal-delay="600">
                   {
-                    currentActiveButtonSet === HOME_BUTTON_GROUP &&
+                    kadcarGameContext.currentScreen === null &&
                     <ButtonGroup>
                       {
                         !extensionInstalled &&
@@ -213,22 +208,22 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                       <Button onClick={displayAllMintedKadcars} tag="a" color="dark" wideMobile>
                         All Kadcars
                       </Button>
-                      <Button onClick={() => setCurrentActiveButtonSet(RACE_MODE_BUTTON_GROUP)} tag="a" color="dark" wideMobile>
+                      <Button tag="a" color="dark" wideMobile>
                         Race Mode
                       </Button>
                     </ButtonGroup>
                   }
                   {
-                    currentActiveButtonSet === MY_KADCARS_BUTTON_GROUP &&
+                    kadcarGameContext.currentScreen === SCREEN_NAMES.MY_KADCARS &&
                     <ButtonGroup>
-                      <Button onClick={() => setCurrentActiveButtonSet(HOME_BUTTON_GROUP)} tag="a" color="primary" wideMobile>
+                      <Button onClick={() => handleHomeButtonClick()} tag="a" color="primary" wideMobile>
                         Back to Home
                       </Button>
                       <Button onClick={() => handleNavigateToGarageMode()} tag="a" color="dark" wideMobile>
                         Garage
                       </Button>
-                      <Button onClick={() => setCurrentActiveButtonSet(RACE_MODE_BUTTON_GROUP)} tag="a" color="dark" wideMobile>
-                        Race Mode
+                      <Button onClick={handleOpenMintModal} tag="a" color="dark" wideMobile>
+                        Mint Kadcar
                       </Button>
                       <Button onClick={handleOpenTransferModal} tag="a" color="dark" wideMobile>
                         Transfer
@@ -238,38 +233,9 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                 </div>
               </div>
             </div>
-            <div style={{
-          flexDirection: 'row',
-          display: 'flex',
-          justifyContent: 'center',
-          alignContent: 'center',
-          width: '60%',
-          height: '60vh',
-          alignSelf: 'center',
-          backgroundImage: ''
-        }}>
-          {/* <ButtonGroup className={'reveal-from-bottom'}
-            style={{
-              width: '15%',
-              height: '65%',
-              justifyContent: 'space-evenly',
-              marginRight: '30px',
-              marginTop: '30px'
-            }}>
-            <Button onClick={() => { navigate("/garage") }} tag="a" color="dark" wideMobile style={{ width: '90%' }}>
-              Garage Mode
-            </Button>
-            <Button onClick={() => setShowPassModal(true)} tag="a" color="dark" wideMobile style={{ width: '90%' }}>
-              Race Mode
-            </Button>
-            <Button onClick={handleOpenTransferModal} tag="a" color="dark" wideMobile style={{ width: '90%' }}>
-              Transfer
-            </Button>
-          </ButtonGroup> */}
-          <div style={{ width: '85%', height: '60vh', justifyContent: 'center' }}>
-            <MainHeaderScreenContainer />
-          </div>
-        </div>
+            {/* <div style={{ flexDirection: 'row', width: '100%', height: '60vh', backgroundColor:'red', justifyContent: 'center' }}> */}
+              <MainHeaderScreenContainer />
+            {/* </div> */}
             <Modal show={showPassModal} handleClose={() => setShowPassModal(false)}>
               <label>
                 <input type={"text"} value={pass} onChange={(event) => { setPass(event.target.value) }} />
@@ -283,8 +249,11 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
             <TransferNftModal show={showTransferModal} setShow={setShowTransferModal} />
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+      {
+        kadcarGarageContext.selectedKadcar ? <KadcarPreview /> : null
+      }
+    </>
   );
 }
 
