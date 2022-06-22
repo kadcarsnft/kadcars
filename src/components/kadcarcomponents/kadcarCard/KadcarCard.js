@@ -44,7 +44,8 @@ const KadcarCard = ({ kadcarNft }) => {
 
     return (
         <Tilt>
-            <CardWrapper onClick={handleCardClicked}>
+            {/* <CardWrapper onClick={handleCardClicked}> */}
+            <CardWrapper>
                 <CardImage image={unknown} />
                 <CardTextWrapper>
                     <CardTextDate>Model: K1</CardTextDate>

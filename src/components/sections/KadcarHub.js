@@ -219,7 +219,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                       <Button onClick={() => handleHomeButtonClick()} tag="a" color="primary" wideMobile>
                         Back to Home
                       </Button>
-                      <Button onClick={() => handleNavigateToGarageMode()} tag="a" color="dark" wideMobile>
+                      <Button onClick={() => handleNavigateToGarageMode()} tag="a" color="dark" wideMobile disabled={true}>
                         Garage
                       </Button>
                       <Button onClick={handleOpenMintModal} tag="a" color="dark" wideMobile>
