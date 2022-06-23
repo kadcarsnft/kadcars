@@ -1,6 +1,8 @@
 # pull official base image
 FROM node:13.12.0-alpine
 
+EXPOSE 8080
+
 # set working directory
 WORKDIR /app
 
