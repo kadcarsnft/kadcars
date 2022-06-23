@@ -104,8 +104,11 @@ const MintModal = ({ show, setShow }) => {
                     </div>
                 </div>
                 <div style={rowStyles}>
-                    <div style={{ marginRight: '20px' }}>
+                    <div style={{ marginRight: '20px', display: 'flex', flexDirection: 'column'}}>
                         Total for {amountToMint} Kadcars: {amountToMint * pricePerKadcar} KDA
+                        <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                            <span style={{ fontSize: '1.2vh', fontStyle: 'italic' }}>*Price does not reflect actual mint price</span>
+                        </div>
                     </div>
                     <Button onClick={initiateMintKadcar} color={'primary'} disabled={checkIfReadyToMint()}>
                         Mint!

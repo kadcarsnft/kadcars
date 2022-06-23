@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import KadcarHub from '../components/sections/KadcarHub';
 import FeaturesTiles from '../components/sections/FeaturesTiles';
 import FeaturesSplit from '../components/sections/FeaturesSplit';
+import Roadmap from '../components/sections/Roadmap';
 import Testimonial from '../components/sections/Testimonial';
 import Cta from '../components/sections/Cta';
 import { PactContext } from '../pact/PactContextProvider';
@@ -15,8 +16,9 @@ const Home = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <KadcarHub/>
-      {/* <FeaturesTiles />
-      <FeaturesSplit invertMobile topDivider imageFill className="illustration-section-02" />
+      {/* <Roadmap/> */}
+      {/* <FeaturesTiles /> */}
+      {/* <FeaturesSplit invertMobile topDivider imageFill className="illustration-section-02" />
       <Testimonial topDivider />
       <Cta split /> */}
     </div>
