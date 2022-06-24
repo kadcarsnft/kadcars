@@ -27,33 +27,32 @@ const DefaultScreen = () => {
 
     return (
         <div style={screenStyles}>
-            <div style={{ width: '70%', height: '50%', flexDirection: 'row', display: 'flex' }}>
-                <div style={{ flexDirection: 'column', justifyContent: 'space-evenly' }}>
-                    <div style={{ justifyContent: 'center', alignContent: 'center' }}>
-                        Welcome to the Kadcars NFT collection!
-                    </div>
-                    <div style={{ marginBottom: '20px' }}>
-                        Start by connecting your X-Wallet to explore Kadcars
-                    </div>
-                    <div className="hero-figure reveal-from-bottom illustration-element-01">
-                        <a
-                            video-data={VIDEO}
-                            aria-controls="video-modal"
-                            onClick={openModal}
-                        >
-                            <Image
-                                src={require('./../../assets/images/kadcarsHome.png')}
-                                alt="Open" />
-                        </a>
-                    </div>
-
-                    <Modal
-                        id="video-modal"
-                        show={videoModalActive}
-                        handleClose={closeModal}
-                        video={VIDEO}
-                        videoTag="iframe" />
+            <div style={{ flexDirection: 'column', display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'space-evenly' }}>
+                <div style={{ marginBottom: '20px' }}>
+                    Start by connecting your X-Wallet to explore Kadcars
                 </div>
+                <div className="hero-figure reveal-from-bottom illustration-element-01" 
+                    style={{ width: '75%', alignSelf: 'center', borderRadius: '30px', overflow: 'hidden' }}>
+                    <a
+                        video-data={VIDEO}
+                        aria-controls="video-modal"
+                        onClick={openModal}
+                        width={'75%'}
+                        
+                    >
+                        <Image
+                            src={require('./../../assets/images/kadcarsHome.png')}
+                            alt="Open"
+                            width={'100%'} />
+                    </a>
+                </div>
+
+                <Modal
+                    id="video-modal"
+                    show={videoModalActive}
+                    handleClose={closeModal}
+                    video={VIDEO}
+                    videoTag="iframe" />
             </div>
         </div>
     )

@@ -6,6 +6,8 @@ import Logo from './partials/Logo';
 import { FaDiscord, FaTwitter } from 'react-icons/fa';
 import { DISCORD_URL, TWITTER_URL } from '../../utils/Constants';
 import { KadcarGameContext } from '../kadcarcomponents/KadcarGameContextProvider';
+import { AiFillTwitterCircle } from 'react-icons/ai';
+import { BsDiscord } from 'react-icons/bs';
 
 const propTypes = {
   navPosition: PropTypes.string,
@@ -82,7 +84,7 @@ const Header = ({
       {...props}
       className={classes}
     >
-      <div className="container">
+      <div className="container" style={{marginTop: '20px'}}>
         <div className={
           classNames(
             'site-header-inner',
@@ -115,17 +117,19 @@ const Header = ({
                       navPosition && `header-nav-${navPosition}`
                     )}
                   >
-                    <li>
-                      <span style={{ fontWeight: 'bold', fontSize: '20px' }}>Follow us:</span>
-                    </li>
+                    {/* <li>
+                      <span style={{ fontWeight: 'bold', fontSize: '20px', marginRight: '30px' }}>Follow us:</span>
+                    </li> */}
                     <li>
                       <a href={TWITTER_URL} target="_blank">
-                        <FaTwitter size={25} />
+                        {/* <FaTwitter size={25} color='#00acee'/> */}
+                        <AiFillTwitterCircle size={40} color='#00acee'/>
                       </a>
                     </li>
                     <li>
                       <a href={DISCORD_URL} target="_blank">
-                        <FaDiscord size={25} />
+                        {/* <FaDiscord size={25} color={'#7289DA'}/> */}
+                        <BsDiscord size={35} color={'#7289DA'}/>
                       </a>
                     </li>
                   </ul>

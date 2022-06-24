@@ -9,8 +9,12 @@ import {
   IoRocketSharp, 
   IoCarSportSharp, 
   IoStorefrontSharp, 
-  IoGameController 
-} from 'react-icons/io5'
+  IoGameController,
+  IoSettingsSharp 
+} from 'react-icons/io5';
+import {
+  FaFlagCheckered
+} from 'react-icons/fa';
 
 const propTypes = {
   ...SectionTilesProps.types
@@ -65,17 +69,20 @@ const Roadmap = ({
         <div className={innerClasses}>
           <SectionHeader data={sectionHeader} className="center-content" />
           <div className={tilesClasses}>
-            <FeatureItem description={"Kadcars website officially released "} labelName={"Launch"}>
+            <FeatureItem description={", , ,"} labelName={"July"} list={["Launch initial Kadcars site", "Launch contract mainnet", "K1 Kadcar model reveal"]}>
               <IoRocketSharp color='white' size={'4vh'}/>
             </FeatureItem>
-            <FeatureItem description={"First collection of Kadcars will be released"} labelName={"Kadcars"}>
+            <FeatureItem description={", , ,"} labelName={"August"} list={["Upgrade website aesthetics", "Release KIP:1337 & KIP:31337", "Customize NFT view on chain", "Initial K2 Kadcar reveal"]}>
                 <IoCarSportSharp color='white' size={'4vh'}/>
             </FeatureItem>
-            <FeatureItem description={"Launch platform on Marmalade"} labelName={"Marmalade"}>
-              <IoStorefrontSharp color='white' size={'4vh'}/>
+            <FeatureItem description={", , ,"} labelName={"September"} list={["Interactive Garage feature", "Level up your Kadcar NFT", "Update your Kadcar parts"]}>
+              <IoSettingsSharp color='white' size={'4vh'}/>
             </FeatureItem>
-            <FeatureItem description={"Launch first game"} labelName={"Game"}>
+            <FeatureItem description={", , ,"} labelName={"October"}  list={["Launch initial game demo", "Race against other players"]}>
               <IoGameController color='white' size={'4vh'}/>
+            </FeatureItem>
+            <FeatureItem description={", , ,"} labelName={"November"} list={["Combine NFTs with kadcars", "Other exciting things coming!"]}>
+              <FaFlagCheckered color='white' size={'4vh'}/>
             </FeatureItem>
           </div>
         </div>

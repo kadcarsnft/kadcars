@@ -41,7 +41,7 @@ const KADCAR_NFT_COLLECTION = "kadcars-nft-collection";
 
 //Social URLs
 const TWITTER_URL = "https://twitter.com/kadcarsnft";
-const DISCORD_URL = "https://discord.gg/dWgCgd3G";
+const DISCORD_URL = "https://discord.gg/PPX9CupYZT";
 
 //Admin
 const ADMIN_ADDRESS = "k:ccf45d4b9e7a05b1f8ae03e362fac9502610d239191a3215774c5251a662c1eb";
