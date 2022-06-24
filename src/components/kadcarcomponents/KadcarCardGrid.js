@@ -33,7 +33,7 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
                 display: "flex",
                 flexDirection: "row",
                 // justifyContent: "center",
-                width: "67vw",
+                width: "70vw",
                 height: "100%",
                 flexWrap: "wrap",
             }}
@@ -48,7 +48,7 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
                             grid={{
                                 rows: 1
                             }}
-                            spaceBetween={30}
+                            spaceBetween={15}
                             centeredSlides={true}
                             pagination={{
                                 type: 'fraction'
