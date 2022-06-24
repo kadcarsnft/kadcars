@@ -31,5 +31,5 @@ export const MainBackgroundCard = styled.div`
   // box-shadow: 5px 15px 15px rgba(236,63,228,255);
   box-shadow: 15px 15px 25px rgba(0,0,0,255);
   position: absolute;
-  margin-top: 10px;
+  margin-top: 20px;
 `;
