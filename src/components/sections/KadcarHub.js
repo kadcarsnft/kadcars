@@ -172,7 +172,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                   Kadena's first car NFT where owners can collect, upgrade, race and trade their Kadcars
                 </p>
                 <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400" style={{ fontColor: 'red' }}>
-                  <span style={{ fontStyle: 'italic', fontSize: 15 }}>*This website is still in a testing environment!!!</span>
+                  <span style={{ fontStyle: 'italic', fontSize: 15 }}>*This website is still in a testing environment!!! Please use testnet :)</span>
                 </p>
                 <div className="reveal-from-bottom" data-reveal-delay="600">
                   {

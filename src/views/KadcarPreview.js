@@ -12,11 +12,11 @@ const KadcarPreview = () => {
     const { selectedKadcar } = useContext(KadcarGarageContext);
 
     return (
-        <div style={{ width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', position: 'absolute' }}>
+        <div style={{ width: '100vw', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', position: 'absolute' }}>
             <div
                 style={{
                     width: '100vw',
-                    height: '100vh',
+                    height: '100%',
                     position: 'absolute',
                     backgroundColor: 'black',
                     opacity: '45%',
