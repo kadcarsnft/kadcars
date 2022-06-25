@@ -9,7 +9,7 @@ import Cta from '../components/sections/Cta';
 import { PactContext } from '../pact/PactContextProvider';
 import { DEFAULT_CHAIN_ID, DEFAULT_GAS_PRICE, NETWORK_ID, SCREEN_NAMES } from '../utils/Constants';
 import { KadcarGameContext } from '../components/kadcarcomponents/KadcarGameContextProvider';
-import FeatureSet from '../components/sections/FeatureSet';
+// import FeatureSet from '../components/sections/FeatureSet';
 
 const Home = () => {
   const { useSetNetworkSettings } = useContext(PactContext);
