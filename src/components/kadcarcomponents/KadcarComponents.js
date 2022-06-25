@@ -38,7 +38,6 @@ const DefaultScreen = () => {
                         aria-controls="video-modal"
                         onClick={openModal}
                         width={'75%'}
-                        
                     >
                         <Image
                             src={require('./../../assets/images/kadcarsHome.png')}

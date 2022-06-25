@@ -163,7 +163,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
       >
         <div className="container">
           <div className={innerClasses}>
-            <div className="hero-content" style={{ marginBottom: '20px' }}>
+            <div className="hero-content">
               <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
                 Build the Ultimate <span className="text-color-primary">Kadcar</span>!
               </h1>

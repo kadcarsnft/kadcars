@@ -56,7 +56,7 @@ const Roadmap = ({
   );
 
   const sectionHeader = {
-    title: '2022 Roadmap',
+    title: 'Kadcars\' 2022 Roadmap',
     paragraph: ''
   };
 
@@ -65,7 +65,7 @@ const Roadmap = ({
       {...props}
       className={outerClasses}
     >
-      <div className="container">
+      <div className="container" style={{ marginTop: '80px'}}>
         <div className={innerClasses}>
           <SectionHeader data={sectionHeader} className="center-content" />
           <div className={tilesClasses}>
