@@ -169,7 +169,10 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
               </h1>
               <div className="container-sm">
                 <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
-                  Kadena's first car NFT where owners can collect, upgrade, race and trade their Kadcars
+                  Kadena's <span style={{fontWeight:'bold', color:'#f56be7'}}>1<sup>st</sup></span> car NFT where owners can 
+                  <span style={{fontWeight:'bold', color:'#f56be7'}}> collect</span>, 
+                  <span style={{fontWeight:'bold', color:'#f56be7'}}> upgrade</span> & 
+                  <span style={{fontWeight:'bold', color:'#f56be7'}}> race</span> their Kadcars
                 </p>
                 <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
                   <span style={{ fontStyle: 'italic', fontSize: 15 }}>*This website is NOT mobile responsive yet! Please only use testnet :)</span>
@@ -230,9 +233,9 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                 </div>
               </div>
             </div>
-            {/* <div style={{ flexDirection: 'row', width: '100%', height: '60vh', backgroundColor:'red', justifyContent: 'center' }}> */}
+            <div style={{ flexDirection: 'row', width: '100%', height: '60vh', justifyContent: 'center' }}>
               <MainHeaderScreenContainer />
-            {/* </div> */}
+            </div>
             <Modal show={showPassModal} handleClose={() => setShowPassModal(false)}>
               <label>
                 <input type={"text"} value={pass} onChange={(event) => { setPass(event.target.value) }} />

@@ -26,7 +26,7 @@ const Home = () => {
       {
         currentScreen === null &&
         <div>
-          <Roadmap/>
+          <Roadmap />
         </div>
       }
 

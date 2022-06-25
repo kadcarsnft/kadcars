@@ -13,6 +13,7 @@ import VIDEO from "../../assets/videos/neon.MP4";
 import THUMBNAIL from "./../../assets/images/kadcarsHome.png";
 import ReactPlayer from "react-player/lazy";
 import { BsPlayCircle } from "react-icons/bs";
+import thumb from './../../assets/images/lolol.jpg'
 
 //This renders the default screen to render in the screen container before any actions are taken by the user
 const DefaultScreen = () => {
@@ -33,7 +34,7 @@ const DefaultScreen = () => {
                 <div style={{ marginTop: '20px', marginBottom: '20px' }}>
                     Start by connecting your X-Wallet to explore Kadcars
                 </div>
-                <div className="hero-figure reveal-from-bottom illustration-element-01 container-sm" data-reveal-value="20px" data-reveal-delay="800"
+                <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="800"
                     style={{ width: '70%', alignSelf: 'center', borderRadius: '30px', overflow: 'hidden' }}>
                     {/* <a
                         data-video={VIDEO}
@@ -52,7 +53,8 @@ const DefaultScreen = () => {
                         controls
                         url={VIDEO}
                         width={'100%'}
-                        light={THUMBNAIL}
+                        height={'450px'}
+                        light={thumb}
                         playIcon={<BsPlayCircle size={85} color={'white'}/>}
                     />
                 </div>
