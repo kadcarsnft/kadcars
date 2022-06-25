@@ -83,8 +83,9 @@ const Header = ({
     <header
       {...props}
       className={classes}
+      style={{marginTop: '20px', width: '100%'}}
     >
-      <div /*className="container"*/ style={{marginTop: '20px', width: '100%'}}>
+      <div /*className="container"*/ >
         <div className={
           classNames(
             'site-header-inner',

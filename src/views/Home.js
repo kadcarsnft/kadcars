@@ -9,6 +9,7 @@ import Cta from '../components/sections/Cta';
 import { PactContext } from '../pact/PactContextProvider';
 import { DEFAULT_CHAIN_ID, DEFAULT_GAS_PRICE, NETWORK_ID, SCREEN_NAMES } from '../utils/Constants';
 import { KadcarGameContext } from '../components/kadcarcomponents/KadcarGameContextProvider';
+import FeatureSet from '../components/sections/FeatureSet';
 
 const Home = () => {
   const { useSetNetworkSettings } = useContext(PactContext);
@@ -20,17 +21,20 @@ const Home = () => {
   })
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <KadcarHub />
+    <>
+      <KadcarHub bottomOuterDivider={true}/>
       {
         currentScreen === null &&
-        <Roadmap />
+        <div>
+          <Roadmap/>
+        </div>
       }
-      {/* <FeaturesTiles /> */}
-      {/* <FeaturesSplit invertMobile topDivider imageFill className="illustration-section-02" />
-      <Testimonial topDivider />
-      <Cta split /> */}
-    </div>
+
+      {/* <FeaturesSplit invertMobile topDivider imageFill className="illustration-section-02" /> */}
+      {/* <FeatureSet invertMobile topDivider imageFill className="illustration-section-02" /> */}
+      {/* <Testimonial topDivider /> */}
+      {/* <Cta split /> */}
+    </>
   );
 }
 

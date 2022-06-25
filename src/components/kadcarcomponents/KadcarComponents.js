@@ -9,7 +9,10 @@ import { CardContainer, Separator } from "./kadcarCard/KadcarCardStyles";
 import { KadcarCardGrid } from "./KadcarCardGrid";
 import Image from "../elements/Image";
 import Modal from "../elements/Modal";
-import VIDEO from "../../assets/videos/neon.MP4"
+import VIDEO from "../../assets/videos/neon.MP4";
+import THUMBNAIL from "./../../assets/images/kadcarsHome.png";
+import ReactPlayer from "react-player/lazy";
+import { BsPlayCircle } from "react-icons/bs";
 
 //This renders the default screen to render in the screen container before any actions are taken by the user
 const DefaultScreen = () => {
@@ -27,32 +30,39 @@ const DefaultScreen = () => {
 
     return (
         <div style={screenStyles}>
-            <div style={{ flexDirection: 'column', display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'space-evenly' }}>
-                <div style={{ marginBottom: '20px' }}>
+                <div style={{ marginTop: '20px', marginBottom: '20px' }}>
                     Start by connecting your X-Wallet to explore Kadcars
                 </div>
-                <div className="hero-figure reveal-from-bottom illustration-element-01" 
-                    style={{ width: '75%', alignSelf: 'center', borderRadius: '30px', overflow: 'hidden' }}>
-                    <a
-                        video-data={VIDEO}
+                <div className="hero-figure reveal-from-bottom illustration-element-01 container-sm" data-reveal-value="20px" data-reveal-delay="800"
+                    style={{ width: '70%', alignSelf: 'center', borderRadius: '30px', overflow: 'hidden' }}>
+                    {/* <a
+                        data-video={VIDEO}
                         aria-controls="video-modal"
                         onClick={openModal}
                         width={'75%'}
                     >
                         <Image
+                            className={"has-shadow"}
                             src={require('./../../assets/images/kadcarsHome.png')}
-                            alt="Open"
+                            alt="Hero"
                             width={'100%'} />
-                    </a>
+                    </a> */}
+                    <ReactPlayer
+                        playing
+                        controls
+                        url={VIDEO}
+                        width={'100%'}
+                        light={THUMBNAIL}
+                        playIcon={<BsPlayCircle size={85} color={'white'}/>}
+                    />
                 </div>
 
-                <Modal
+                {/* <Modal
                     id="video-modal"
                     show={videoModalActive}
                     handleClose={closeModal}
                     video={VIDEO}
-                    videoTag="iframe" />
-            </div>
+                    videoTag="iframe" /> */}
         </div>
     )
 }
@@ -141,9 +151,9 @@ const MainHeaderScreenContainer = ({ }) => {
 
 const screenStyles = {
     width: '100%',
-    height: '60vh', 
+    height: '100%', 
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     // backgroundColor:'blue'
 }
