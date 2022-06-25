@@ -84,7 +84,7 @@ const Header = ({
       {...props}
       className={classes}
     >
-      <div className="container" style={{marginTop: '20px'}}>
+      <div /*className="container"*/ style={{marginTop: '20px', width: '100%'}}>
         <div className={
           classNames(
             'site-header-inner',
@@ -110,7 +110,7 @@ const Header = ({
                     'header-nav',
                     isActive && 'is-active'
                   )}>
-                <div className="header-nav-inner">
+                <div className="header-nav-inner" style={{marginRight:'2%'}}>
                   <ul className={
                     classNames(
                       'list-reset text-xs',

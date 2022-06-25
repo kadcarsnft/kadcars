@@ -2,6 +2,11 @@ import styled from "styled-components";
 
 export const MainBody = styled.div`
   className: illustration-section-01;
+  // width: 100vw;
+  // height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background: linear-gradient(
     65deg,
     rgba(56,14,128,255), 
@@ -23,13 +28,13 @@ export const MainBody = styled.div`
 //dark pink
 //pink
 export const MainBackgroundCard = styled.div`
-  alignSelf: center;
-  width: 62vw;
+  align-self: center;
+  width: 65vw;
   height: 100%;
   border-radius: 20px;
   background: rgba(21,23,25,255);
   // box-shadow: 5px 15px 15px rgba(236,63,228,255);
   box-shadow: 15px 15px 25px rgba(0,0,0,255);
-  position: absolute;
+  // position: absolute;
   margin-top: 20px;
 `;

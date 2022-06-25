@@ -69,13 +69,13 @@ const Roadmap = ({
         <div className={innerClasses}>
           <SectionHeader data={sectionHeader} className="center-content" />
           <div className={tilesClasses}>
-            <FeatureItem description={", , ,"} labelName={"July"} list={["Launch initial Kadcars site", "Launch contract mainnet", "K1 Kadcar model reveal"]}>
+            <FeatureItem description={", , ,"} labelName={"July"} list={["Launch initial Kadcars site", "Launch contract mainnet", "K2 Kadcar model reveal"]}>
               <IoRocketSharp color='white' size={'4vh'}/>
             </FeatureItem>
-            <FeatureItem description={", , ,"} labelName={"August"} list={["Upgrade website aesthetics", "Release KIP:1337 & KIP:31337", "Customize NFT view on chain", "Initial K2 Kadcar reveal"]}>
+            <FeatureItem description={", , ,"} labelName={"August"} list={["Upgrade website aesthetics", "Customize NFT view on chain", "Initial K1 Kadcar reveal"]}>
                 <IoCarSportSharp color='white' size={'4vh'}/>
             </FeatureItem>
-            <FeatureItem description={", , ,"} labelName={"September"} list={["Interactive Garage feature", "Level up your Kadcar NFT", "Update your Kadcar parts"]}>
+            <FeatureItem description={", , ,"} labelName={"September"} list={["Interactive Garage feature", "Level up your Kadcar NFT", "Update your Kadcar parts", "Release KIP:1337 & KIP:31337"]}>
               <IoSettingsSharp color='white' size={'4vh'}/>
             </FeatureItem>
             <FeatureItem description={", , ,"} labelName={"October"}  list={["Launch initial game demo", "Race against other players"]}>
