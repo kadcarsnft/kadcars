@@ -15,11 +15,7 @@ const Home = () => {
   const { useSetNetworkSettings } = useContext(PactContext);
   const { currentScreen } = useContext(KadcarGameContext);
   useSetNetworkSettings(NETWORK_ID, DEFAULT_CHAIN_ID, DEFAULT_GAS_PRICE);
-
-  useEffect(() => {
-    console.log(currentScreen)
-  })
-
+  
   return (
     <>
       <KadcarHub bottomOuterDivider={true}/>

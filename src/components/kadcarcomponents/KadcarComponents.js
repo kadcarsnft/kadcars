@@ -10,10 +10,9 @@ import { KadcarCardGrid } from "./KadcarCardGrid";
 import Image from "../elements/Image";
 import Modal from "../elements/Modal";
 import VIDEO from "../../assets/videos/neon.MP4";
-import THUMBNAIL from "./../../assets/images/kadcarsHome.png";
 import ReactPlayer from "react-player/lazy";
 import { BsPlayCircle } from "react-icons/bs";
-import thumb from './../../assets/images/lolol.jpg'
+import THUMBNAIL from './../../assets/images/darkLogo.jpg'
 
 //This renders the default screen to render in the screen container before any actions are taken by the user
 const DefaultScreen = () => {
@@ -31,19 +30,21 @@ const DefaultScreen = () => {
 
     return (
         <div style={screenStyles}>
-            <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+            <div style={{ marginBottom: '20px' }}>
                 Start by connecting your X-Wallet to explore Kadcars
             </div>
             <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="800"
                 style={{
                     width: '70%',
+                    height: '75%',
                     alignSelf: 'center',
                     borderRadius: '30px',
                     overflow: 'hidden',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
-                    alignContent: 'center'
+                    alignContent: 'center',
+                    backgroundColor:'red'
                 }}
             >
                 {/* <a
@@ -63,8 +64,8 @@ const DefaultScreen = () => {
                     controls
                     url={VIDEO}
                     width={'100%'}
-                    height={'450px'}
-                    light={thumb}
+                    height={'100%'}
+                    light={THUMBNAIL}
                     playIcon={<BsPlayCircle size={85} color={'white'}/>}
                 />
             </div>
@@ -91,10 +92,6 @@ const MyKadcarGallery = () => {
         }
 
         //FETCH KADCARS HERE
-        // const fetchKadcars = async () => {
-
-        // }
-        // fetchKadcars();
     }, [account]);
 
     return (
@@ -103,18 +100,6 @@ const MyKadcarGallery = () => {
                 account === null ?
                     <div>Please Connect Your Wallet</div> :
                     <KadcarCardGrid kadcars={myKadcars} gallery={USER_KADCAR_GALLERY_LABEL} />
-                // <CardContainer>
-                //     {
-                //         myKadcars.map((kadcarNft, index) => {
-                //             console.log(kadcarNft)
-                //             return (
-                //                 <div key={index}>
-                //                     <KadcarCard kadcarNft={kadcarNft} />
-                //                 </div>
-                //             )
-                //         })
-                //     }
-                // </CardContainer>
             }
         </div>
     );
@@ -137,13 +122,6 @@ const MintKadcarFlow = () => {
     )
 }
 
-// const KadcarCard = ({ base64, extraStyle }) => {
-//     return (
-//         <>
-
-//         </>
-//     )
-// }
 
 const MainHeaderScreenContainer = ({ }) => {
     const { currentScreen } = useContext(KadcarGameContext)
@@ -152,13 +130,21 @@ const MainHeaderScreenContainer = ({ }) => {
     }, [currentScreen])
 
     return (
-        <>
+        <div style={screenContainerStyles}>
             {currentScreen === null && <DefaultScreen />}
             {currentScreen === SCREEN_NAMES.MY_KADCARS && <MyKadcarGallery />}
             {currentScreen === SCREEN_NAMES.ALL_KADCARS && <AllKadcarGallery />}
             {currentScreen === SCREEN_NAMES.MINT_KADCAR && <MintKadcarFlow />}
-        </>
+        </div>
     )
+}
+
+const screenContainerStyles = {
+    width: '100%', 
+    height: '60vh', 
+    flexDirection: 'row', 
+    justifyContent: 'center', 
+    // backgroundColor:'red'
 }
 
 const screenStyles = {

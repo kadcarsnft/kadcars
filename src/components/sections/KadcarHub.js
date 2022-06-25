@@ -152,13 +152,11 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
         {...props}
         className={outerClasses}
         style={{
-          // position: 'absolute',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           height: '100%',
-          // height: '90vh',
-          width: '95%'
+          width: '100%',
         }}
       >
         <div className="container">
@@ -233,9 +231,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                 </div>
               </div>
             </div>
-            <div style={{ flexDirection: 'row', width: '100%', height: '60vh', justifyContent: 'center' }}>
-              <MainHeaderScreenContainer />
-            </div>
+            <MainHeaderScreenContainer />
             <Modal show={showPassModal} handleClose={() => setShowPassModal(false)}>
               <label>
                 <input type={"text"} value={pass} onChange={(event) => { setPass(event.target.value) }} />

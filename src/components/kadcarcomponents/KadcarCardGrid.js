@@ -28,44 +28,51 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
 
     return (
         // <CenterColumn centerColumnStyle={centerColumnStyle} extraStyle={extraStyle}>
-        <div
-            style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                width: "100%",
-                height: "100%",
-                flexWrap: "wrap",
-            }}
-        >
+        // <div
+        //     style={{
+        //         display: "flex",
+        //         flexDirection: "row",
+        //         justifyContent: "center",
+        //         width: "100%",
+        //         height: "100%",
+        //         // flexWrap: "wrap",
+        //     }}
+        // >
+        <>
             {kadcars == null && <CustomMessage text="Loading Kadcars..." />}
             {kadcars?.length === 0 && <CustomMessage text="No kadcars exist yet!" />}
             {kadcars != null &&
                 (
-                        <Swiper
-                            slidesPerView={3}
-                            grid={{
-                                rows: 1
-                            }}
-                            spaceBetween={30}
-                            centeredSlides={true}
-                            pagination={{
-                                type: 'fraction'
-                            }}
-                            modules={[Pagination]}
-                        >
-                            {
-                                kadcars.map((kadcar, index) => {
-                                    return (
-                                        <SwiperSlide key={index}>
-                                            <KadcarCard kadcarNft={kadcar} />
-                                        </SwiperSlide>
-                                    );
-                                })
-                            }
-                        </Swiper>
+                    <Swiper
+                        slidesPerView={3}
+                        grid={{
+                            rows: 1
+                        }}
+                        spaceBetween={15}
+                        centeredSlides={true}
+                        pagination={{
+                            type: 'fraction'
+                        }}
+                        modules={[Pagination]}
+                        style={{ 
+                            width: '90%',
+                            height: '100%',
+                        }}
+                    >
+                        {
+                            kadcars.map((kadcar, index) => {
+                                return (
+                                    <SwiperSlide key={index}>
+                                        <KadcarCard kadcarNft={kadcar} />
+                                    </SwiperSlide>
+                                );
+                            })
+                        }
+                    </Swiper>
                 )}
-        </div>
+        </>
+
+        // </div>
         //</CenterColumn>
     )
 }

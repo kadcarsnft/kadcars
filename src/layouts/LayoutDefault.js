@@ -6,12 +6,10 @@ import { MainBackgroundCard, MainBody } from './StyledLayoutComponents';
 const LayoutDefault = ({ children }) => (
   <MainBody>
     <MainBackgroundCard>
-
-    <Header navPosition="right" className="reveal-from-bottom" style={{marginTop: '15px'}}/>
-    <main className="site-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      {/* <MainBackgroundCard /> */}
-      {children}
-    </main>
+      <Header navPosition="right" className="reveal-from-bottom" style={{ marginTop: '15px' }} />
+      <main className="site-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        {children}
+      </main>
     </MainBackgroundCard>
   </MainBody>
 );
