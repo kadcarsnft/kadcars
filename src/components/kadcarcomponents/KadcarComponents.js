@@ -31,12 +31,22 @@ const DefaultScreen = () => {
 
     return (
         <div style={screenStyles}>
-                <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                    Start by connecting your X-Wallet to explore Kadcars
-                </div>
-                <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="800"
-                    style={{ width: '70%', alignSelf: 'center', borderRadius: '30px', overflow: 'hidden' }}>
-                    {/* <a
+            <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                Start by connecting your X-Wallet to explore Kadcars
+            </div>
+            <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="800"
+                style={{
+                    width: '70%',
+                    alignSelf: 'center',
+                    borderRadius: '30px',
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignContent: 'center'
+                }}
+            >
+                {/* <a
                         data-video={VIDEO}
                         aria-controls="video-modal"
                         onClick={openModal}
@@ -48,18 +58,18 @@ const DefaultScreen = () => {
                             alt="Hero"
                             width={'100%'} />
                     </a> */}
-                    <ReactPlayer
-                        playing
-                        controls
-                        url={VIDEO}
-                        width={'100%'}
-                        height={'450px'}
-                        light={thumb}
-                        playIcon={<BsPlayCircle size={85} color={'white'}/>}
-                    />
-                </div>
+                <ReactPlayer
+                    playing
+                    controls
+                    url={VIDEO}
+                    width={'100%'}
+                    height={'450px'}
+                    light={thumb}
+                    playIcon={<BsPlayCircle size={85} color={'white'}/>}
+                />
+            </div>
 
-                {/* <Modal
+            {/* <Modal
                     id="video-modal"
                     show={videoModalActive}
                     handleClose={closeModal}
@@ -153,7 +163,7 @@ const MainHeaderScreenContainer = ({ }) => {
 
 const screenStyles = {
     width: '100%',
-    height: '100%', 
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
