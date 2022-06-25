@@ -32,8 +32,8 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
             style={{
                 display: "flex",
                 flexDirection: "row",
-                // justifyContent: "center",
-                width: "70vw",
+                justifyContent: "center",
+                width: "100%",
                 height: "100%",
                 flexWrap: "wrap",
             }}
@@ -42,13 +42,12 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
             {kadcars?.length === 0 && <CustomMessage text="No kadcars exist yet!" />}
             {kadcars != null &&
                 (
-                    <>
                         <Swiper
                             slidesPerView={3}
                             grid={{
                                 rows: 1
                             }}
-                            spaceBetween={15}
+                            spaceBetween={30}
                             centeredSlides={true}
                             pagination={{
                                 type: 'fraction'
@@ -65,7 +64,6 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
                                 })
                             }
                         </Swiper>
-                    </>
                 )}
         </div>
         //</CenterColumn>
