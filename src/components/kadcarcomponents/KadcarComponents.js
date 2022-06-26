@@ -13,6 +13,7 @@ import VIDEO from "../../assets/videos/neon.MP4";
 import ReactPlayer from "react-player/lazy";
 import { BsPlayCircle } from "react-icons/bs";
 import THUMBNAIL from './../../assets/images/darkLogo.jpg'
+import styled from "styled-components";
 
 //This renders the default screen to render in the screen container before any actions are taken by the user
 const DefaultScreen = () => {
@@ -29,14 +30,14 @@ const DefaultScreen = () => {
     }
 
     return (
-        <div style={screenStyles}>
+        <div style={defaultScreenStyles}>
             <div style={{ marginBottom: '20px' }}>
                 Start by connecting your X-Wallet to explore Kadcars
             </div>
             <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="800"
                 style={{
                     width: '70%',
-                    height: '75%',
+                    height: '70%',
                     alignSelf: 'center',
                     borderRadius: '30px',
                     overflow: 'hidden',
@@ -95,7 +96,7 @@ const MyKadcarGallery = () => {
     }, [account]);
 
     return (
-        <div style={screenStyles}>
+        <div style={kadcarGalleryScreenStyles}>
             {
                 account === null ?
                     <div>Please Connect Your Wallet</div> :
@@ -140,14 +141,23 @@ const MainHeaderScreenContainer = ({ }) => {
 }
 
 const screenContainerStyles = {
-    width: '100%', 
-    height: '60vh', 
+    width: '100%',
+    height: '575px',
     flexDirection: 'row', 
     justifyContent: 'center', 
     // backgroundColor:'red'
 }
 
-const screenStyles = {
+const defaultScreenStyles = {
+    width: '100%',
+    height: '575px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    // backgroundColor:'blue'
+}
+
+const kadcarGalleryScreenStyles = {
     width: '100%',
     height: '100%',
     display: 'flex',

@@ -56,7 +56,7 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
                         }}
                         style={{
                             width: '95%',
-                            height: '100%',
+                            height: '600px'
                         }}
                         breakpoints={{
                             320: {
