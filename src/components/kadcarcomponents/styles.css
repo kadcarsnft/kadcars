@@ -45,10 +45,11 @@ body {
 }
 
 .swiper-container {
-  width: 480px;
+  width: 75%;
+  height: 100%;
 }
 
-@media screen and (min-width: 320px) {
+/* @media screen and (min-width: 350px) {
   .swiper-container {
     width: 350px;
   }
@@ -64,4 +65,4 @@ body {
   .swiper-container {
     width: 950px;
   }
-}
+} */

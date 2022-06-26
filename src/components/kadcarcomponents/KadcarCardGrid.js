@@ -46,7 +46,7 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
                     <Swiper
                         // slidesPerView={3}
                         // spaceBetween={30}
-                        centeredSlides={true}
+                        // centeredSlides={true}
                         modules={[Pagination]}
                         grid={{
                             rows: 1
@@ -55,24 +55,33 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
                             type: 'fraction'
                         }}
                         style={{
-                            width: '100%',
+                            width: '95%',
                             height: '100%',
                         }}
                         breakpoints={{
-                            350: {
-                                width: 350,
-                                slidesPerView:1,
-                                spaceBetween: 30
+                            320: {
+                                width: 320,
+                                spaceBetween: 30,
+                                slidesPerView: 1,
+                                centeredSlides:true
                             },
-                            820: {
-                                width: 820,
-                                slidesPerView:2,
-                                spaceBetween: 30
+                            420: {
+                                width: 420,
+                                spaceBetween: 30,
+                                slidesPerView: 1,
+                                centeredSlides:true
                             },
-                            950: {
-                                width: 950,
+                            768: {
+                                width: 768,
+                                spaceBetween: 30,
+                                slidesPerView: 2,
+                                centeredSlides:true
+                            },
+                            1024: {
+                                width: 1024,
+                                spaceBetween: 30,
                                 slidesPerView: 3,
-                                spaceBetween: 50
+                                centeredSlides:true
                             }
                         }}
                     >
