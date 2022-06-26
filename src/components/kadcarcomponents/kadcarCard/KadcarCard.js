@@ -68,7 +68,7 @@ const KadcarCard = ({ kadcarNft }) => {
             <CardWrapper onClick={handleCardClicked}>
                 <CardModelWrapper>
                     <CardModelText>
-                        Kadcar K:1
+                        Kadcar K:2
                     </CardModelText>
                 </CardModelWrapper>
                 {/* <CardImageWrapper image={CAR}/> */}

@@ -163,6 +163,7 @@ const kadcarGalleryScreenStyles = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    marginTop: '30px'
     // backgroundColor:'blue'
 }
 

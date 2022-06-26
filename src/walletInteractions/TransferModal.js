@@ -136,7 +136,7 @@ const TransferNftModal = ({ show, setShow }) => {
                 </div>
                 <div style={rowStyles}>
                     <Button onClick={initiateKadcarTransfer} color={'primary'} disabled={checkIfNotReadyToTransfer()}>
-                        Mint!
+                        Transfer
                     </Button>
                 </div>
             </div>
