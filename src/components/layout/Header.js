@@ -4,9 +4,9 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import Logo from './partials/Logo';
 import { FaDiscord, FaTwitter } from 'react-icons/fa';
-import { DISCORD_URL, TWITTER_URL } from '../../utils/Constants';
+import { DISCORD_URL, MEDIUM_URL, TWITTER_URL } from '../../utils/Constants';
 import { KadcarGameContext } from '../kadcarcomponents/KadcarGameContextProvider';
-import { AiFillTwitterCircle } from 'react-icons/ai';
+import { AiFillMediumCircle, AiFillTwitterCircle } from 'react-icons/ai';
 import { BsDiscord } from 'react-icons/bs';
 import LOGO from './../../assets/images/logo-nobackground-1000.png';
 
@@ -122,6 +122,12 @@ const Header = ({
                     {/* <li>
                       <span style={{ fontWeight: 'bold', fontSize: '20px', marginRight: '30px' }}>Follow us:</span>
                     </li> */}
+                    <li>
+                      <a href={MEDIUM_URL} target="_blank">
+                        {/* <FaDiscord size={25} color={'#7289DA'}/> */}
+                        <AiFillMediumCircle size={40} color={'#ffff'}/>
+                      </a>
+                    </li>
                     <li>
                       <a href={TWITTER_URL} target="_blank">
                         {/* <FaTwitter size={25} color='#00acee'/> */}
