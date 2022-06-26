@@ -1,20 +1,27 @@
 import React, { useContext } from "react";
 import {
     CardWrapper,
+    CardImageWrapper,
     CardImage,
     CardTextWrapper,
-    CardTextDate,
     CardTextTitle,
     CardTextBody,
     CardStatWrapper,
-    CardStats,
+    CardStatLabel,
+    CardModelText,
     LinkText,
-    ExpandedCardWrapper
-  } from "./KadcarCardStyles";
+    ExpandedCardWrapper,
+    CardStatGrid,
+    CardStatValue,
+    CardVinWrapper,
+    CardModelWrapper,
+    CardVinText
+} from "./KadcarCardStyles";
 import Tilt from "react-parallax-tilt";
 import { AiOutlineClose } from "react-icons/ai";
 
 import unknown from "../../../assets/images/logo-nobackground.svg"
+// import CAR from "../../../assets/images/kc.jpg"
 import { KadcarGarageContext } from "../KadcarGarageContextProvider";
 // import logoPixelated from "../../../assets/images/kadcarsHomeCropped.png"
 
@@ -30,8 +37,21 @@ const KadcarCardExpanded = ({ kadcarNft, children }) => {
             <div style={{ position: 'absolute' }}>
                 <AiOutlineClose onClick={handleCloseButtonClicked} />
             </div>
-            { children }
+            {children}
         </ExpandedCardWrapper>
+    )
+}
+
+const KadcarCardStat = ({ label, value }) => {
+    return (
+        <CardStatGrid>
+            <CardStatLabel>
+                { label }:
+            </CardStatLabel>
+            <CardStatValue>
+                { value }
+            </CardStatValue>
+        </CardStatGrid>
     )
 }
 
@@ -40,30 +60,31 @@ const KadcarCard = ({ kadcarNft }) => {
 
     function handleCardClicked() {
         setSelectedKadcar(kadcarNft);
+        console.log(kadcarNft)
     }
 
     return (
         <Tilt>
             <CardWrapper onClick={handleCardClicked}>
-            {/* <CardWrapper> */}
-                <CardImage image={unknown} />
-                <CardTextWrapper>
-                    <CardTextDate>Model: K1</CardTextDate>
-                    <CardTextTitle>#{ kadcarNft['nft-id'] }</CardTextTitle>
-                    <CardTextBody>
-                        Name
-                    </CardTextBody>
-                </CardTextWrapper>
+                <CardModelWrapper>
+                    <CardModelText>
+                        Kadcar K:1
+                    </CardModelText>
+                </CardModelWrapper>
+                {/* <CardImageWrapper image={CAR}/> */}
+                <CardImageWrapper image={unknown}/>
+                <CardVinWrapper>
+                    <CardVinText>
+                        VIN# { kadcarNft['nft-id'] }
+                    </CardVinText>
+                </CardVinWrapper>
                 <CardStatWrapper>
-                    <CardStats>
-                        HP: 890
-                    </CardStats>
-                    <CardStats>
-                        Speed: 100
-                    </CardStats>
-                    <CardStats>
-                        Acceleration: 80
-                    </CardStats>
+                    <KadcarCardStat label={"Top Speed"} value={"270 kmph"}/>
+                    <KadcarCardStat label={"Drive Train"} value={"4WD"}/>
+                    <KadcarCardStat label={"Torque"} value={"295 Nm"}/>
+                    <KadcarCardStat label={"Horse Pwr"} value={"700 HP"}/>
+                    <KadcarCardStat label={"Acceleration"} value={"3s 0-100"}/>
+                    <KadcarCardStat label={"Weight"} value={"1690 kg"}/>
                 </CardStatWrapper>
             </CardWrapper>
         </Tilt>

@@ -108,7 +108,7 @@ const TransferNftModal = ({ show, setShow }) => {
         <Modal show={show} handleClose={handleTransferModalClose}>
             <div style={modalStyles}>
                 <div style={headerStyles}>
-                    <span className="text-color-primary" style={{ fontSize: '30px', fontWeight: 'bold' }}>Transfer a Kadcar(s)</span>
+                    <span /*className="text-color-primary"*/ style={{ fontSize: '30px', fontWeight: 'bold', color: 'lightgray' }}>Transfer a Kadcar(s)</span>
                 </div>
                 <div style={rowStyles}>
                     <div style={subColLabelStyles}>

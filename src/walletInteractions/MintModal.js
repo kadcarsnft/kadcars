@@ -85,7 +85,7 @@ const MintModal = ({ show, setShow }) => {
         <Modal show={show} handleClose={handleClose}>
             <div style={modalStyles}>
                 <div style={headerStyles}>
-                    <span className="text-color-primary" style={{ fontSize: '30px', fontWeight: 'bold' }}>Mint a Kadcar(s)</span>
+                    <span /*className="text-color-primary"*/ style={{ fontSize: '30px', fontWeight: 'bold', color: 'lightgray' }}>Mint a Kadcar(s)</span>
                 </div>
                 <div style={rowStyles}>
                     <div style={subColLabelStyles}>
