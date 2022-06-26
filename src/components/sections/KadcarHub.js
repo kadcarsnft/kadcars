@@ -156,7 +156,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
           flexDirection: 'column',
           justifyContent: 'center',
           height: '100%',
-          width: '100%',
+          width: '95%',
         }}
       >
         <div className="container">

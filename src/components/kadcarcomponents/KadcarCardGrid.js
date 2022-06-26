@@ -44,19 +44,36 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
             {kadcars != null &&
                 (
                     <Swiper
-                        slidesPerView={3}
+                        // slidesPerView={3}
+                        // spaceBetween={30}
+                        centeredSlides={true}
+                        modules={[Pagination]}
                         grid={{
                             rows: 1
                         }}
-                        spaceBetween={15}
-                        centeredSlides={true}
                         pagination={{
                             type: 'fraction'
                         }}
-                        modules={[Pagination]}
-                        style={{ 
-                            width: '90%',
+                        style={{
+                            width: '100%',
                             height: '100%',
+                        }}
+                        breakpoints={{
+                            350: {
+                                width: 350,
+                                slidesPerView:1,
+                                spaceBetween: 30
+                            },
+                            820: {
+                                width: 820,
+                                slidesPerView:2,
+                                spaceBetween: 30
+                            },
+                            950: {
+                                width: 950,
+                                slidesPerView: 3,
+                                spaceBetween: 50
+                            }
                         }}
                     >
                         {

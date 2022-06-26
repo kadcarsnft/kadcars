@@ -44,7 +44,7 @@ const DefaultScreen = () => {
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignContent: 'center',
-                    backgroundColor:'red'
+                    boxShadow: '0px 5px 20px rgba(0, 0, 0, 0.9)'
                 }}
             >
                 {/* <a
