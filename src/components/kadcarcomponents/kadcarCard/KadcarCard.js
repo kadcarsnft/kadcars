@@ -19,7 +19,6 @@ import {
 } from "./KadcarCardStyles";
 import Tilt from "react-parallax-tilt";
 import { AiOutlineClose } from "react-icons/ai";
-
 import unknown from "../../../assets/images/logo-nobackground.svg"
 // import CAR from "../../../assets/images/kc.jpg"
 import { KadcarGarageContext } from "../KadcarGarageContextProvider";
@@ -80,10 +79,10 @@ const KadcarCard = ({ kadcarNft }) => {
                 </CardVinWrapper>
                 <CardStatWrapper>
                     <KadcarCardStat label={"Top Speed"} value={"270 kmph"}/>
-                    <KadcarCardStat label={"Drive Train"} value={"4WD"}/>
-                    <KadcarCardStat label={"Torque"} value={"295 Nm"}/>
+                    <KadcarCardStat label={"Acceleration"} value={"3s"}/>
                     <KadcarCardStat label={"Horse Pwr"} value={"700 HP"}/>
-                    <KadcarCardStat label={"Acceleration"} value={"3s 0-100"}/>
+                    <KadcarCardStat label={"Torque"} value={"850 Nm"}/>
+                    <KadcarCardStat label={"Drive Train"} value={"4WD"}/>
                     <KadcarCardStat label={"Weight"} value={"1690 kg"}/>
                 </CardStatWrapper>
             </CardWrapper>

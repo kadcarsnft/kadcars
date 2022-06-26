@@ -5,6 +5,7 @@ import Image from '../../elements/Image';
 
 const Logo = ({
   className,
+  image,
   ...props
 }) => {
   const classes = classNames(
@@ -19,8 +20,8 @@ const Logo = ({
     >
       <h1 className="m-0">
         <Link to="/">
-          <Image
-            src={require('./../../../assets/images/logo-nobackground-1000.png')}
+          <img
+            src={image}
             alt="Open"
             width={225}
             height={225}/>

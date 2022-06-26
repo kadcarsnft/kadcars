@@ -42,6 +42,8 @@ const KADCAR_NFT_COLLECTION = "kadcars-nft-collection";
 //Social URLs
 const TWITTER_URL = "https://twitter.com/kadcarsnft";
 const DISCORD_URL = "https://discord.gg/PPX9CupYZT";
+const MEDIUM_URL = "https://medium.com/@kadcarsnft";
+const FLUX_LABS_URL = "https://runonflux.io/fluxlabs.html?utm_campaign=%20Weekly%20Kadena%20Ecosystem%20Update&utm_medium=email&utm_source=Revue%20newsletter";
 
 //Admin
 const ADMIN_ADDRESS = "k:ccf45d4b9e7a05b1f8ae03e362fac9502610d239191a3215774c5251a662c1eb";
@@ -97,4 +99,6 @@ export {
     REGEX_FOR_NFT_ID,
     TWITTER_URL,
     DISCORD_URL,
+    FLUX_LABS_URL,
+    MEDIUM_URL
 }

@@ -8,6 +8,7 @@ import { DISCORD_URL, TWITTER_URL } from '../../utils/Constants';
 import { KadcarGameContext } from '../kadcarcomponents/KadcarGameContextProvider';
 import { AiFillTwitterCircle } from 'react-icons/ai';
 import { BsDiscord } from 'react-icons/bs';
+import LOGO from './../../assets/images/logo-nobackground-1000.png';
 
 const propTypes = {
   navPosition: PropTypes.string,
@@ -91,7 +92,7 @@ const Header = ({
             'site-header-inner',
             bottomDivider && 'has-bottom-divider'
           )}>
-          <Logo onClick={() => setCurrentScreen(null)}/>
+          <Logo image={LOGO} onClick={() => setCurrentScreen(null)}/>
           {!hideNav &&
             <>
               <button
