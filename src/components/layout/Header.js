@@ -92,7 +92,7 @@ const Header = ({
             'site-header-inner',
             bottomDivider && 'has-bottom-divider'
           )}>
-          <Logo image={LOGO} onClick={() => setCurrentScreen(null)}/>
+          <Logo image={LOGO} width={225} height={225} url={'home'} onClick={() => setCurrentScreen(null)}/>
           {!hideNav &&
             <>
               <button

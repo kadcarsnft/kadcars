@@ -13,10 +13,10 @@ const LayoutDefault = ({ children }) => {
         <main className="site-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Header navPosition="right" className="reveal-from-bottom" style={{ paddingTop: '15px' }} />
           { children }
-          {/* {
+          {
             kadcarGameContext.currentScreen === null &&
             <Footer topDivider />
-          } */}
+          }
         </main>
       </MainBackgroundCard>
     </MainBody>

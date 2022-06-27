@@ -6,6 +6,9 @@ import Image from '../../elements/Image';
 const Logo = ({
   className,
   image,
+  width,
+  height,
+  url,
   ...props
 }) => {
   const classes = classNames(
@@ -17,15 +20,29 @@ const Logo = ({
     <div
       {...props}
       className={classes}
+      style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
     >
       <h1 className="m-0">
-        <Link to="/">
-          <img
-            src={image}
-            alt="Open"
-            width={225}
-            height={225}/>
-        </Link>
+        {
+          url === "home" ?
+            <Link to="/">
+              <a href={url} target="_blank">
+                <img
+                  src={image}
+                  alt="Open"
+                  width={width}
+                  height={height} />
+              </a>
+            </Link>
+            :
+            <a href={url} target="_blank">
+              <img
+                src={image}
+                alt="Open"
+                width={width}
+                height={height} />
+            </a>
+        }
       </h1>
     </div>
   );

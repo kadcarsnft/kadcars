@@ -7,6 +7,7 @@ import FooterSocial from './partials/FooterSocial';
 import { FLUX_LABS_URL } from '../../utils/Constants';
 import POWEREDBYFLUXLABS from './../../assets/images/Powered_by_Flux-02.png';
 import FLUXLABS from './../../assets/images/fluxlabs-5.png';
+import MUSTANGS from './../../assets/images/mustangs_clean.png';
 
 const propTypes = {
   topOuterDivider: PropTypes.bool,
@@ -48,9 +49,10 @@ const Footer = ({
           </h3>
           <div className="footer-top space-between text-xxs" style={{ display: 'flex', flexDirection: 'row', paddingTop: '10px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-              <div style={{ display: 'flex', flexDirection: 'row', width: '65%', justifyContent:'space-between'}}>
-                <Logo image={FLUXLABS} />
-                <Logo image={POWEREDBYFLUXLABS} />
+              <div style={{ display: 'flex', flexDirection: 'row', width: '70%', justifyContent:'space-between'}}>
+                <Logo image={MUSTANGS} width={120} height={120} url={''}/>
+                <Logo image={FLUXLABS} width={180} height={180} url={FLUX_LABS_URL}/>
+                <Logo image={POWEREDBYFLUXLABS} width={180} height={180} url={FLUX_LABS_URL}/>
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', width:'19%' }}>
