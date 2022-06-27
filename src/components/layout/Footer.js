@@ -36,7 +36,7 @@ const Footer = ({
     <footer
       {...props}
       className={classes}
-      style={{ width: '80%' }}
+      style={{ width: '100%' }}
     >
       <div className="container">
         <div className={
@@ -48,14 +48,14 @@ const Footer = ({
             Partners:
           </h3>
           <div className="footer-top space-between text-xxs" style={{ display: 'flex', flexDirection: 'row', paddingTop: '10px' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-              <div style={{ display: 'flex', flexDirection: 'row', width: '70%', justifyContent:'space-between'}}>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '100%', paddingLeft: '10px' }}>
+              <div style={{ display: 'flex', flexDirection: 'row', width: '75%', justifyContent:'space-between'}}>
                 <Logo image={MUSTANGS} width={120} height={120} url={''}/>
                 <Logo image={FLUXLABS} width={180} height={180} url={FLUX_LABS_URL}/>
                 <Logo image={POWEREDBYFLUXLABS} width={180} height={180} url={FLUX_LABS_URL}/>
               </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', width:'19%' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', width:'25%', paddingRight: '10px' }}>
               <FooterSocial />
             </div>
           </div>
