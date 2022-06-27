@@ -49,10 +49,10 @@ function getNetworkUrl(netId) {
     }
     if (netId === TESTNET_NETWORK_ID) {
         return `https://api.testnet.chainweb.com/chainweb/0.0/${TESTNET_NETWORK_ID}/chain/${DEFAULT_CHAIN_ID}/pact`;
-    } else if (netId === MAINNET_NETWORK_ID) {
+    } /*else if (netId === MAINNET_NETWORK_ID) {
         return `https://api.chainweb.com/chainweb/0.0/${MAINNET_NETWORK_ID}/chain/${DEFAULT_CHAIN_ID}/pact`;
-    }
-    throw new Error("networkId must be testnet or mainnet");
+    }*/
+    throw new Error("networkId must be testnet, please select testnet in your x-wallet");
 }
 
 const defineMetaData = (chainId, gasPrice, gasLimit) => {
