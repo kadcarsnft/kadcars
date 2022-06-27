@@ -83,7 +83,7 @@ const DefaultScreen = () => {
 
 //This renders a gallery displaying all Kadcars currently owned by the user
 const MyKadcarGallery = () => {
-    const { account } = useContext(PactContext);
+    const { account, iXwallet } = useContext(PactContext);
     const { myKadcars } = useContext(KadcarGameContext);
 
 
@@ -99,7 +99,8 @@ const MyKadcarGallery = () => {
         <div style={kadcarGalleryScreenStyles}>
             {
                 account === null ?
-                    <div>Please Connect Your Wallet</div> :
+                    // <div>Please Connect Your Wallet</div> :
+                    <KadcarCardGrid disconnected={true}/> :
                     <KadcarCardGrid kadcars={myKadcars} gallery={USER_KADCAR_GALLERY_LABEL} />
             }
         </div>

@@ -13,7 +13,7 @@ import "./styles.css"
 import { Pagination } from "swiper";
 import { KadcarCardExpanded } from "./kadcarCard/KadcarCard";
 
-const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
+const KadcarCardGrid = ({ kadcars, pages, page, setPage, disconnected }) => {
     const extraStyle = { overflowY: "scroll" };
     const centerColumnStyle = {
         display: "flex",
@@ -39,7 +39,7 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
         //     }}
         // >
         <>
-            {kadcars == null && <CustomMessage text="Loading Kadcars..." />}
+            { kadcars == null && <Swiper><SwiperSlide><KadcarCard blank={true}/></SwiperSlide></Swiper> }
             {kadcars?.length === 0 && <CustomMessage text="No kadcars exist yet!" />}
             {kadcars != null &&
                 (
@@ -63,25 +63,25 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage }) => {
                                 width: 320,
                                 spaceBetween: 30,
                                 slidesPerView: 1,
-                                centeredSlides:true
+                                centeredSlides: true
                             },
                             420: {
                                 width: 420,
                                 spaceBetween: 30,
                                 slidesPerView: 1,
-                                centeredSlides:true
+                                centeredSlides: true
                             },
                             768: {
                                 width: 768,
                                 spaceBetween: 30,
                                 slidesPerView: 2,
-                                centeredSlides:true
+                                centeredSlides: true
                             },
                             1024: {
                                 width: 1024,
                                 spaceBetween: 30,
                                 slidesPerView: 3,
-                                centeredSlides:true
+                                centeredSlides: true
                             }
                         }}
                     >
