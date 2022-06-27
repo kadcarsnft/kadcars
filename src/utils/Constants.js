@@ -24,8 +24,8 @@ const IS_X_WALLET_KEY = "IS_X_WALLET_KEY";
 
 //NFT Models
 const KADCAR_NFT_OPTIONS = [
-    { value: 'K1', label: 'K1' },
-    { value: 'K2', label: 'K2' }
+    // { value: 'K1', label: 'K1' },
+    { value: 'K2', label: 'K:2' }
 ]
 
 //Request response constants
