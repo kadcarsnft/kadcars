@@ -50,8 +50,8 @@ const Footer = ({
           <div className="footer-top space-between text-xxs" style={{ display: 'flex', flexDirection: 'row', paddingTop: '10px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', width: '100%', paddingLeft: '10px' }}>
               <div style={{ display: 'flex', flexDirection: 'row', width: '75%', justifyContent:'space-between'}}>
-                <Logo image={MUSTANGS} width={120} height={120} url={''}/>
                 <Logo image={FLUXLABS} width={180} height={180} url={FLUX_LABS_URL}/>
+                <Logo image={MUSTANGS} width={120} height={120} url={''}/>
                 <Logo image={POWEREDBYFLUXLABS} width={180} height={180} url={FLUX_LABS_URL}/>
               </div>
             </div>
