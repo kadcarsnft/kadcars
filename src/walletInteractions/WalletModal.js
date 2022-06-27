@@ -45,13 +45,52 @@ const WalletModal = ({ show, setShow, isXwallet }) => {
 
     return (
         <Modal show={show} handleClose={handleWalletModalClose}>
-            <label>
-                Wallet Name:
-                <input type="text" value={modalWallet} onChange={handleModalWalletChange} />
-            </label>
-            <input type="submit" value="Submit" onClick={initiateKadenaConnection} disabled={tempAccount === null}/>
+            <div style={modalStyles}>
+                <div style={headerStyles}>
+                    <span /*className="text-color-primary"*/ style={{ fontSize: '27px', fontWeight: 'bold', color: 'lightgray' }}>Connect a Wallet</span>
+                </div>
+                <div style={rowStyles}>
+                    <label>
+                        Wallet Name:
+                        <input type="text" value={modalWallet} onChange={handleModalWalletChange} />
+                    </label>
+                    <input type="submit" value="Submit" onClick={initiateKadenaConnection} disabled={tempAccount === null} />
+                </div>
+            </div>
         </Modal>
     )
+}
+
+const modalStyles = {
+    width: '100%',
+    height: '20vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly'
+};
+
+const headerStyles = {
+    width: '100%',
+    height: '20%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    // backgroundColor:'blue'
+}
+
+const rowStyles = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    width: '95%',
+}
+
+const subColLabelStyles = {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '20%',
+    marginRight: '5px',
+    alignContent: 'center',
 }
 
 export {
