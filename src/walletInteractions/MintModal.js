@@ -100,7 +100,7 @@ const MintModal = ({ show, setShow }) => {
                         Amount:
                     </div>
                     <div style={subColInputStyles}>
-                        <input style={{ height: '45px' }} type={'number'} value={amountToMint} onChange={(event) => setAmountToMint(event.target.value)} placeholder={'e.g. 2'}/>
+                        <input style={{ height: '45px' }} type={'number'} min={"0"} value={amountToMint} onChange={(event) => setAmountToMint(event.target.value)} placeholder={'e.g. 2'}/>
                     </div>
                 </div>
                 <div style={rowStyles}>
