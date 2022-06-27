@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import Logo from './partials/Logo';
 import FooterNav from './partials/FooterNav';
 import FooterSocial from './partials/FooterSocial';
-import { FLUX_LABS_URL } from '../../utils/Constants';
+import { FLUX_LABS_URL, MUSTANG_KNIGHTS_URL } from '../../utils/Constants';
 import POWEREDBYFLUXLABS from './../../assets/images/Powered_by_Flux-02.png';
 import FLUXLABS from './../../assets/images/fluxlabs-5.png';
 import MUSTANGS from './../../assets/images/mustangs_clean.png';
@@ -51,7 +51,7 @@ const Footer = ({
             <div style={{ display: 'flex', flexDirection: 'column', width: '100%', paddingLeft: '10px' }}>
               <div style={{ display: 'flex', flexDirection: 'row', width: '75%', justifyContent:'space-between'}}>
                 <Logo image={FLUXLABS} width={180} height={180} url={FLUX_LABS_URL}/>
-                <Logo image={MUSTANGS} width={120} height={120} url={''}/>
+                <Logo image={MUSTANGS} width={120} height={120} url={MUSTANG_KNIGHTS_URL}/>
                 <Logo image={POWEREDBYFLUXLABS} width={180} height={180} url={FLUX_LABS_URL}/>
               </div>
             </div>
