@@ -100,9 +100,9 @@ const Roadmap = ({
             >
               <IoGameController color='white' size={'4vh'} />
             </FeatureItem>
-            <FeatureItem labelName={"Q2"}  list={[]}>
+            {/* <FeatureItem labelName={"Q2"}  list={[]}>
               <IoGameController color='white' size={'4vh'}/>
-            </FeatureItem>
+            </FeatureItem> */}
             {/* <FeatureItem labelName={"November"} list={["Combine NFTs with kadcars", "Other exciting things coming!"]}>
               <FaFlagCheckered color='white' size={'4vh'}/>
             </FeatureItem> */}

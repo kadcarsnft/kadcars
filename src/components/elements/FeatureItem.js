@@ -3,7 +3,7 @@ import Image from "./Image"
 
 const FeatureItem = ({ children, description, labelName, list }) => {
     return (
-        <div className="tiles-item reveal-from-bottom" data-reveal-delay="400" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <div className="tiles-item reveal-from-bottom" data-reveal-delay="400" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '400px'}}>
             <div className="tiles-item-inner">
                 <div className="features-tiles-item-header">
                     <div className="features-tiles-item-image mb-16" style={{width:'70px', height: '70px', alignItems: 'center'}}>
