@@ -263,19 +263,15 @@ const PactContextProvider = ({ children }) => {
                 const accountConnectedRes = await requestKadenaAccount(netId, window.location.hostname);
 
                 if (accountConnectedRes?.status !== "success") {
-                    toast.error("Please reconnect your X-Wallet");
+                    toast.error("Please reconnect your X-Wallet, also make sure testnet is selected.");
                     clearTransaction();
-                    logoutAccount();
+                    // logoutAccount();
                     return;
                 } else if (accountConnectedRes?.wallet?.account !== account.account) {
-                    toast.error(
-                        `Please select ${account.account} from your X-Wallet extension`
-                    );
+                    toast.error(`Please select ${account.account} from your X-Wallet extension`);
                     return;
                 } else if (accountConnectedRes?.wallet?.chainId !== chainId && accountConnectedRes?.wallet?.chainId !== parseInt(chainId)) {
-                    toast.error(
-                        `Please make sure you select chain ${chainId} in the X-Wallet extension`
-                    );
+                    toast.error(`Please make sure you select chain ${chainId} in the X-Wallet extension`);
                     return;
                 }
                 const dataToSign = {

@@ -130,11 +130,19 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   }
 
   function handleOpenMintModal() {
-    setShowMintModal(true);
+    if (pactContext.account) {
+      setShowMintModal(true);
+    } else {
+      setShowWalletNameModal(true);
+    }
   }
 
   function handleOpenTransferModal() {
-    setShowTransferModal(true);
+    if (pactContext.account) {
+      setShowTransferModal(true);
+    } else {
+      setShowWalletNameModal(true);
+    }
   }
 
   function handleNavigateToGarageMode() {
