@@ -34,7 +34,7 @@ export const MainBackgroundCard = styled.div`
   border-radius: 20px;
   background: rgba(21,23,25,255);
   // box-shadow: 5px 15px 15px rgba(236,63,228,255);
-  box-shadow: 15px 15px 25px rgba(0,0,0,255);
+  box-shadow: 0px 15px 20px rgba(0,0,0,255);
   // position: absolute;
   margin-top: 20px;
 `;

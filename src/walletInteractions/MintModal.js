@@ -3,12 +3,12 @@ import Modal from "../components/elements/Modal";
 import { PactContext } from "../pact/PactContextProvider";
 import { useGetKadcarByNftId, useGetMyKadcarsFunction, useMintKadcarFunction } from "../pact/KadcarExtractor";
 import Select from 'react-select';
-import { KADCAR_NFT_OPTIONS, REGEX_FOR_NFT_ID } from "../utils/Constants";
+import { DEFAULT_CHAIN_ID, KADCAR_NFT_OPTIONS, LOCAL_CHAIN_ID, REGEX_FOR_NFT_ID, TESTNET_NETWORK_ID } from "../utils/Constants";
 import Button from "../components/elements/Button";
-import { checkIfItemExistsInDropdownList, checkIfNullOrUndefined } from "../utils/utils";
+import { checkIfItemExistsInDropdownList, checkIfNullOrUndefined, checkXwalletNetworkAndChainSettings, trySaveLocal } from "../utils/utils";
 import { KadcarGameContext } from "../components/kadcarcomponents/KadcarGameContextProvider";
 import { toast } from "react-toastify";
-import { getChain, getNetwork } from "../kadenaInteraction/KadenaApi";
+import { connectKadena, getChain, getNetwork } from "../kadenaInteraction/KadenaApi";
 
 const MintModal = ({ show, setShow }) => {
     const mintKadcarFunction = useMintKadcarFunction();
@@ -60,7 +60,7 @@ const MintModal = ({ show, setShow }) => {
         // updateKadcars();
     }
 
-    function initiateMintKadcar() {
+    async function initiateMintKadcar() {
         if (account.balance < pricePerKadcar) {
             toast.error(`Insufficient funds! Only ${account.balance} KDA remaining.`);
             return;
@@ -71,7 +71,10 @@ const MintModal = ({ show, setShow }) => {
             return;
         }
 
+        // const checkRes = checkXwalletNetworkAndChainSettings();
+        // checkRes && mintKadcarFunction(amountToMint, updateWithMintedNftId);
         mintKadcarFunction(amountToMint, updateWithMintedNftId);
+
         handleClose();
     }
 

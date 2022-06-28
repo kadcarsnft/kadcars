@@ -109,16 +109,14 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   async function displayCurrentUserKadcars() {
     kadcarGameContext.setMyKadcars(currentUserKadcarNfts);
     kadcarGameContext.setCurrentScreen(SCREEN_NAMES.MY_KADCARS);
-    console.log(kadcarGameContext.currentScreen)
+    // console.log(kadcarGameContext.currentScreen)
   }
 
   async function displayAllMintedKadcars() {
     console.log(allKadcarNfts)
   }
 
-  async function handleOpenMintModal() {
-    const res = await getNetwork();
-    console.log(res)
+  function handleOpenMintModal() {
     if (pactContext.account) {
       setShowMintModal(true);
     } else {

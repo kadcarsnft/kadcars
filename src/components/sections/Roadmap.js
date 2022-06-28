@@ -5,12 +5,12 @@ import SectionHeader from './partials/SectionHeader';
 import Image from '../elements/Image';
 import { FeatureItem } from '../elements/FeatureItem';
 import { ReactComponent as Test } from './../../assets/images/feature-tile-icon-01.svg'
-import { 
-  IoRocketSharp, 
-  IoCarSportSharp, 
-  IoStorefrontSharp, 
+import {
+  IoRocketSharp,
+  IoCarSportSharp,
+  IoStorefrontSharp,
   IoGameController,
-  IoSettingsSharp 
+  IoSettingsSharp
 } from 'react-icons/io5';
 import {
   FaFlagCheckered
@@ -65,25 +65,47 @@ const Roadmap = ({
       {...props}
       className={outerClasses}
     >
-      <div className="container" style={{ marginTop: '80px'}}>
+      <div className="container" style={{ marginTop: '80px' }}>
         <div className={innerClasses}>
           <SectionHeader data={sectionHeader} className="center-content" />
           <div className={tilesClasses}>
-            <FeatureItem labelName={"July"} list={["Launch initial Kadcars site", "Launch contract mainnet", "K2 Kadcar model reveal"]}>
-              <IoRocketSharp color='white' size={'4vh'}/>
+            <FeatureItem labelName={"Q3"}
+              list={[
+                "Launch initial Kadcars site",
+                "Launch contract mainnet",
+                "Initial K:2 Kadcar reveal",
+                "Upgrade website aesthetics",
+
+              ]}
+            >
+              <IoRocketSharp color='white' size={'4vh'} />
             </FeatureItem>
-            <FeatureItem labelName={"August"} list={["Upgrade website aesthetics", "Customize NFT view on chain", "Initial K1 Kadcar reveal"]}>
-                <IoCarSportSharp color='white' size={'4vh'}/>
+            <FeatureItem labelName={"Q4"}
+              list={[
+                "Customize NFT view on chain",
+                "Interactive Garage feature",
+                "Initial K:1 Kadcar reveal"
+              ]}
+            >
+              <IoCarSportSharp color='white' size={'4vh'} />
             </FeatureItem>
-            <FeatureItem labelName={"September"} list={["Interactive Garage feature", "Level up your Kadcar NFT", "Update your Kadcar parts", "Draft KIP:1337 & KIP:31337"]}>
-              <IoSettingsSharp color='white' size={'4vh'}/>
+            <FeatureItem labelName={"Q1"}
+              list={[
+                "Launch initial game demo",
+                "Race against other players",
+                "Level up your Kadcar NFT",
+                "Update your Kadcar parts",
+                "Draft KIP:1337 & KIP:31337"
+              ]}
+            >
+              <IoGameController color='white' size={'4vh'} />
             </FeatureItem>
-            <FeatureItem labelName={"October"}  list={["Launch initial game demo", "Race against other players"]}>
+            <FeatureItem labelName={"Q2"}  list={[]}>
               <IoGameController color='white' size={'4vh'}/>
             </FeatureItem>
-            <FeatureItem labelName={"November"} list={["Combine NFTs with kadcars", "Other exciting things coming!"]}>
+            {/* <FeatureItem labelName={"November"} list={["Combine NFTs with kadcars", "Other exciting things coming!"]}>
               <FaFlagCheckered color='white' size={'4vh'}/>
-            </FeatureItem>
+            </FeatureItem> */}
           </div>
         </div>
       </div>
