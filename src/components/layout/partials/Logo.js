@@ -26,13 +26,11 @@ const Logo = ({
         {
           url === "home" ?
             <Link to="/">
-              <a href={url} target="_blank">
-                <img
-                  src={image}
-                  alt="Open"
-                  width={width}
-                  height={height} />
-              </a>
+              <img
+                src={image}
+                alt="Open"
+                width={width}
+                height={height} />
             </Link>
             :
             <a href={url} target="_blank">

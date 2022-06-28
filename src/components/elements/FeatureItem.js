@@ -20,9 +20,9 @@ const FeatureItem = ({ children, description, labelName, list }) => {
                     <ul style={{ listStyleType: 'disc', textAlign: 'left', width: '100%' }}>
                         {
                             list &&
-                            list.map((el) => {
+                            list.map((el, index) => {
                                 return (
-                                    <li style={{ textAlign: 'justify' }}>
+                                    <li key={index} style={{ textAlign: 'justify' }}>
                                         {el}
                                     </li>
                                 )
