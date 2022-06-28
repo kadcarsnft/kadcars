@@ -263,9 +263,9 @@ const PactContextProvider = ({ children }) => {
                 const accountConnectedRes = await requestKadenaAccount(netId, window.location.hostname);
 
                 if (accountConnectedRes?.status !== "success") {
-                    toast.error("Please reconnect your X-Wallet, also make sure testnet is selected.");
+                    toast.error("Please reconnect your X-Wallet, also make sure testnet and chain ID 1 are selected.");
                     clearTransaction();
-                    // logoutAccount();
+                    logoutAccount();
                     return;
                 } else if (accountConnectedRes?.wallet?.account !== account.account) {
                     toast.error(`Please select ${account.account} from your X-Wallet extension`);
