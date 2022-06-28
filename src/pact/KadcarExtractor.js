@@ -144,7 +144,7 @@ function useGetAllKadcars() {
 }
 
 function useMintKadcarFunction() {
-    const { account, defaultMeta, networkUrl, readFromContract, chainId, netId, gasPrice, sendTransaction, signTransaction, currTransactionState } = useContext(PactContext);
+    const { account, chainId, netId, gasPrice, sendTransaction } = useContext(PactContext);
     const { pricePerKadcar } = useContext(KadcarGameContext);
 
     return (amount, callback) => {

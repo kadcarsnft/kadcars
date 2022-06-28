@@ -148,7 +148,9 @@ const PactContextProvider = ({ children }) => {
                         // closeConnectWallet();
                         return;
                     }
-                    if (res.account?.chainId !== chainId) {
+                    if (res.account?.chainId !== chainId && res.account?.chainId !== parseInt(chainId)) {
+                        console.log(res.account)
+                        console.log(chainId)
                         toast.error(`You need to select chain ${chainId} from X-Wallet`);
                         // closeConnectWallet();
                         return;

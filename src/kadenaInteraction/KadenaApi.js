@@ -101,8 +101,7 @@ async function disconnectKadena(netId) {
 
 async function getNetwork() {
     const response = await window.kadena.request({
-        method: KDA_GET_NETWORK,
-        networkId: NETWORK_ID
+        method: KDA_GET_NETWORK
     })
     .catch((e) => {
         console.error(e.message);

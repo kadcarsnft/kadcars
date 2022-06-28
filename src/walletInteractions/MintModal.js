@@ -8,6 +8,7 @@ import Button from "../components/elements/Button";
 import { checkIfItemExistsInDropdownList, checkIfNullOrUndefined } from "../utils/utils";
 import { KadcarGameContext } from "../components/kadcarcomponents/KadcarGameContextProvider";
 import { toast } from "react-toastify";
+import { getChain, getNetwork } from "../kadenaInteraction/KadenaApi";
 
 const MintModal = ({ show, setShow }) => {
     const mintKadcarFunction = useMintKadcarFunction();

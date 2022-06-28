@@ -1,13 +1,6 @@
 import { connectKadena, disconnectKadena, getAccountSelected, getChain, getKadenaConnectStatus, getNetwork, getSelectedAccount, getUserWallet } from '../../kadenaInteraction/KadenaApi';
-import { useGetMyKadcarsFunction, useGetAllKadcars, useGetMyKadcars, useTransferKadcars, useMintKadcarFunction } from '../../pact/KadcarExtractor';
-import {
-  DEFAULT_CHAIN_ID,
-  DEFAULT_GAS_PRICE,
-  DEFAULT_NETWORK_ID,
-  LOCAL_CHAIN_ID,
-  NETWORK_ID,
-  SCREEN_NAMES
-} from '../../utils/Constants';
+import { useGetMyKadcarsFunction, useGetMyKadcars, useTransferKadcars, useMintKadcarFunction } from '../../pact/KadcarExtractor';
+import { SCREEN_NAMES } from '../../utils/Constants';
 import { KadcarGameContext } from '../kadcarcomponents/KadcarGameContextProvider';
 import { MainHeaderScreenContainer } from '../kadcarcomponents/KadcarComponents';
 import { useCheckForXWalletExtension } from '../../hooks/BrowserExtensionHooks';
@@ -16,18 +9,12 @@ import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { TransferNftModal } from '../../walletInteractions/TransferModal';
 import { MintModal } from '../../walletInteractions/MintModal';
 import { PactContext } from '../../pact/PactContextProvider';
-import { checkIfNullOrUndefined } from '../../utils/utils';
 import { SectionProps } from '../../utils/SectionProps';
 import ButtonGroup from '../elements/ButtonGroup';
-import { throttle } from 'throttle-debounce';
 import Button from '../elements/Button';
-import Image from '../elements/Image';
 import Modal from '../elements/Modal';
 import classNames from 'classnames';
 import { WalletModal } from '../../walletInteractions/WalletModal';
-import md5 from 'md5';
-// import hash from '../../text';
-import bg from '../../assets/images/kadcarsHome.png'
 import { useNavigate } from 'react-router-dom';
 import { KadcarGarageContext } from '../kadcarcomponents/KadcarGarageContextProvider';
 import { KadcarPreview } from '../../views/KadcarPreview';
