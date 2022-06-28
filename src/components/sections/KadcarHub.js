@@ -1,4 +1,4 @@
-import { connectKadena, disconnectKadena, getAccountSelected, getKadenaConnectStatus, getSelectedAccount, getUserWallet } from '../../kadenaInteraction/KadenaApi';
+import { connectKadena, disconnectKadena, getAccountSelected, getChain, getKadenaConnectStatus, getNetwork, getSelectedAccount, getUserWallet } from '../../kadenaInteraction/KadenaApi';
 import { useGetMyKadcarsFunction, useGetAllKadcars, useGetMyKadcars, useTransferKadcars, useMintKadcarFunction } from '../../pact/KadcarExtractor';
 import {
   DEFAULT_CHAIN_ID,
@@ -129,7 +129,9 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
     console.log(allKadcarNfts)
   }
 
-  function handleOpenMintModal() {
+  async function handleOpenMintModal() {
+    const res = await getNetwork();
+    console.log(res)
     if (pactContext.account) {
       setShowMintModal(true);
     } else {
