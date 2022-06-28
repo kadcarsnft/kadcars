@@ -9,7 +9,9 @@ import {
     KDA_GET_SELECTED_ACCOUNT,
     KDA_REQUEST_ACCOUNT,
     DEFAULT_GAS_PRICE,
-    KDA_REQUEST_SIGN
+    KDA_REQUEST_SIGN,
+    KDA_GET_NETWORK,
+    KDA_GET_CHAIN
 } from "../utils/Constants";
 
 //Attempt to connect application to Kadena X-Wallet extension
@@ -90,18 +92,45 @@ async function disconnectKadena(netId) {
         networkId: NETWORK_ID
     })
     .catch((e) => {
-        console.error(e.message)
+        console.error(e.message);
         return;
     });
     
     return response;
 }
 
+async function getNetwork() {
+    const response = await window.kadena.request({
+        method: KDA_GET_NETWORK,
+        networkId: NETWORK_ID
+    })
+    .catch((e) => {
+        console.error(e.message);
+        return;
+    });
+
+    return response;
+}
+
+async function getChain() {
+    const response = await window.kadena.request({
+        method: KDA_GET_CHAIN
+    })
+    .catch((e) => {
+        console.error(e.message);
+        return;
+    });
+
+    return response;
+}
+
 export {
+    getChain,
+    getNetwork,
+    requestSign,
     connectKadena,
-    requestKadenaAccount,
     disconnectKadena,
     getSelectedAccount,
+    requestKadenaAccount,
     getKadenaConnectStatus,
-    requestSign
 }
