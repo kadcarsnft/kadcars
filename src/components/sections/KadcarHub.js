@@ -113,7 +113,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
   }
 
   async function displayAllMintedKadcars() {
-    console.log(allKadcarNfts)
+    kadcarGameContext.setCurrentScreen(SCREEN_NAMES.ALL_KADCARS);
   }
 
   function handleOpenMintModal() {
@@ -207,7 +207,7 @@ const KadcarHub = ({ className, topOuterDivider, bottomOuterDivider, topDivider,
                     </ButtonGroup>
                   }
                   {
-                    kadcarGameContext.currentScreen === SCREEN_NAMES.MY_KADCARS &&
+                    kadcarGameContext.currentScreen === SCREEN_NAMES.MY_KADCARS || kadcarGameContext.currentScreen === SCREEN_NAMES.ALL_KADCARS &&
                     <ButtonGroup>
                       <Button onClick={() => handleHomeButtonClick()} tag="a" color="primary" wideMobile>
                         Back to Home

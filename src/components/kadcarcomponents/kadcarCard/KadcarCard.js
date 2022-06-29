@@ -111,12 +111,12 @@ const KadcarCard = ({ kadcarNft, blank }) => {
                                 </CardVinText>
                             </CardVinWrapper>
                             <CardStatWrapper>
-                                <KadcarCardStat label={"Top Speed"} value={"270 kmph"} />
-                                <KadcarCardStat label={"Acceleration"} value={"3s"} />
-                                <KadcarCardStat label={"Horse Pwr"} value={"700 HP"} />
-                                <KadcarCardStat label={"Torque"} value={"850 Nm"} />
-                                <KadcarCardStat label={"Drive Train"} value={"4WD"} />
-                                <KadcarCardStat label={"Weight"} value={"1690 kg"} />
+                                <KadcarCardStat label={"Top Speed"} value={"? kmph"} />
+                                <KadcarCardStat label={"Acceleration"} value={"? s"} />
+                                <KadcarCardStat label={"Horse Pwr"} value={"? HP"} />
+                                <KadcarCardStat label={"Torque"} value={"? Nm"} />
+                                <KadcarCardStat label={"Drive Train"} value={"? WD"} />
+                                <KadcarCardStat label={"Weight"} value={"? kg"} />
                             </CardStatWrapper>
                         </CardWrapper>
                 }
