@@ -266,11 +266,17 @@ const PactContextProvider = ({ children }) => {
                 
                 if (accountConnectedRes?.status !== "success") {
                     const checkRes = await checkXwalletNetworkAndChainSettings();
-                    
-                    // toast.error("Please reconnect your X-Wallet, also make sure testnet and chain ID 1 are selected.");
-                    clearTransaction();
-                    // logoutAccount();
-                    return;
+                    console.log(checkRes)
+
+                    if (checkRes === null) {
+                        clearTransaction();
+                        // toast.error("Please reconnect your X-Wallet, also make sure testnet and chain ID 1 are selected.");
+                        // logoutAccount();
+                        return;
+                    } else {
+                        cmdToSign.chainId = checkRes.account.chainId;
+                        updateTransactionState({ signingCmd: cmdToSign });
+                    }
                 } else if (accountConnectedRes?.wallet?.account !== account.account) {
                     toast.error(`Please select ${account.account} from your X-Wallet extension`);
                     return;

@@ -1,6 +1,6 @@
 import React from "react";
 import { toast } from "react-toastify";
-import { connectKadena, getChain, getNetwork } from "../kadenaInteraction/KadenaApi";
+import { connectKadena, getChain, getNetwork, getSelectedAccount } from "../kadenaInteraction/KadenaApi";
 import { DEFAULT_CHAIN_ID, LOCAL_CHAIN_ID, TESTNET_NETWORK_ID } from "./Constants";
 
 //Check if given variable is null or undefined
@@ -108,25 +108,29 @@ async function confirmTransactionWithNetwork(networkUrl, method, headers, signed
     return localRes;
 }
 
-async function checkXwalletNetworkAndChainSettings() {
+async function checkXwalletNetworkAndChainSettings(callback=null, command=null) {
     let networkRes = await getNetwork();
     let chainRes = await getChain();
     var res = null;
 
     if (networkRes.networkId !== TESTNET_NETWORK_ID) {
         toast.error("Please set your X-Wallet to Testnet");
-    } else if (chainRes !== LOCAL_CHAIN_ID) {
+        return res;
+    }
+    
+    if (chainRes !== LOCAL_CHAIN_ID) {
         if (chainRes !== DEFAULT_CHAIN_ID && parseInt(chainRes) !== DEFAULT_CHAIN_ID) {
             toast.error("Please select chain ID 1");
+            return res;
         } else {
-            toast.info("You've changed your wallet settings, please reconnect before proceeding");
+            toast.info("You've changed your wallet settings, please reconnect before proceeding", { position: "top-center" });
             trySaveLocal(LOCAL_CHAIN_ID, chainRes);
             res = await connectKadena(TESTNET_NETWORK_ID);
-            console.log(res)
+            // callback && callback(command ? command : null);
+
+            return res;
         }
     }
-
-    return res;
 }
 
 export {
