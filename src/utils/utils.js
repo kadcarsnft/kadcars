@@ -119,6 +119,7 @@ async function checkXwalletNetworkAndChainSettings() {
         if (chainRes !== DEFAULT_CHAIN_ID && parseInt(chainRes) !== DEFAULT_CHAIN_ID) {
             toast.error("Please select chain ID 1");
         } else {
+            toast.info("You've changed your wallet settings, please reconnect before proceeding");
             trySaveLocal(LOCAL_CHAIN_ID, chainRes);
             res = await connectKadena(TESTNET_NETWORK_ID);
             console.log(res)

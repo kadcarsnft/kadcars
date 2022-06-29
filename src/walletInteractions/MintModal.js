@@ -8,7 +8,7 @@ import Button from "../components/elements/Button";
 import { checkIfItemExistsInDropdownList, checkIfNullOrUndefined, checkXwalletNetworkAndChainSettings, trySaveLocal } from "../utils/utils";
 import { KadcarGameContext } from "../components/kadcarcomponents/KadcarGameContextProvider";
 import { toast } from "react-toastify";
-import { connectKadena, getChain, getNetwork } from "../kadenaInteraction/KadenaApi";
+import { connectKadena, getChain, getNetwork, getSelectedAccount } from "../kadenaInteraction/KadenaApi";
 
 const MintModal = ({ show, setShow }) => {
     const mintKadcarFunction = useMintKadcarFunction();
@@ -61,6 +61,8 @@ const MintModal = ({ show, setShow }) => {
     }
 
     async function initiateMintKadcar() {
+        handleClose();
+
         if (account.balance < pricePerKadcar) {
             toast.error(`Insufficient funds! Only ${account.balance} KDA remaining.`);
             return;
@@ -71,11 +73,7 @@ const MintModal = ({ show, setShow }) => {
             return;
         }
 
-        // const checkRes = checkXwalletNetworkAndChainSettings();
-        // checkRes && mintKadcarFunction(amountToMint, updateWithMintedNftId);
         mintKadcarFunction(amountToMint, updateWithMintedNftId);
-
-        handleClose();
     }
 
     function checkIfReadyToMint() {

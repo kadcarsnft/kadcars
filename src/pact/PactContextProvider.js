@@ -16,7 +16,7 @@ import {
     S_TO_MS_MULTIPLIER,
     TESTNET_NETWORK_ID
 } from "../utils/Constants";
-import { creationTime, makeRequest, parseResponse, confirmTransactionWithNetwork, tryLoadLocal, trySaveLocal, wait } from "../utils/utils";
+import { creationTime, makeRequest, parseResponse, confirmTransactionWithNetwork, tryLoadLocal, trySaveLocal, wait, checkXwalletNetworkAndChainSettings } from "../utils/utils";
 import { getNetworkUrl } from "./PactUtils";
 import { connectKadena, disconnectKadena, requestKadenaAccount, requestSign } from "../kadenaInteraction/KadenaApi";
 
@@ -263,11 +263,13 @@ const PactContextProvider = ({ children }) => {
             let xwalletSignRes = null;
             try {
                 const accountConnectedRes = await requestKadenaAccount(netId, window.location.hostname);
-
+                
                 if (accountConnectedRes?.status !== "success") {
-                    toast.error("Please reconnect your X-Wallet, also make sure testnet and chain ID 1 are selected.");
+                    const checkRes = await checkXwalletNetworkAndChainSettings();
+                    
+                    // toast.error("Please reconnect your X-Wallet, also make sure testnet and chain ID 1 are selected.");
                     clearTransaction();
-                    logoutAccount();
+                    // logoutAccount();
                     return;
                 } else if (accountConnectedRes?.wallet?.account !== account.account) {
                     toast.error(`Please select ${account.account} from your X-Wallet extension`);
