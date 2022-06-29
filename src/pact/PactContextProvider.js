@@ -257,7 +257,7 @@ const PactContextProvider = ({ children }) => {
 
     const signTransaction = async (cmdToSign) => {
         updateTransactionState({ signingCmd: cmdToSign });
-        console.log(currTransactionState)
+
         let signedCmd = null;
         if (isXwallet) {
             let xwalletSignRes = null;
@@ -266,7 +266,6 @@ const PactContextProvider = ({ children }) => {
                 
                 if (accountConnectedRes?.status !== "success") {
                     const checkRes = await checkXwalletNetworkAndChainSettings();
-                    console.log(checkRes)
 
                     if (checkRes === null) {
                         clearTransaction();
