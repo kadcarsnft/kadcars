@@ -96,14 +96,14 @@ const MyKadcarGallery = () => {
     }, [account]);
 
     return (
-        <div style={kadcarGalleryScreenStyles}>
+        <>
             {
                 account === null ?
                     // <div>Please Connect Your Wallet</div> :
                     <KadcarCardGrid disconnected={true}/> :
                     <KadcarCardGrid kadcars={myKadcars} gallery={USER_KADCAR_GALLERY_LABEL} />
             }
-        </div>
+        </>
     );
 }
 
