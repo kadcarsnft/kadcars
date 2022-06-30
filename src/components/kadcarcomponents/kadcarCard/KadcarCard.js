@@ -58,12 +58,12 @@ const KadcarCardStat = ({ label, value }) => {
 }
 
 const KadcarCard = ({ kadcarNft, blank }) => {
-    const { isXwallet } = useContext(PactContext);
+    const { account, isXwallet } = useContext(PactContext);
     const { setSelectedKadcar } = useContext(KadcarGarageContext);
     const [showWalletNameModal, setShowWalletNameModal] = useState(false);
 
     function handleCardClicked() {
-        if (blank) {
+        if (blank && account === null) {
             setShowWalletNameModal(true);
         } else {
             setSelectedKadcar(kadcarNft);
