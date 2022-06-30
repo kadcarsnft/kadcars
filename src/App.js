@@ -41,28 +41,25 @@ const App = () => {
 
   return (
     <PactContextProvider>
-      <ScrollReveal
-        ref={childRef}
-        children={() => (
-          <Routes>
-            <Route path="/" element={
-              <KadcarGameContextProvider>
-                <LayoutDefault>
-                  <Outlet />
-                </LayoutDefault>
-              </KadcarGameContextProvider>
-            }>
-              <Route index path="/" element={
-                  <KadcarGarageContextProvider>
-                    <Home />
-                  </KadcarGarageContextProvider>
-                } 
-              />
-              <Route path="atrium/" element={<Atrium />} />
-              <Route path="garage/" element={<Garage />} />
-            </Route>
-          </Routes>
-        )} />
+      <KadcarGameContextProvider>
+        <KadcarGarageContextProvider>
+          <ScrollReveal
+            ref={childRef}
+            children={() => (
+              <Routes>
+                <Route path="/" element={
+                  <LayoutDefault>
+                    <Outlet />
+                  </LayoutDefault>
+                }>
+                  <Route path="/" element={<Home />} />
+                  {/* <Route path="atrium/" element={<Atrium />} /> */}
+                </Route>
+                {/* <Route path="garage/" element={<Garage />} /> */}
+              </Routes>
+            )} />
+        </KadcarGarageContextProvider>
+      </KadcarGameContextProvider>
     </PactContextProvider>
   );
 }
