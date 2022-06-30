@@ -39,8 +39,8 @@ const KadcarCardGrid = ({ kadcars, pages, page, setPage, disconnected }) => {
         //     }}
         // >
         <>
-            { kadcars == null && <Swiper><SwiperSlide><KadcarCard blank={true}/></SwiperSlide></Swiper> }
-            { kadcars?.length === 0 && <><CustomMessage text="No kadcars exist yet!" /></> }
+            { (kadcars == null && kadcars?.length === 0) && <Swiper><SwiperSlide><KadcarCard blank={true}/></SwiperSlide></Swiper> }
+            {/* { kadcars?.length === 0 && <><CustomMessage text="No kadcars exist yet!" /></> } */}
             { kadcars != null &&
                 (
                     <Swiper
