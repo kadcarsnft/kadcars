@@ -63,12 +63,9 @@ const KadcarCard = ({ kadcarNft, blank }) => {
     const [showWalletNameModal, setShowWalletNameModal] = useState(false);
 
     function handleCardClicked() {
-        if (blank && account === null) {
-            setShowWalletNameModal(true);
-        } else {
+        if (!blank && account !== null) {
             setSelectedKadcar(kadcarNft);
         }
-        console.log(kadcarNft)
     }
 
     return (
