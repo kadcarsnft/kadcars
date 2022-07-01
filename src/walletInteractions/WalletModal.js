@@ -4,6 +4,7 @@ import { PactContext } from "../pact/PactContextProvider";
 import { throttle } from 'throttle-debounce';
 import { checkIfNullOrUndefined } from "../utils/utils";
 import { toast } from "react-toastify";
+import Button from "../components/elements/Button";
 
 const WalletModal = ({ show, setShow, isXwallet }) => {
     const pactContext = useContext(PactContext);
@@ -46,15 +47,24 @@ const WalletModal = ({ show, setShow, isXwallet }) => {
     return (
         <Modal show={show} handleClose={handleWalletModalClose}>
             <div style={modalStyles}>
+                <div style={rowStyles}>
                 <div style={headerStyles}>
-                    <span /*className="text-color-primary"*/ style={{ fontSize: '27px', fontWeight: 'bold', color: 'lightgray' }}>Connect a Wallet</span>
+                    <span style={{ fontSize: '27px', fontWeight: 'bold', color: 'lightgray' }}>Connect a Wallet</span>
+                </div>
                 </div>
                 <div style={rowStyles}>
-                    <label>
+                    <div style={subColLabelStyles}>
                         Wallet Name:
-                        <input type="text" value={modalWallet} onChange={handleModalWalletChange} />
-                    </label>
-                    <input type="submit" value="Submit" onClick={initiateKadenaConnection} disabled={tempAccount === null} />
+                    </div>
+                    <div style={subColInputStyles}>
+                            <input style={{ height: '40px' }} type="text" value={modalWallet} onChange={handleModalWalletChange} />
+                    </div>
+                </div>
+                <div style={{ height: '20px'}}/>
+                <div style={footerStyles}>
+                        <Button color='primary' onClick={initiateKadenaConnection} disabled={tempAccount === null} >
+                            Connect
+                        </Button>
                 </div>
             </div>
         </Modal>
@@ -63,10 +73,11 @@ const WalletModal = ({ show, setShow, isXwallet }) => {
 
 const modalStyles = {
     width: '100%',
-    height: '20vh',
+    height: '175px',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-evenly'
+    justifyContent: 'center',
+    // backgroundColor:'red'
 };
 
 const headerStyles = {
@@ -75,6 +86,7 @@ const headerStyles = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
+    paddingBottom: '25px'
     // backgroundColor:'blue'
 }
 
@@ -82,15 +94,29 @@ const rowStyles = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    width: '95%',
+    width: '100%',
+}
+
+const footerStyles = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    width: '100%',
 }
 
 const subColLabelStyles = {
     display: 'flex',
     flexDirection: 'column',
-    width: '20%',
+    width: '25%',
     marginRight: '5px',
     alignContent: 'center',
+}
+
+const subColInputStyles = {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '75%',
+    marginLeft: '5px',
 }
 
 export {
