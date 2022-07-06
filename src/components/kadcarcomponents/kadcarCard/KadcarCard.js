@@ -36,7 +36,7 @@ const KadcarCardExpanded = ({ kadcarNft, children }) => {
 
     return (
         <ExpandedCardWrapper>
-            <div style={{ position: 'absolute' }}>
+            <div style={{ position: 'absolute', paddingLeft: '10px', paddingTop: '10px' }}>
                 <AiOutlineClose onClick={handleCloseButtonClicked} />
             </div>
             {children}

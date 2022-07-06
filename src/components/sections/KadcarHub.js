@@ -17,7 +17,7 @@ import classNames from 'classnames';
 import { WalletModal } from '../../walletInteractions/WalletModal';
 import { useNavigate } from 'react-router-dom';
 import { KadcarGarageContext } from '../kadcarcomponents/KadcarGarageContextProvider';
-import { KadcarPreview } from '../../views/KadcarPreview';
+import { KadcarPreview } from '../kadcarcomponents/KadcarPreview';
 
 const propTypes = {
   ...SectionProps.types
