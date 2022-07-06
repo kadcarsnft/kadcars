@@ -73,6 +73,9 @@ const KDA_REQUEST_SIGN = 'kda_requestSign';
 const KDA_REQUEST_ACCOUNT = 'kda_requestAccount';
 const KDA_GET_SELECTED_ACCOUNT = 'kda_getSelectedAccount';
 
+//ERROR messages
+const K_ACCOUNT_ONLY_ERROR = "For security, only support k: accounts";
+
 export {
     DEFAULT_GAS_LIMIT,
     S_TO_MS_MULTIPLIER,
@@ -107,5 +110,6 @@ export {
     DISCORD_URL,
     FLUX_LABS_URL,
     MEDIUM_URL,
-    MUSTANG_KNIGHTS_URL
+    MUSTANG_KNIGHTS_URL,
+    K_ACCOUNT_ONLY_ERROR
 }

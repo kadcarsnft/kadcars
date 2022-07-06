@@ -7,6 +7,7 @@ import {
     DEFAULT_GAS_PRICE,
     DEFAULT_REQUEST_HEADERS,
     IS_X_WALLET_KEY,
+    K_ACCOUNT_ONLY_ERROR,
     LOCAL_ACCOUNT_KEY,
     LOCAL_CHAIN_ID,
     MAINNET_NETWORK_ID,
@@ -345,9 +346,15 @@ const PactContextProvider = ({ children }) => {
             await pollForTransaction(requestKey);
         } else {
             console.log(parsedLocalRes);
-            toast.error(`Failed to sign transaction`, {
-                hideProgressBar: true,
-            });
+            if (parsedLocalRes?.result?.error?.message === K_ACCOUNT_ONLY_ERROR) {
+                toast.error(`Failed to sign transaction: only \"k\" accounts supported for security`, {
+                    hideProgressBar: true,
+                });
+            } else {
+                toast.error(`Failed to sign transaction`, {
+                    hideProgressBar: true,
+                });
+            }
             clearTransaction();
             return;
         }
