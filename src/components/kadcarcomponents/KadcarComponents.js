@@ -14,10 +14,12 @@ import ReactPlayer from "react-player/lazy";
 import { BsPlayCircle } from "react-icons/bs";
 import THUMBNAIL from './../../assets/images/darkLogo.jpg'
 import styled from "styled-components";
+import Button from "../elements/Button";
 
 //This renders the default screen to render in the screen container before any actions are taken by the user
 const DefaultScreen = () => {
     const [videoModalActive, setVideomodalactive] = useState(false);
+    const [walletAddressForWhitelist, setWalletAddressForWhitelist] = useState("");
 
     const openModal = (e) => {
         e.preventDefault();
@@ -28,6 +30,10 @@ const DefaultScreen = () => {
         e.preventDefault();
         setVideomodalactive(false);
     }
+
+    function getWhitelistSpots() {
+        console.log(walletAddressForWhitelist)
+    }   
 
     return (
         <div style={defaultScreenStyles}>
@@ -70,7 +76,48 @@ const DefaultScreen = () => {
                     playIcon={<BsPlayCircle size={85} color={'white'}/>}
                 />
             </div>
-
+            <div style={{ 
+                    width: '100%',
+                    marginTop: '30px', 
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center', 
+                    alignSelf: 'center', 
+                    alignItems: 'center',
+                }}
+                >
+                <div 
+                    style={{ 
+                        width: '70%', 
+                        display: 'flex',
+                        flexDirection: 'row', 
+                        justifyContent: 'flex-start'
+                    }}
+                >
+                    Whitelist Spot Checker
+                </div>
+                <div 
+                    style={{ 
+                        width: '70%', 
+                        display: 'flex', 
+                        flexDirection: 'row', 
+                        justifyContent: 'center', 
+                        alignSelf: 'center', 
+                        alignItems: 'center',
+                        marginTop: '10px'
+                    }}
+                >
+                    <input
+                        type="text"
+                        placeholder="Wallet address: ex. k:1234..."
+                        onChange={(input) => { setWalletAddressForWhitelist(input.target.value) }}
+                        style={{ height: '45px', width: '65%', marginLeft: '15px', marginRight: '15px' }}
+                    />
+                    <Button color={'primary'} onClick={getWhitelistSpots}>
+                        Submit
+                    </Button>
+                </div>
+            </div>
             {/* <Modal
                     id="video-modal"
                     show={videoModalActive}

@@ -57,14 +57,14 @@ const WalletModal = ({ show, setShow, isXwallet }) => {
                         Wallet Name:
                     </div>
                     <div style={subColInputStyles}>
-                            <input style={{ height: '40px' }} type="text" value={modalWallet} onChange={handleModalWalletChange} />
+                        <input style={{ height: '40px' }} type="text" value={modalWallet} onChange={handleModalWalletChange} />
                     </div>
                 </div>
-                <div style={{ height: '20px'}}/>
+                <div style={{ height: '20px' }} />
                 <div style={footerStyles}>
-                        <Button color='primary' onClick={initiateKadenaConnection} disabled={tempAccount === null} >
-                            Connect
-                        </Button>
+                    <Button color='primary' onClick={initiateKadenaConnection} disabled={tempAccount === null} >
+                        Connect
+                    </Button>
                 </div>
             </div>
         </Modal>
