@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useGetMyKadcars } from "../../pact/KadcarExtractor";
 import { PactContext } from "../../pact/PactContextProvider";
-import { SCREEN_NAMES, USER_KADCAR_GALLERY_LABEL } from "../../utils/Constants";
+import { SCREEN_NAMES, SHEETS_WALLET_ADDRESS_LABEL, USER_KADCAR_GALLERY_LABEL } from "../../utils/Constants";
 import { KadcarGameContext } from "./KadcarGameContextProvider";
 import unknown from "../../assets/images/unknown.png"
 import { KadcarCard } from "./kadcarCard/KadcarCard";
@@ -15,11 +15,14 @@ import { BsPlayCircle } from "react-icons/bs";
 import THUMBNAIL from './../../assets/images/darkLogo.jpg'
 import styled from "styled-components";
 import Button from "../elements/Button";
+import { getSheetRows } from "../../utils/SheetsUtils";
+import { WHITELIST_WINNERS_SHEET_ID, WHITELIST_WINNERS_SPREADSHEET_ID } from "../../secrets/constants";
 
 //This renders the default screen to render in the screen container before any actions are taken by the user
 const DefaultScreen = () => {
     const [videoModalActive, setVideomodalactive] = useState(false);
-    const [walletAddressForWhitelist, setWalletAddressForWhitelist] = useState("");
+    const [userWLCheckerInput, setUserWLCheckerInput] = useState("");
+    const [wlInfoList, setWLinfoList] = useState([]);
 
     const openModal = (e) => {
         e.preventDefault();
@@ -31,8 +34,12 @@ const DefaultScreen = () => {
         setVideomodalactive(false);
     }
 
-    function getWhitelistSpots() {
-        console.log(walletAddressForWhitelist)
+    async function getWhitelistSpots() {
+        // console.log(walletAddressForWhitelist)
+        const rows = await getSheetRows(WHITELIST_WINNERS_SPREADSHEET_ID, WHITELIST_WINNERS_SHEET_ID);
+        console.log(rows);
+
+        const entries = rows.filter((row) => userWLCheckerInput === row[SHEETS_WALLET_ADDRESS_LABEL]);
     }   
 
     return (
@@ -110,7 +117,7 @@ const DefaultScreen = () => {
                     <input
                         type="text"
                         placeholder="Wallet address: ex. k:1234..."
-                        onChange={(input) => { setWalletAddressForWhitelist(input.target.value) }}
+                        onChange={(input) => { setUserWLCheckerInput(input.target.value) }}
                         style={{ height: '45px', width: '65%', marginLeft: '15px', marginRight: '15px' }}
                     />
                     <Button color={'primary'} onClick={getWhitelistSpots}>

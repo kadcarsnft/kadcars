@@ -15,6 +15,7 @@ module.exports = function override(config) {
         "fs": false,
         "net": false,
         "tls": false,
+        "child_process": false,
     })
     config.resolve.fallback = fallback;
     config.plugins = (config.plugins || []).concat([

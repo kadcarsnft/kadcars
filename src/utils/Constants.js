@@ -76,6 +76,9 @@ const KDA_GET_SELECTED_ACCOUNT = 'kda_getSelectedAccount';
 //ERROR messages
 const K_ACCOUNT_ONLY_ERROR = "For security, only support k: accounts";
 
+//Google sheet field names 
+const SHEETS_WALLET_ADDRESS_LABEL = "Wallet address";
+
 export {
     DEFAULT_GAS_LIMIT,
     S_TO_MS_MULTIPLIER,
@@ -111,5 +114,6 @@ export {
     FLUX_LABS_URL,
     MEDIUM_URL,
     MUSTANG_KNIGHTS_URL,
-    K_ACCOUNT_ONLY_ERROR
+    K_ACCOUNT_ONLY_ERROR,
+    SHEETS_WALLET_ADDRESS_LABEL
 }
