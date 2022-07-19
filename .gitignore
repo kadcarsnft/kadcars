@@ -6,7 +6,7 @@
 .pnp.js
 
 # secrets
-*/secrets
+# */secrets
 
 # testing
 /coverage
