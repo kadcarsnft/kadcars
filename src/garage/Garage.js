@@ -12,6 +12,7 @@ import { DEFAULT_GARAGE_CAMERA_FOV } from "./GarageConstants";
 import { MaterialLoader } from 'three';
 import { Camera, CameraController, FBXModel, GLTFModel, OBJModel } from '../graphics/SceneUtils';
 import { KadcarGameContext } from '../components/kadcarcomponents/KadcarGameContextProvider';
+import { Model } from '../graphics/Model';
 
 function Box(props) {
     // This reference gives us direct access to the THREE.Mesh object
@@ -59,7 +60,7 @@ const Garage = () => {
         <div style={{ flexDirection: 'column', position: 'absolute', alignContent: 'center', width: '100vw', height: '100vh', display: 'flex' }}>
             <Canvas>
                 <Suspense fallback={null}>
-                    <Camera x={200} y={100} z={300} lookAt={new THREE.Vector3(0, 0, 0)} />
+                    <Camera x={200} y={100} z={500} lookAt={new THREE.Vector3(0, 0, 0)} />
                     <CameraController 
                         minDistance={300} 
                         maxDistance={550} 
@@ -67,6 +68,7 @@ const Garage = () => {
                         maxAximuthAngle={Math.PI}
                         minPolarAngle={Math.PI/3} 
                         maxPolarAngle={Math.PI/2.5}
+                        enableRotate={false}
                         enableZoom={true}
                         enablePan={false}
                     />
@@ -75,8 +77,10 @@ const Garage = () => {
                     <pointLight position={[-10, -10, -10]} />
                     <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
 
-                    <FBXModel fbxModelPath={MODEL} position={[0,0,20]} scale={1.5} />
-                    <FBXModel fbxModelPath={SHOWROOM} position={[700,0,-110]} scale={1.6} />
+                    <Model>
+                        <FBXModel fbxModelPath={MODEL} position={[0,0,20]} scale={1.5} rotation={[0,1/Math.PI,0]} />
+                    </Model>
+                    <FBXModel fbxModelPath={SHOWROOM} position={[700,0,-110]} scale={1.6} rotation={[0,0,0]}/>
                     {/* <OBJModel objFilePath={MODEL} position={[-700,0,500]}/> */}
                     {/* <GLTFModel gltfModelPath={'/benz.gltf'} scale={75}/> */}
                     <primitive object={new THREE.AxesHelper(500)} />

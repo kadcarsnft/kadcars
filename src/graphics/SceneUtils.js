@@ -59,7 +59,7 @@ const CameraController = (props) => {
 }
 
 const FBXModel = (props) => {
-    const meshref = useRef(null);
+    const primRef = useRef(null);
     const fbxModel = useFBX(props.fbxModelPath);
     const { gl, raycaster, mouse } = useThree();
     
@@ -78,7 +78,7 @@ const FBXModel = (props) => {
 
     return (
         // <mesh {...drag()} ref={meshref} onClick={(event)=>test(event)}>
-            <primitive object={fbxModel} position={props.position} scale={props.scale}/>
+            <primitive ref={primRef} object={fbxModel} position={props.position} scale={props.scale} rotation={props.rotation}/>
         //</mesh>
     )
 }
