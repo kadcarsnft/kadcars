@@ -7,6 +7,7 @@ import GameMenu from "../games/GameMenu";
 // import BENZ from '../assets/images/benz/benz.fbx';
 // import BENZ2 from '../../public/scene.gltf';
 import MODEL from '../assets/models/1.fbx';
+import SHOWROOM from '../assets/models/garage.FBX';
 import { DEFAULT_GARAGE_CAMERA_FOV } from "./GarageConstants";
 import { MaterialLoader } from 'three';
 import { Camera, CameraController, FBXModel, GLTFModel, OBJModel } from '../graphics/SceneUtils';
@@ -58,10 +59,10 @@ const Garage = () => {
         <div style={{ flexDirection: 'column', position: 'absolute', alignContent: 'center', width: '100vw', height: '100vh', display: 'flex' }}>
             <Canvas>
                 <Suspense fallback={null}>
-                    <Camera x={150} y={100} z={300} lookAt={new THREE.Vector3(0, 0, 0)} />
+                    <Camera x={200} y={100} z={300} lookAt={new THREE.Vector3(0, 0, 0)} />
                     <CameraController 
                         minDistance={300} 
-                        maxDistance={400} 
+                        maxDistance={550} 
                         minAzimuthAngle={0} 
                         maxAximuthAngle={Math.PI}
                         minPolarAngle={Math.PI/3} 
@@ -70,11 +71,12 @@ const Garage = () => {
                         enablePan={false}
                     />
 
-                    <ambientLight intensity={0.5} />
+                    <ambientLight intensity={0.25} />
                     <pointLight position={[-10, -10, -10]} />
                     <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
 
-                    <FBXModel fbxModelPath={MODEL} position={[0,0,0]} scale={1.6} />
+                    <FBXModel fbxModelPath={MODEL} position={[0,0,20]} scale={1.5} />
+                    <FBXModel fbxModelPath={SHOWROOM} position={[700,0,-110]} scale={1.6} />
                     {/* <OBJModel objFilePath={MODEL} position={[-700,0,500]}/> */}
                     {/* <GLTFModel gltfModelPath={'/benz.gltf'} scale={75}/> */}
                     <primitive object={new THREE.AxesHelper(500)} />
