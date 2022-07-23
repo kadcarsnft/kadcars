@@ -44,7 +44,7 @@ const DefaultScreen = () => {
 
     return (
         <div style={defaultScreenStyles}>
-            <div style={{ marginBottom: '20px' }}>
+            <div style={{ marginBottom: '20px', marginTop: '20px' }}>
                 Start by connecting your X-Wallet to explore Kadcars
             </div>
             <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="100"
