@@ -8,7 +8,7 @@ const BaseCanvas = ({ children }) => {
         <>
             <Canvas>
                 <Suspense fallback={null}>
-                    <Camera x={100} y={100} z={300} lookAt={new THREE.Vector3(0, 0, 0)} />
+                    <Camera x={-115} y={125} z={-280} lookAt={new THREE.Vector3(0, 0, 0)} />
                     <CameraController
                         minDistance={300}
                         maxDistance={400}

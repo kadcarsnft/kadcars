@@ -6,6 +6,7 @@ import MODEL from '../../assets/models/1.fbx';
 // import GLTF from '../../assets/models/untitled.glb'
 // import GLTF from '../../assets/models/separate.gltf'
 import GLTF from '../../assets/models/embedded.gltf'
+// import FBX from '../../assets/models/ww.fbx'
 import { Loader } from "three";
 import { BaseCanvas } from "../../graphics/BaseCanvas";
 import { Model } from "../../graphics/Model";
@@ -41,10 +42,10 @@ const KadcarPreview = () => {
                         marginRight: '20px'
                     }}>
                     <BaseCanvas cameraController={true}>
-                        <Model>
-                            {/* <FBXModel fbxModelPath={MODEL} scale={1} /> */}
+                        {/* <Model> */}
+                            {/* <FBXModel fbxModelPath={FBX} scale={1} /> */}
                             <GLTFModel gltfModelPath={GLTF} scale={100} />
-                        </Model>
+                        {/* </Model> */}
                     </BaseCanvas>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>

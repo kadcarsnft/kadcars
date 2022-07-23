@@ -93,6 +93,16 @@ const OBJModel = (props) => {
 const GLTFModel = (props) => {
     const gltfModel = useGLTF(props.gltfModelPath);
 
+    // useFrame(() => {
+    //     const lid = gltfModel.scene.getObjectByName('Object096');
+    //     lid.rotation.y += 0.002
+    // })
+
+    useEffect(() => {
+        console.log(dumpObject(gltfModel.scene).join('\n'))
+        console.log(gltfModel.scene.getObjectByName('Object096'))
+    }, [])
+
     return (
         <Suspense fallback={null}>
             <primitive object={gltfModel.scene} scale={props.scale}/>
@@ -103,7 +113,6 @@ const GLTFModel = (props) => {
 /*********************************************/
 // UTILITY FUNCTIONS FOR OBJECT MANIPULATION //
 /*********************************************/
-
 
 function getObjectBoundingBoxSize(object) {
     var boundingBox = new THREE.Box3().setFromObject(object.getObjectById(object.id));
@@ -126,6 +135,22 @@ function centerObjectAtDestination(object, destination) {
 
     if (!deltaVector.subVectors(sizeVector.divideScalar(2), destination).equals(origin)) {
     }
+}
+
+/*************************************/
+// UTILITY FUNCTIONS FOR INFORMATION //
+/*************************************/
+
+function dumpObject(obj, lines = [], isLast = true, prefix = '') {
+    const localPrefix = isLast ? '└─' : '├─';
+    lines.push(`${prefix}${prefix ? localPrefix : ''}${obj.name || '*no-name*'} [${obj.type}]`);
+    const newPrefix = prefix + (isLast ? '  ' : '│ ');
+    const lastNdx = obj.children.length - 1;
+    obj.children.forEach((child, ndx) => {
+        const isLast = ndx === lastNdx;
+        dumpObject(child, lines, isLast, newPrefix);
+    });
+    return lines;
 }
 
 export {
